@@ -8,18 +8,20 @@ export default class Project {
     this.tasks = tasks;
   }
 
+  listTasks() {
+    taskRows(this);
+  }
+
   createTask(title, description, duedate, priority) {
     let task = new Task(title, description, duedate, priority);
     this.tasks.push(task);
+    this.listTasks();
   }
 
   deleteTask(index) {
     this.tasks.splice(index, 1);
+    this.listTasks();
     // need to set task instance to null somehow. memory leak.
-  }
-
-  listTasks() {
-    taskRows(this);
   }
 
   sortTasks() {

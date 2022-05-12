@@ -1,4 +1,4 @@
-import { listTasks, deleteTask } from "./project.js";
+import { listTasks, sortTasks, deleteTask } from "./project.js";
 import { project } from "./data.js";
 
 export { taskRows, buildProjectView };
@@ -11,7 +11,7 @@ function buildProjectView(project, projectID) {
   const projectName = body.querySelector(".current-project");
   projectName.textContent = project.title;
   projectName.setAttribute("data-id", projectID);
-  taskRows(project); // or project.listTasks();
+  project.listTasks();
 }
 
 // DISPLAY ALL TASKS
@@ -22,7 +22,7 @@ function taskRows(project) {
   project.sortTasks().forEach((task, index) => {
     taskRow(task, index);
   });
-  listenForDelete(project);
+  // listenForDelete(project);
 }
 
 function taskRow(task, index) {
@@ -57,16 +57,10 @@ function taskRow(task, index) {
   taskContainer.appendChild(taskDelete);
   taskDelete.appendChild(deleteBtn);
   taskList.appendChild(taskContainer);
-}
-
-function listenForDelete(project) {
-  const deleteBtns = taskList.querySelectorAll("button.delete-btn");
-  deleteBtns.forEach((button) => {
-    button.addEventListener("click", () => {
-      const index = button.getAttribute("data-id");
-      project.deleteTask(index);
-      taskRows(project);
-    });
+  // add listeners to elements
+  deleteBtn.addEventListener("click", () => {
+    const index = deleteBtn.getAttribute("data-id");
+    project.deleteTask(index);
   });
 }
 
@@ -81,7 +75,7 @@ const addTaskToProject = function (event) {
   );
   form.reset();
   // form.classList.toggle("show-form");
-  project.listTasks();
+  // project.listTasks();
 };
 
 // get form submission
