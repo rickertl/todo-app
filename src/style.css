@@ -26,6 +26,8 @@ main {
 }
 .projects > .current-project {
   font-weight: 600;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
 }
 .task-list {
   flex: 1 1 400px;

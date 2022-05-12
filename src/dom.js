@@ -1,5 +1,6 @@
 import Project from "./project.js";
 import { findSelectedProject, project, projectID } from "./controller.js";
+import { projects } from "./data.js";
 
 export { taskRows, buildProjectView };
 
@@ -66,20 +67,34 @@ function taskRow(task, index) {
   });
 }
 
-// ENTER NEW TASK
+// ADD TASK
 const addTaskToProject = function (event) {
   event.preventDefault();
   const newTask = project.createTask(
-    form.elements["title"].value,
-    form.elements["description"].value,
-    form.elements["dueDate"].value,
-    form.elements["priority"].value
+    addTaskform.elements["title"].value,
+    addTaskform.elements["description"].value,
+    addTaskform.elements["dueDate"].value,
+    addTaskform.elements["priority"].value
   );
-  form.reset();
+  addTaskform.reset();
   // form.classList.toggle("show-form");
   // project.listTasks();
 };
 
-// get form submission
-const form = document.querySelector("form");
-form.onsubmit = addTaskToProject;
+// get add task form submission
+const addTaskform = document.querySelector("form#add-task");
+addTaskform.onsubmit = addTaskToProject;
+
+// ADD PROJECT
+const addProject = function (event) {
+  event.preventDefault();
+  const newProject = new Project(addProjectForm.elements["title"].value, true);
+  projects.push(newProject);
+  console.log(newProject);
+  addProjectForm.reset();
+  buildProjectView(projects);
+};
+
+// get new project form submission
+const addProjectForm = document.querySelector("form#add-project");
+addProjectForm.onsubmit = addProject;
