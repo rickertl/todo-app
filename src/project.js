@@ -2,9 +2,10 @@ import Task from "./task.js";
 import { taskRows } from "./dom.js";
 
 export default class Project {
-  constructor(title) {
+  constructor(title, selected = false, tasks = []) {
     this.title = title;
-    this.tasks = [];
+    this.selected = selected;
+    this.tasks = tasks;
   }
   createTask(title, description, duedate, priority) {
     let task = new Task(title, description, duedate, priority);

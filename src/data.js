@@ -1,8 +1,8 @@
 import Project from "./project";
 
-export { project1 };
+export { project1, projects };
 
-const project1 = new Project("Project 1");
+const project1 = new Project("Project 1", true);
 project1.createTask("Clean room");
 project1.createTask(
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa, tristique eu eleifend in, porta ut tortor. Morbi lorem erat, gravida a bibendum eget, suscipit id orci. Vivamus id felis metus. ",

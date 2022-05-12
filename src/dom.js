@@ -1,10 +1,37 @@
 import Project from "./project.js";
-import { project1 } from "./data.js";
 
-export { taskRows };
+export { taskRows, buildDefaultView };
+
+// declare so global for file
+let project = "";
+
+// cache dom
+const body = document.querySelector("body");
+
+// header elements
+const header = body.querySelector("header");
+const projectName = document.createElement("div");
+header.appendChild(projectName);
+
+// build default view
+function buildDefaultView(projects) {
+  findSelectedProject(projects);
+  projectName.textContent = project.title;
+  // project.listTasks();
+  taskRows(project);
+}
+
+// find currently selected project
+function findSelectedProject(projects) {
+  projects.forEach((index) => {
+    if (index.selected === true) {
+      project = index;
+    }
+  });
+}
 
 // DISPLAY ALL TASKS
-const taskList = document.querySelector(".task-list");
+const taskList = body.querySelector(".task-list");
 
 function taskRows(project) {
   taskList.textContent = "";
@@ -70,7 +97,6 @@ function listenForDelete(project) {
 
 // ENTER NEW TASK
 const addTaskToProject = function (event) {
-  let project = project1;
   event.preventDefault();
   const newTask = project.createTask(
     form.elements["title"].value,

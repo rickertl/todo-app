@@ -1,6 +1,6 @@
 import "./style.css";
 // import { compareAsc, format } from "date-fns";
-import { project1 } from "./data.js";
-import Project from "./project";
+import { projects } from "./data.js";
+import { buildDefaultView } from "./dom.js";
 
-project1.listTasks();
+buildDefaultView(projects);
