@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+main {
+  width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+form input,
+form select {
+  margin-bottom: 15px;
+}
