@@ -8,14 +8,10 @@ let project = "";
 // cache dom
 const body = document.querySelector("body");
 
-// header elements
-const header = body.querySelector("header");
-const projectName = document.createElement("div");
-header.appendChild(projectName);
-
 // build default view
 function buildDefaultView(projects) {
   findSelectedProject(projects);
+  const projectName = body.querySelector(".current-project");
   projectName.textContent = project.title;
   // project.listTasks();
   taskRows(project);
