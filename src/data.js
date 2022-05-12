@@ -1,6 +1,6 @@
 import Project from "./project";
 
-export { findSelectedProject, projects, project, projectID };
+export { projects };
 
 // generate default project
 const project1 = new Project("Project 1", true);
@@ -16,15 +16,3 @@ project1.createTask("Empty dishwasher", "", "", "high");
 // create array of projects and add default project
 const projects = [];
 projects.push(project1);
-
-// find currently selected project
-let project = "";
-let projectID = "";
-function findSelectedProject(projects) {
-  projects.forEach((item, index) => {
-    if (item.selected === true) {
-      project = item;
-      projectID = index;
-    }
-  });
-}

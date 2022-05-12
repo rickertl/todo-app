@@ -1,5 +1,5 @@
-import { listTasks, sortTasks, deleteTask } from "./project.js";
-import { project } from "./data.js";
+import Project from "./project.js";
+import { findSelectedProject, project, projectID } from "./controller.js";
 
 export { taskRows, buildProjectView };
 
@@ -7,7 +7,9 @@ export { taskRows, buildProjectView };
 const body = document.querySelector("body");
 
 // BUILD DEFAULT VIEW
-function buildProjectView(project, projectID) {
+function buildProjectView(projects) {
+  // find currently selected project from data
+  findSelectedProject(projects);
   const projectName = body.querySelector(".current-project");
   projectName.textContent = project.title;
   projectName.setAttribute("data-id", projectID);
