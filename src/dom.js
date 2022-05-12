@@ -8,7 +8,16 @@ const taskList = document.querySelector(".task-list");
 
 function taskRows(project) {
   taskList.textContent = "";
-  project.tasks.forEach((task, index) => {
+  //https://serveanswer.com/questions/js-sort-array-object-by-custom-key-and-value
+  const priority = {
+    high: 1,
+    normal: 2,
+    low: 3,
+  };
+  const sorted = project.tasks.sort(
+    (a, b) => priority[a.priority] - priority[b.priority]
+  );
+  sorted.forEach((task, index) => {
     taskRow(task, index);
   });
   listenForDelete(project);
