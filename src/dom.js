@@ -1,14 +1,16 @@
-import Project from "./project.js";
+import { listTasks, deleteTask } from "./project.js";
+import { project } from "./data.js";
 
-export { taskRows, buildDefaultView };
+export { taskRows, buildProjectView };
 
 // cache dom
 const body = document.querySelector("body");
 
 // BUILD DEFAULT VIEW
-function buildDefaultView(project) {
+function buildProjectView(project, projectID) {
   const projectName = body.querySelector(".current-project");
   projectName.textContent = project.title;
+  projectName.setAttribute("data-id", projectID);
   taskRows(project); // or project.listTasks();
 }
 

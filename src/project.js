@@ -7,17 +7,21 @@ export default class Project {
     this.selected = selected;
     this.tasks = tasks;
   }
+
   createTask(title, description, duedate, priority) {
     let task = new Task(title, description, duedate, priority);
     this.tasks.push(task);
   }
+
   deleteTask(index) {
     this.tasks.splice(index, 1);
     // need to set task instance to null somehow. memory leak.
   }
+
   listTasks() {
     taskRows(this);
   }
+
   sortTasks() {
     //https://serveanswer.com/questions/js-sort-array-object-by-custom-key-and-value
     const priority = {
