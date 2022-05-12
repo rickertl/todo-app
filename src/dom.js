@@ -2,28 +2,14 @@ import Project from "./project.js";
 
 export { taskRows, buildDefaultView };
 
-// declare so global for file
-let project = "";
-
 // cache dom
 const body = document.querySelector("body");
 
-// build default view
-function buildDefaultView(projects) {
-  findSelectedProject(projects);
+// BUILD DEFAULT VIEW
+function buildDefaultView(project) {
   const projectName = body.querySelector(".current-project");
   projectName.textContent = project.title;
-  // project.listTasks();
-  taskRows(project);
-}
-
-// find currently selected project
-function findSelectedProject(projects) {
-  projects.forEach((index) => {
-    if (index.selected === true) {
-      project = index;
-    }
-  });
+  taskRows(project); // or project.listTasks();
 }
 
 // DISPLAY ALL TASKS
@@ -31,16 +17,7 @@ const taskList = body.querySelector(".task-list");
 
 function taskRows(project) {
   taskList.textContent = "";
-  //https://serveanswer.com/questions/js-sort-array-object-by-custom-key-and-value
-  const priority = {
-    high: 1,
-    normal: 2,
-    low: 3,
-  };
-  const sorted = project.tasks.sort(
-    (a, b) => priority[a.priority] - priority[b.priority]
-  );
-  sorted.forEach((task, index) => {
+  project.sortTasks().forEach((task, index) => {
     taskRow(task, index);
   });
   listenForDelete(project);

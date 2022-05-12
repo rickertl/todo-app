@@ -1,6 +1,6 @@
 import Project from "./project";
 
-export { project1, projects };
+export { projects };
 
 const project1 = new Project("Project 1", true);
 project1.createTask("Clean room");

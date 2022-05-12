@@ -18,6 +18,18 @@ export default class Project {
   listTasks() {
     taskRows(this);
   }
+  sortTasks() {
+    //https://serveanswer.com/questions/js-sort-array-object-by-custom-key-and-value
+    const priority = {
+      high: 1,
+      normal: 2,
+      low: 3,
+    };
+    const sorted = this.tasks.sort(
+      (a, b) => priority[a.priority] - priority[b.priority]
+    );
+    return sorted;
+  }
 }
 
 //https://stackoverflow.com/questions/52377344/javascript-array-of-instances-of-a-class
