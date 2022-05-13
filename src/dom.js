@@ -101,7 +101,8 @@ function taskRow(task, index) {
   taskDelete.appendChild(deleteBtn);
   taskList.appendChild(taskContainer);
   // add listeners to elements
-  taskCheckbox.addEventListener("change", () => {
+  taskCheckbox.addEventListener("click", (event) => {
+    event.stopPropagation();
     taskContainer.classList.toggle("done");
     taskTitle.classList.toggle("done");
     task.complete === false ? task.setComplete(true) : task.setComplete(false);
