@@ -7,6 +7,10 @@ export { taskRows, buildProjectView };
 // cache dom
 const body = document.querySelector("body");
 
+// reused dom elements
+const selectProjectForm = document.querySelector("#select-project");
+const selectProject = document.querySelector("#selectProject");
+
 // BUILD DEFAULT VIEW
 function buildProjectView(projects) {
   // find currently selected project from data
@@ -14,6 +18,18 @@ function buildProjectView(projects) {
   const projectName = body.querySelector(".current-project");
   projectName.textContent = project.title;
   projectName.setAttribute("data-id", projectID);
+  if (projects.length > 1) {
+    selectProjectForm.style.display = "block";
+    // NEED TO SORT BY SELECTED FIRST THEN ALPHA
+    projects.forEach((project, index) => {
+      const selectOption = document.createElement("option");
+      selectOption.setAttribute("value", index);
+      selectOption.textContent = project.title;
+      selectProject.appendChild(selectOption);
+    });
+  } else {
+    selectProjectForm.style = "";
+  }
   project.listTasks();
 }
 
@@ -88,9 +104,10 @@ addTaskform.onsubmit = addTaskToProject;
 // ADD PROJECT
 const addProject = function (event) {
   event.preventDefault();
+  project.selected = false; // remove selected from current project
   const newProject = new Project(addProjectForm.elements["title"].value, true);
   projects.push(newProject);
-  console.log(newProject);
+  console.log(projects);
   addProjectForm.reset();
   buildProjectView(projects);
 };
@@ -98,3 +115,9 @@ const addProject = function (event) {
 // get new project form submission
 const addProjectForm = document.querySelector("form#add-project");
 addProjectForm.onsubmit = addProject;
+
+// SWITCH PROJECT VIEW
+// function selectProject() {}
+// selectProject.addEventListener("change", () => {
+//   console.log("change");
+// });

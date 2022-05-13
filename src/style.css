@@ -29,6 +29,9 @@ main {
   font-size: 1.3rem;
   margin-bottom: 20px;
 }
+#select-project {
+  display: none;
+}
 .task-list {
   flex: 1 1 400px;
 }
