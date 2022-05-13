@@ -31,10 +31,14 @@ export default class Project {
       normal: 2,
       low: 3,
     };
-    const sorted = this.tasks.sort(
+    const sortedByPriority = this.tasks.sort(
       (a, b) => priority[a.priority] - priority[b.priority]
     );
-    return sorted;
+    // https://bobbyhadz.com/blog/javascript-sort-array-of-objects-by-boolean-property
+    const sortedByComplete = sortedByPriority.sort(
+      (a, b) => Number(a.complete) - Number(b.complete)
+    );
+    return sortedByComplete;
   }
   completeTask(index) {
     this.tasks[index].complete = true;

@@ -1,5 +1,4 @@
 import Project from "./project.js";
-import Task from "./task.js";
 import { findSelectedProject, project, projectID } from "./controller.js";
 import { projects } from "./data.js";
 
@@ -45,7 +44,8 @@ const taskList = body.querySelector(".task-list");
 
 function taskRows(project) {
   taskList.textContent = "";
-  project.sortTasks().forEach((task, index) => {
+  let sorted = project.sortTasks();
+  sorted.forEach((task, index) => {
     taskRow(task, index);
   });
   // listenForDelete(project);
@@ -55,13 +55,17 @@ function taskRow(task, index) {
   // create DOM elements
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
-  const taskCheckbox = document.createElement("input");
-  taskCheckbox.setAttribute("type", "checkbox");
-  taskCheckbox.setAttribute("data-task", index);
-  taskCheckbox.classList.add("task-checkbox");
   const taskTitle = document.createElement("div");
   taskTitle.classList.add("task-title");
   const taskTitleBox = document.createElement("span"); // need this for ellipsis to work
+  const taskCheckbox = document.createElement("input");
+  taskCheckbox.classList.add("task-checkbox");
+  taskCheckbox.setAttribute("type", "checkbox");
+  if (task.complete === true) {
+    taskCheckbox.setAttribute("checked", "");
+    taskContainer.classList.toggle("done");
+    taskTitle.classList.toggle("done");
+  }
   const taskDueDate = document.createElement("div");
   taskDueDate.classList.add("task-due-date");
   const taskPriority = document.createElement("div");
@@ -103,9 +107,8 @@ function taskRow(task, index) {
   // add listeners to elements
   taskCheckbox.addEventListener("click", (event) => {
     event.stopPropagation();
-    taskContainer.classList.toggle("done");
-    taskTitle.classList.toggle("done");
     task.complete === false ? task.setComplete(true) : task.setComplete(false);
+    buildProjectView(projects);
     console.log(task);
   });
   taskContainer.addEventListener("click", () => {
