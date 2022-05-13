@@ -116,6 +116,9 @@ form button {
   height: 24px;
   margin-left: 6px;
 }
+.task-container > input.task-checkbox:checked {
+  accent-color: powderblue;
+}
 .task-container > .task-title > span {
   overflow: hidden;
   white-space: nowrap;
