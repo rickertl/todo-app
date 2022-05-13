@@ -36,6 +36,10 @@ export default class Project {
     );
     return sorted;
   }
+  completeTask(index) {
+    this.tasks[index].complete = true;
+    this.listTasks();
+  }
 }
 
 //https://stackoverflow.com/questions/52377344/javascript-array-of-instances-of-a-class

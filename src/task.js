@@ -29,7 +29,7 @@ export default class Task {
     this.priority = priority;
   }
 
-  setComplete() {
+  setComplete(complete) {
     this.complete = complete;
   }
 }

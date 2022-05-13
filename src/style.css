@@ -96,23 +96,36 @@ form button {
 }
 .task-container {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 40px auto;
+  grid-template-columns: auto minmax(0, 1fr) 40px auto;
+  align-items: center;
   background-color: aliceblue;
   border: 1px solid powderblue;
   margin-bottom: 8px;
+}
+.task-container.done {
+  background-color: silver;
+  color: gray;
 }
 .task-container > div {
   display: flex;
   align-items: center;
   padding: 6px 10px;
 }
-.task-container > .task-priority {
-  margin-left: 10px;
+.task-container > input.task-checkbox {
+  width: 24px;
+  height: 24px;
+  margin-left: 6px;
 }
-.task-container > div:first-of-type > span {
+.task-container > .task-title > span {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+.task-container > .task-title.done {
+  text-decoration: line-through;
+}
+.task-container > .task-priority {
+  margin-left: 10px;
 }
 .task-container > .high {
   color: red;
@@ -121,7 +134,7 @@ form button {
   color: gray;
 }
 .task-container > .more {
-  grid-column: span 3;
+  grid-column: span 4;
   display: none;
 }
 .task-container > .show-more {

@@ -1,4 +1,5 @@
 import Project from "./project.js";
+import Task from "./task.js";
 import { findSelectedProject, project, projectID } from "./controller.js";
 import { projects } from "./data.js";
 
@@ -54,6 +55,10 @@ function taskRow(task, index) {
   // create DOM elements
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
+  const taskCheckbox = document.createElement("input");
+  taskCheckbox.setAttribute("type", "checkbox");
+  taskCheckbox.setAttribute("data-task", index);
+  taskCheckbox.classList.add("task-checkbox");
   const taskTitle = document.createElement("div");
   taskTitle.classList.add("task-title");
   const taskTitleBox = document.createElement("span"); // need this for ellipsis to work
@@ -86,6 +91,7 @@ function taskRow(task, index) {
     more.textContent = `add description`;
   }
   // append elements to parents
+  taskContainer.appendChild(taskCheckbox);
   taskContainer.appendChild(taskTitle);
   taskTitle.appendChild(taskTitleBox);
   taskContainer.appendChild(taskDueDate);
@@ -95,6 +101,12 @@ function taskRow(task, index) {
   taskDelete.appendChild(deleteBtn);
   taskList.appendChild(taskContainer);
   // add listeners to elements
+  taskCheckbox.addEventListener("change", () => {
+    taskContainer.classList.toggle("done");
+    taskTitle.classList.toggle("done");
+    task.complete === false ? task.setComplete(true) : task.setComplete(false);
+    console.log(task);
+  });
   taskContainer.addEventListener("click", () => {
     more.classList.toggle("show-more");
   });
