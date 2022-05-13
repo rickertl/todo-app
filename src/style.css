@@ -96,7 +96,7 @@ form button {
 }
 .task-container {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto 40px auto;
+  grid-template-columns: minmax(0, 1fr) 40px auto;
   background-color: aliceblue;
   border: 1px solid powderblue;
   margin-bottom: 8px;
@@ -104,12 +104,9 @@ form button {
 .task-container > div {
   display: flex;
   align-items: center;
-  padding: 4px 10px;
+  padding: 6px 10px;
 }
-.task-container > div:not(:first-of-type) {
-  justify-content: center;
-}
-.task-container > div:last-of-type {
+.task-container > .task-priority {
   margin-left: 10px;
 }
 .task-container > div:first-of-type > span {
@@ -122,6 +119,21 @@ form button {
 }
 .task-container > .low {
   color: gray;
+}
+.task-container > .more {
+  grid-column: span 3;
+  display: none;
+}
+.task-container > .show-more {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+.task-container > .show-more::before {
+  content: "Description:";
+  grid-column: span 2;
+}
+
+.task-container > .show-more > .task-delete {
 }
 .delete-btn {
   padding: 5px 10px;

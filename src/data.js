@@ -11,7 +11,12 @@ tasks.createTask(
   "",
   "low"
 );
-tasks.createTask("Empty dishwasher", "", "", "high");
+tasks.createTask(
+  "Empty dishwasher",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa,",
+  "",
+  "high"
+);
 
 // create array of projects and add default project
 const projects = [];

@@ -55,15 +55,21 @@ function taskRow(task, index) {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
   const taskTitle = document.createElement("div");
+  taskTitle.classList.add("task-title");
   const taskTitleBox = document.createElement("span"); // need this for ellipsis to work
   const taskDueDate = document.createElement("div");
+  taskDueDate.classList.add("task-due-date");
   const taskPriority = document.createElement("div");
+  taskPriority.classList.add("task-priority");
   if (task.priority === "high") {
     taskPriority.classList.add("high");
   } else if (task.priority === "low") {
     taskPriority.classList.add("low");
   }
+  const more = document.createElement("div");
+  more.classList.add("more");
   const taskDelete = document.createElement("div");
+  taskDelete.classList.add("task-delete");
   const deleteBtn = document.createElement("button");
   deleteBtn.setAttribute("data-id", index);
   deleteBtn.classList.add("delete-btn");
@@ -74,15 +80,24 @@ function taskRow(task, index) {
   }
   taskPriority.textContent = task.priority;
   deleteBtn.textContent = "X";
+  if (task.description) {
+    more.textContent = task.description;
+  } else {
+    more.textContent = `add description`;
+  }
   // append elements to parents
   taskContainer.appendChild(taskTitle);
   taskTitle.appendChild(taskTitleBox);
   taskContainer.appendChild(taskDueDate);
   taskContainer.appendChild(taskPriority);
-  taskContainer.appendChild(taskDelete);
+  taskContainer.appendChild(more);
+  more.appendChild(taskDelete);
   taskDelete.appendChild(deleteBtn);
   taskList.appendChild(taskContainer);
   // add listeners to elements
+  taskContainer.addEventListener("click", () => {
+    more.classList.toggle("show-more");
+  });
   deleteBtn.addEventListener("click", () => {
     const index = deleteBtn.getAttribute("data-id");
     project.deleteTask(index);
