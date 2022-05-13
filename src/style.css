@@ -24,15 +24,15 @@ main {
 .projects {
   flex-basis: 100px;
 }
-.projects > .current-project {
+.current-project,
+form label {
   font-weight: 600;
-  font-size: 1.3rem;
-  margin-bottom: 20px;
+  margin-bottom: 4px;
 }
 #select-project {
   display: none;
 }
-.task-list {
+.tasks {
   flex: 1 1 400px;
 }
 .task-entry {
@@ -41,10 +41,6 @@ main {
 form {
   display: flex;
   flex-direction: column;
-}
-form label {
-  font-weight: 600;
-  margin-bottom: 4px;
 }
 form input,
 form select,
