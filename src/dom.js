@@ -19,6 +19,7 @@ function buildProjectView(projects) {
   projectName.textContent = project.title;
   projectName.setAttribute("data-id", projectID);
   if (projects.length > 1) {
+    projectName.style.display = "none";
     selectProjectForm.style.display = "block";
     selectProjectSelector.textContent = "";
     // NEED TO SORT BY SELECTED FIRST THEN ALPHA
@@ -32,6 +33,7 @@ function buildProjectView(projects) {
       selectProjectSelector.appendChild(selectOption);
     });
   } else {
+    projectName.style = "";
     selectProjectForm.style = "";
   }
   project.listTasks();
