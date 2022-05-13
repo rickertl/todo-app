@@ -20,7 +20,7 @@ function buildProjectView(projects) {
   projectName.setAttribute("data-id", projectID);
   if (projects.length > 1) {
     projectName.style.display = "none";
-    selectProjectForm.style.display = "block";
+    selectProjectForm.style.display = "flex";
     selectProjectSelector.textContent = "";
     // NEED TO SORT BY SELECTED FIRST THEN ALPHA
     projects.forEach((project, index) => {
