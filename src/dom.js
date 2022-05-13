@@ -9,7 +9,7 @@ const body = document.querySelector("body");
 
 // reused dom elements
 const selectProjectForm = document.querySelector("#select-project");
-const selectProject = document.querySelector("#selectProject");
+const selectProjectSelector = document.querySelector("#selectProject");
 
 // BUILD DEFAULT VIEW
 function buildProjectView(projects) {
@@ -20,12 +20,16 @@ function buildProjectView(projects) {
   projectName.setAttribute("data-id", projectID);
   if (projects.length > 1) {
     selectProjectForm.style.display = "block";
+    selectProjectSelector.textContent = "";
     // NEED TO SORT BY SELECTED FIRST THEN ALPHA
     projects.forEach((project, index) => {
       const selectOption = document.createElement("option");
       selectOption.setAttribute("value", index);
+      if (project.selected === true) {
+        selectOption.setAttribute("selected", "");
+      }
       selectOption.textContent = project.title;
-      selectProject.appendChild(selectOption);
+      selectProjectSelector.appendChild(selectOption);
     });
   } else {
     selectProjectForm.style = "";
@@ -117,7 +121,12 @@ const addProjectForm = document.querySelector("form#add-project");
 addProjectForm.onsubmit = addProject;
 
 // SWITCH PROJECT VIEW
-// function selectProject() {}
-// selectProject.addEventListener("change", () => {
-//   console.log("change");
-// });
+function selectProject() {}
+selectProjectSelector.addEventListener("change", (event) => {
+  console.log("change");
+  projects.forEach((project) => {
+    project.selected = false;
+  });
+  projects[event.target.value].selected = true;
+  buildProjectView(projects);
+});
