@@ -50,6 +50,7 @@ function displayAllTasks(project) {
   });
 }
 
+// DISPLAY ONE(1) TASK
 function displayTask(task, index) {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
