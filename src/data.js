@@ -28,3 +28,5 @@ tasks.createTask(
 // create array of projects and add default project
 const projects = [];
 projects.push(tasks);
+
+console.log(tasks);

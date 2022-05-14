@@ -16,7 +16,6 @@ export default class Project {
     let task = new Task(title, description, duedate, priority, complete);
     this.tasks.push(task);
     this.listTasks();
-    console.log(this.tasks);
   }
 
   deleteTask(index) {

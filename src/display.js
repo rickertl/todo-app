@@ -1,6 +1,7 @@
 import Project from "./project.js";
 import { findSelectedProject, project, projectID } from "./controller.js";
 import { projects } from "./data.js";
+import { format } from "date-fns";
 
 export { displayAllTasks, buildProjectView };
 
@@ -103,7 +104,11 @@ function displayTaskDueDate(task, taskContainer) {
   const taskDueDate = document.createElement("div");
   taskDueDate.classList.add("task-due-date");
   if (task.dueDate) {
-    taskDueDate.textContent = task.dueDate;
+    taskDueDate.textContent = format(
+      new Date(task.dueDate),
+      "eee @ h:m b (M/d)"
+    );
+    //2022-05-18T13:16
   }
   taskContainer.appendChild(taskDueDate);
 }
@@ -167,7 +172,7 @@ const addProject = function (event) {
   project.selected = false; // remove selected from current project
   const newProject = new Project(addProjectForm.elements["title"].value, true);
   projects.push(newProject);
-  console.log(projects);
+  // console.log(projects);
   addProjectForm.reset();
   buildProjectView(projects);
 };
