@@ -12,10 +12,11 @@ export default class Project {
     displayAllTasks(this);
   }
 
-  createTask(title, description, duedate, priority) {
-    let task = new Task(title, description, duedate, priority);
+  createTask(title, description, duedate, priority, complete) {
+    let task = new Task(title, description, duedate, priority, complete);
     this.tasks.push(task);
     this.listTasks();
+    console.log(this.tasks);
   }
 
   deleteTask(index) {
