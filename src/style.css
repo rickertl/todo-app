@@ -107,7 +107,7 @@ form button {
   border: 1px solid powderblue;
   margin-bottom: 8px;
 }
-.task-container.done {
+.task-container.complete {
   background-color: silver;
   color: gray;
 }
@@ -130,7 +130,7 @@ form button {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.task-container > .task-title.done {
+.task-container > .task-title.complete {
   text-decoration: line-through;
 }
 .task-container > .task-priority {

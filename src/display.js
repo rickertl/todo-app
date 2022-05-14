@@ -88,8 +88,8 @@ function displayTaskCheckbox(task, taskContainer) {
   taskCheckbox.setAttribute("type", "checkbox");
   if (task.complete === true) {
     taskCheckbox.setAttribute("checked", "");
-    taskContainer.classList.toggle("done");
-    taskTitle.classList.toggle("done");
+    taskContainer.classList.toggle("complete");
+    taskTitle.classList.toggle("complete");
   }
   taskContainer.appendChild(taskCheckbox);
   taskCheckbox.addEventListener("click", (event) => {
