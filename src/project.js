@@ -19,9 +19,9 @@ export default class Project {
   }
 
   deleteTask(index) {
+    this.tasks[index] = null; // set to null for garbage collection
     this.tasks.splice(index, 1);
     this.listTasks();
-    // need to set task instance to null somehow. memory leak.
   }
 
   sortTasks() {
