@@ -98,10 +98,16 @@ form:not(#select-project) {
 }
 form input,
 form select,
+form textarea,
 form button {
   margin-bottom: 15px;
   padding: 4px 10px;
   font-size: 1rem;
+  font-family: "Inter", sans-serif;
+}
+form textarea#description {
+  height: 100px;
+  resize: vertical;
 }
 .task-container {
   display: grid;
