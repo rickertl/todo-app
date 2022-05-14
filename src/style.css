@@ -74,10 +74,10 @@ form label {
   align-items: center;
 }
 #select-project > span > a:link {
-  color: gray;
 }
 #select-project > span > a > svg {
   width: 20px;
+  color: powderblue;
 }
 .tasks {
   flex: 1 1 400px;
@@ -134,19 +134,21 @@ form button {
   font-size: 0.85rem;
 }
 .task-container > .task-priority {
-  justify-self: center;
+  border: 1px solid #767676;
+  border-radius: 3px;
+  padding: 2px 0;
 }
 .task-container > .task-priority.high {
-  background-color: red;
-  color: white;
+  background-color: #e99979;
+  /* color: white; */
 }
 .task-container > .task-priority.low {
-  background-color: gray;
+  background-color: transparent;
 }
 .task-container.complete,
 .task-container.complete > .task-priority {
-  background-color: silver;
-  color: gray;
+  background-color: #efefef;
+  color: #767676;
 }
 .task-container > .more {
   grid-column: span 4;

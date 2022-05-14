@@ -133,6 +133,13 @@ function displayTaskPriority(task, taskContainer) {
     taskPriority.classList.add("low");
   }
   taskContainer.appendChild(taskPriority);
+  taskPriority.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+  taskPriority.addEventListener("change", (event) => {
+    task.priority = event.target.value;
+    buildProjectView(projects);
+  });
 }
 
 function displayTaskDescription(task, more) {
