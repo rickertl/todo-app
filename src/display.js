@@ -108,20 +108,30 @@ function displayTaskDueDate(task, taskContainer) {
       new Date(task.dueDate),
       "eee, h:m bbb (M/d)"
     );
-    //2022-05-18T13:16
   }
   taskContainer.appendChild(taskDueDate);
 }
 
 function displayTaskPriority(task, taskContainer) {
-  const taskPriority = document.createElement("div");
+  const taskPriority = document.createElement("select");
   taskPriority.classList.add("task-priority");
+  taskPriority.setAttribute("name", "priority");
+  taskPriority.setAttribute("id", "priority");
+  const priorityOptions = ["high", "normal", "low"];
+  priorityOptions.forEach((level) => {
+    const option = document.createElement("option");
+    option.setAttribute("value", level);
+    if (level === task.priority) {
+      option.setAttribute("selected", "");
+    }
+    option.textContent = level;
+    taskPriority.appendChild(option);
+  });
   if (task.priority === "high") {
     taskPriority.classList.add("high");
   } else if (task.priority === "low") {
     taskPriority.classList.add("low");
   }
-  taskPriority.textContent = task.priority;
   taskContainer.appendChild(taskPriority);
 }
 
