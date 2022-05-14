@@ -106,7 +106,7 @@ function displayTaskDueDate(task, taskContainer) {
   if (task.dueDate) {
     taskDueDate.textContent = format(
       new Date(task.dueDate),
-      "eee @ h:m b (M/d)"
+      "eee, h:m bbb (M/d)"
     );
     //2022-05-18T13:16
   }

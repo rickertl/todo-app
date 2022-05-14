@@ -101,25 +101,26 @@ form button {
 }
 .task-container {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) 40px auto;
+  grid-template-columns: auto minmax(0, 1fr) auto 52px;
   align-items: center;
+  grid-gap: 10px;
   background-color: aliceblue;
   border: 1px solid powderblue;
+  padding: 6px;
   margin-bottom: 8px;
 }
-.task-container.complete {
+.task-container.complete,
+.task-container.complete > .high {
   background-color: silver;
   color: gray;
 }
 .task-container > div {
   display: flex;
   align-items: center;
-  padding: 6px 10px;
 }
 .task-container > input.task-checkbox {
   width: 24px;
   height: 24px;
-  margin-left: 6px;
   order: -1;
 }
 .task-container > input.task-checkbox:checked {
@@ -133,8 +134,12 @@ form button {
 .task-container > .task-title.complete {
   text-decoration: line-through;
 }
+.task-container > .task-due-date,
 .task-container > .task-priority {
-  margin-left: 10px;
+  font-size: 0.85rem;
+}
+.task-container > .task-priority {
+  justify-self: center;
 }
 .task-container > .high {
   color: red;
