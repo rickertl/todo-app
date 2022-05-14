@@ -1,5 +1,5 @@
 import Task from "./task.js";
-import { displayAllTasks } from "./dom.js";
+import { displayAllTasks } from "./display.js";
 
 export default class Project {
   constructor(title, selected = false, tasks = []) {
