@@ -179,7 +179,6 @@ addProjectForm.onsubmit = addProject;
 // SWITCH PROJECT VIEW
 function selectProject() {}
 selectProjectSelector.addEventListener("change", (event) => {
-  console.log("change");
   projects.forEach((project) => {
     project.selected = false;
   });
