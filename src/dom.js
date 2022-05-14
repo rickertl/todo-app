@@ -2,10 +2,10 @@ import Project from "./project.js";
 import { findSelectedProject, project, projectID } from "./controller.js";
 import { projects } from "./data.js";
 
-export { taskRows, buildProjectView };
+export { displayAllTasks, buildProjectView };
 
 // cache dom
-const body = document.querySelector("body");
+const main = document.querySelector("main");
 
 // reused dom elements
 const selectProjectForm = document.querySelector("#select-project");
@@ -15,7 +15,7 @@ const selectProjectSelector = document.querySelector("#selectProject");
 function buildProjectView(projects) {
   // find currently selected project from data
   findSelectedProject(projects);
-  const projectName = body.querySelector(".current-project");
+  const projectName = main.querySelector(".current-project");
   projectName.textContent = project.title;
   projectName.setAttribute("data-id", projectID);
   if (projects.length > 1) {
@@ -40,24 +40,48 @@ function buildProjectView(projects) {
 }
 
 // DISPLAY ALL TASKS
-const taskList = body.querySelector(".task-list");
+const taskList = main.querySelector(".task-list");
+let taskTitle = "";
 
-function taskRows(project) {
+function displayAllTasks(project) {
   taskList.textContent = "";
-  let sorted = project.sortTasks();
-  sorted.forEach((task, index) => {
-    taskRow(task, index);
+  project.sortTasks().forEach((task, index) => {
+    displayTask(task, index);
   });
-  // listenForDelete(project);
 }
 
-function taskRow(task, index) {
-  // create DOM elements
+function displayTask(task, index) {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
-  const taskTitle = document.createElement("div");
+  // always visible task content
+  displayTaskTitle(task, taskContainer);
+  displayTaskCheckbox(task, taskContainer, taskTitle); // after taskTitle to get current value
+  displayTaskDueDate(task, taskContainer);
+  displayTaskPriority(task, taskContainer);
+  // expandable task content
+  const more = document.createElement("div");
+  more.classList.add("more");
+  taskContainer.appendChild(more);
+  displayTaskDescription(task, more);
+  displayTaskDelete(index, more);
+  // append taskContainer
+  taskList.appendChild(taskContainer);
+  // watch taskContainer
+  taskContainer.addEventListener("click", () => {
+    more.classList.toggle("show-more");
+  });
+}
+
+function displayTaskTitle(task, taskContainer) {
+  taskTitle = document.createElement("div");
   taskTitle.classList.add("task-title");
-  const taskTitleBox = document.createElement("span"); // need this for ellipsis to work
+  const taskTitleBox = document.createElement("span"); // need span for ellipsis to work
+  taskTitleBox.textContent = task.title;
+  taskContainer.appendChild(taskTitle);
+  taskTitle.appendChild(taskTitleBox);
+}
+
+function displayTaskCheckbox(task, taskContainer) {
   const taskCheckbox = document.createElement("input");
   taskCheckbox.classList.add("task-checkbox");
   taskCheckbox.setAttribute("type", "checkbox");
@@ -66,8 +90,24 @@ function taskRow(task, index) {
     taskContainer.classList.toggle("done");
     taskTitle.classList.toggle("done");
   }
+  taskContainer.appendChild(taskCheckbox);
+  taskCheckbox.addEventListener("click", (event) => {
+    event.stopPropagation();
+    task.complete === false ? task.setComplete(true) : task.setComplete(false);
+    buildProjectView(projects);
+  });
+}
+
+function displayTaskDueDate(task, taskContainer) {
   const taskDueDate = document.createElement("div");
   taskDueDate.classList.add("task-due-date");
+  if (task.dueDate) {
+    taskDueDate.textContent = task.dueDate;
+  }
+  taskContainer.appendChild(taskDueDate);
+}
+
+function displayTaskPriority(task, taskContainer) {
   const taskPriority = document.createElement("div");
   taskPriority.classList.add("task-priority");
   if (task.priority === "high") {
@@ -75,45 +115,27 @@ function taskRow(task, index) {
   } else if (task.priority === "low") {
     taskPriority.classList.add("low");
   }
-  const more = document.createElement("div");
-  more.classList.add("more");
-  const taskDelete = document.createElement("div");
-  taskDelete.classList.add("task-delete");
-  const deleteBtn = document.createElement("button");
-  deleteBtn.setAttribute("data-id", index);
-  deleteBtn.classList.add("delete-btn");
-  // add content to elements
-  taskTitleBox.textContent = task.title;
-  if (task.dueDate) {
-    taskDueDate.textContent = task.dueDate;
-  }
   taskPriority.textContent = task.priority;
-  deleteBtn.textContent = "X";
+  taskContainer.appendChild(taskPriority);
+}
+
+function displayTaskDescription(task, more) {
   if (task.description) {
     more.textContent = task.description;
   } else {
     more.textContent = `add description`;
   }
-  // append elements to parents
-  taskContainer.appendChild(taskCheckbox);
-  taskContainer.appendChild(taskTitle);
-  taskTitle.appendChild(taskTitleBox);
-  taskContainer.appendChild(taskDueDate);
-  taskContainer.appendChild(taskPriority);
-  taskContainer.appendChild(more);
-  more.appendChild(taskDelete);
+}
+
+function displayTaskDelete(index, more) {
+  const taskDelete = document.createElement("div");
+  taskDelete.classList.add("task-delete");
+  const deleteBtn = document.createElement("button");
+  deleteBtn.setAttribute("data-id", index);
+  deleteBtn.classList.add("delete-btn");
+  deleteBtn.textContent = "X";
   taskDelete.appendChild(deleteBtn);
-  taskList.appendChild(taskContainer);
-  // add listeners to elements
-  taskCheckbox.addEventListener("click", (event) => {
-    event.stopPropagation();
-    task.complete === false ? task.setComplete(true) : task.setComplete(false);
-    buildProjectView(projects);
-    console.log(task);
-  });
-  taskContainer.addEventListener("click", () => {
-    more.classList.toggle("show-more");
-  });
+  more.appendChild(taskDelete);
   deleteBtn.addEventListener("click", () => {
     const index = deleteBtn.getAttribute("data-id");
     project.deleteTask(index);

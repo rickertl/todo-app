@@ -1,5 +1,5 @@
 import Task from "./task.js";
-import { taskRows } from "./dom.js";
+import { displayAllTasks } from "./dom.js";
 
 export default class Project {
   constructor(title, selected = false, tasks = []) {
@@ -9,7 +9,7 @@ export default class Project {
   }
 
   listTasks() {
-    taskRows(this);
+    displayAllTasks(this);
   }
 
   createTask(title, description, duedate, priority) {

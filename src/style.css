@@ -115,6 +115,7 @@ form button {
   width: 24px;
   height: 24px;
   margin-left: 6px;
+  order: -1;
 }
 .task-container > input.task-checkbox:checked {
   accent-color: powderblue;
