@@ -36,8 +36,19 @@ const getTaskFormSubmissions = (function () {
   });
 })();
 
+// create dom element factory function
+const createDomElement = (type, attributes) => {
+  const el = document.createElement(type);
+  if (attributes) {
+    for (let key in attributes) {
+      el.setAttribute(key, attributes[key]);
+    }
+  }
+  return el;
+};
+
 // build project view
-function buildProjectView(projects) {
+const buildProjectView = function (projects) {
   // find currently selected project from data
   findSelectedProject(projects);
   const projectName = main.querySelector(".current-project");
@@ -57,40 +68,38 @@ function buildProjectView(projects) {
       selectOption.textContent = project.title;
       selectProjectSelector.appendChild(selectOption);
     });
+    selectProject();
   } else {
     projectName.style = "";
     selectProjectForm.style = "";
   }
   project.listTasks();
-}
+};
 
 // display all tasks
 const taskList = main.querySelector(".task-list");
 let taskTitle = "";
 
-function displayAllTasks(project) {
+const displayAllTasks = function (project) {
   taskList.textContent = "";
   project.sortTasks().forEach((task, index) => {
     displayTask(task, index);
   });
-}
+};
 
 // display one(1) task
-function displayTask(task, index) {
-  const taskContainer = document.createElement("div");
-  taskContainer.classList.add("task-container");
+const displayTask = function (task, index) {
+  const taskContainer = createDomElement("div", { class: "task-container" });
   // always visible task content
   displayTaskTitle(task, taskContainer);
   displayTaskCheckbox(task, taskContainer, taskTitle); // after taskTitle to get current value
   displayTaskDueDate(task, taskContainer);
   displayTaskPriority(task, taskContainer);
   // expandable task content
-  const more = document.createElement("div");
-  more.classList.add("more");
+  const more = createDomElement("div", { class: "more" });
   taskContainer.appendChild(more);
   displayTaskDescription(task, more);
-  const taskButtons = document.createElement("div");
-  taskButtons.classList.add("task-buttons");
+  const taskButtons = createDomElement("div", { class: "task-buttons" });
   displayTaskEdit(task, index, taskButtons);
   displayTaskDelete(index, taskButtons);
   more.appendChild(taskButtons);
@@ -100,21 +109,21 @@ function displayTask(task, index) {
   taskContainer.addEventListener("click", () => {
     more.classList.toggle("show-more");
   });
-}
+};
 
-function displayTaskTitle(task, taskContainer) {
-  taskTitle = document.createElement("div");
-  taskTitle.classList.add("task-title");
-  const taskTitleBox = document.createElement("span"); // need span for ellipsis to work
+const displayTaskTitle = function (task, taskContainer) {
+  taskTitle = createDomElement("div", { class: "task-title" });
+  const taskTitleBox = createDomElement("span"); // need span for ellipsis to work
   taskTitleBox.textContent = task.title;
   taskContainer.appendChild(taskTitle);
   taskTitle.appendChild(taskTitleBox);
-}
+};
 
-function displayTaskCheckbox(task, taskContainer) {
-  const taskCheckbox = document.createElement("input");
-  taskCheckbox.classList.add("task-checkbox");
-  taskCheckbox.setAttribute("type", "checkbox");
+const displayTaskCheckbox = function (task, taskContainer) {
+  const taskCheckbox = createDomElement("input", {
+    class: "task-checkbox",
+    type: "checkbox",
+  });
   if (task.complete === true) {
     taskCheckbox.setAttribute("checked", "");
     taskContainer.classList.toggle("complete");
@@ -126,11 +135,10 @@ function displayTaskCheckbox(task, taskContainer) {
     task.complete === false ? task.setComplete(true) : task.setComplete(false);
     displayAllTasks(project);
   });
-}
+};
 
-function displayTaskDueDate(task, taskContainer) {
-  const taskDueDate = document.createElement("div");
-  taskDueDate.classList.add("task-due-date");
+const displayTaskDueDate = function (task, taskContainer) {
+  const taskDueDate = createDomElement("div", { class: "task-due-date" });
   if (task.dueDate) {
     taskDueDate.textContent = format(
       new Date(task.dueDate),
@@ -138,17 +146,17 @@ function displayTaskDueDate(task, taskContainer) {
     );
   }
   taskContainer.appendChild(taskDueDate);
-}
+};
 
-function displayTaskPriority(task, taskContainer) {
-  const taskPriority = document.createElement("select");
-  taskPriority.classList.add("task-priority");
-  taskPriority.setAttribute("name", "priority");
-  taskPriority.setAttribute("id", "priority");
+const displayTaskPriority = function (task, taskContainer) {
+  const taskPriority = createDomElement("select", {
+    class: "task-priority",
+    name: "priority",
+    id: "priority",
+  });
   const priorityOptions = ["high", "normal", "low"];
   priorityOptions.forEach((level) => {
-    const option = document.createElement("option");
-    option.setAttribute("value", level);
+    const option = createDomElement("option", { value: level });
     if (level === task.priority) {
       option.setAttribute("selected", "");
     }
@@ -168,23 +176,25 @@ function displayTaskPriority(task, taskContainer) {
     task.priority = event.target.value;
     displayAllTasks(project);
   });
-}
+};
 
-function displayTaskDescription(task, more) {
-  const taskDescription = document.createElement("div");
-  taskDescription.classList.add("task-description");
+const displayTaskDescription = function (task, more) {
+  const taskDescription = createDomElement("div", {
+    class: "task-description",
+  });
   if (task.description) {
     taskDescription.textContent = task.description;
   } else {
     taskDescription.textContent = `add description`;
   }
   more.appendChild(taskDescription);
-}
+};
 
-function displayTaskEdit(task, index, taskButtons) {
-  const taskEditBtn = document.createElement("button");
-  taskEditBtn.classList.add("task-edit");
-  taskEditBtn.setAttribute("data-id", index);
+const displayTaskEdit = function (task, index, taskButtons) {
+  const taskEditBtn = createDomElement("button", {
+    class: "task-edit",
+    ["data-id"]: index,
+  });
   taskEditBtn.textContent = "edit";
   taskButtons.appendChild(taskEditBtn);
   taskEditBtn.addEventListener("click", (event) => {
@@ -197,12 +207,13 @@ function displayTaskEdit(task, index, taskButtons) {
     taskEntryForm.querySelector("#dueDate").value = task.dueDate;
     taskEntryForm.querySelector("#priority").value = task.priority;
   });
-}
+};
 
-function displayTaskDelete(index, taskButtons) {
-  const taskDeleteBtn = document.createElement("button");
-  taskDeleteBtn.setAttribute("data-id", index);
-  taskDeleteBtn.classList.add("delete-btn");
+const displayTaskDelete = function (index, taskButtons) {
+  const taskDeleteBtn = createDomElement("button", {
+    class: "delete-btn",
+    ["data-id"]: index,
+  });
   taskDeleteBtn.textContent = "X";
   taskButtons.appendChild(taskDeleteBtn);
   taskDeleteBtn.addEventListener("click", (event) => {
@@ -211,7 +222,7 @@ function displayTaskDelete(index, taskButtons) {
     const index = taskDeleteBtn.getAttribute("data-id");
     project.deleteTask(index);
   });
-}
+};
 
 // ADD PROJECT
 const addProject = function (event) {
@@ -219,7 +230,6 @@ const addProject = function (event) {
   project.selected = false; // remove selected from current project
   const newProject = new Project(addProjectForm.elements["title"].value, true);
   projects.push(newProject);
-  // console.log(projects);
   addProjectForm.reset();
   buildProjectView(projects);
 };
@@ -229,11 +239,12 @@ const addProjectForm = document.querySelector("form#add-project");
 addProjectForm.onsubmit = addProject;
 
 // SWITCH PROJECT VIEW
-function selectProject() {}
-selectProjectSelector.addEventListener("change", (event) => {
-  projects.forEach((project) => {
-    project.selected = false;
+const selectProject = function () {
+  selectProjectSelector.addEventListener("change", (event) => {
+    projects.forEach((project) => {
+      project.selected = false;
+    });
+    projects[event.target.value].selected = true;
+    buildProjectView(projects);
   });
-  projects[event.target.value].selected = true;
-  buildProjectView(projects);
-});
+};
