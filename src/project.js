@@ -12,8 +12,8 @@ export default class Project {
     displayAllTasks(this);
   }
 
-  createTask(title, description, duedate, priority, complete) {
-    let task = new Task(title, description, duedate, priority, complete);
+  createTask(title, description, dueDate, priority, complete) {
+    let task = new Task(title, description, dueDate, priority, complete);
     this.tasks.push(task);
     this.listTasks();
   }
@@ -40,6 +40,7 @@ export default class Project {
     );
     return sortedByComplete;
   }
+
   completeTask(index) {
     this.tasks[index].complete = true;
     this.listTasks();

@@ -1,3 +1,4 @@
+import Task from "./task.js";
 import Project from "./project.js";
 import { findSelectedProject, project, projectID } from "./controller.js";
 import { projects } from "./data.js";
@@ -11,8 +12,31 @@ const main = document.querySelector("main");
 // reused dom elements
 const selectProjectForm = document.querySelector("#select-project");
 const selectProjectSelector = document.querySelector("#selectProject");
+const taskEntryForm = document.querySelector("form#task-entry");
 
-// BUILD DEFAULT VIEW
+// ready task form
+const getTaskFormSubmissions = (function () {
+  taskEntryForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    let taskInputs = [
+      taskEntryForm.elements["title"].value,
+      taskEntryForm.elements["description"].value,
+      taskEntryForm.elements["dueDate"].value,
+      taskEntryForm.elements["priority"].value,
+    ];
+    const index = event.target.getAttribute("data-id");
+    if (taskEntryForm.getAttribute("action") === "add") {
+      project.createTask(...taskInputs);
+    } else if (taskEntryForm.getAttribute("action") === "edit") {
+      project.tasks[index].updateTask(...taskInputs);
+      taskEntryForm.setAttribute("action", "add");
+      project.listTasks();
+    }
+    taskEntryForm.reset();
+  });
+})();
+
+// build project view
 function buildProjectView(projects) {
   // find currently selected project from data
   findSelectedProject(projects);
@@ -40,7 +64,7 @@ function buildProjectView(projects) {
   project.listTasks();
 }
 
-// DISPLAY ALL TASKS
+// display all tasks
 const taskList = main.querySelector(".task-list");
 let taskTitle = "";
 
@@ -51,7 +75,7 @@ function displayAllTasks(project) {
   });
 }
 
-// DISPLAY ONE(1) TASK
+// display one(1) task
 function displayTask(task, index) {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
@@ -65,7 +89,11 @@ function displayTask(task, index) {
   more.classList.add("more");
   taskContainer.appendChild(more);
   displayTaskDescription(task, more);
-  displayTaskDelete(index, more);
+  const taskButtons = document.createElement("div");
+  taskButtons.classList.add("task-buttons");
+  displayTaskEdit(task, index, taskButtons);
+  displayTaskDelete(index, taskButtons);
+  more.appendChild(taskButtons);
   // append taskContainer
   taskList.appendChild(taskContainer);
   // watch taskContainer
@@ -96,7 +124,7 @@ function displayTaskCheckbox(task, taskContainer) {
   taskCheckbox.addEventListener("click", (event) => {
     event.stopPropagation();
     task.complete === false ? task.setComplete(true) : task.setComplete(false);
-    buildProjectView(projects);
+    displayAllTasks(project);
   });
 }
 
@@ -138,50 +166,52 @@ function displayTaskPriority(task, taskContainer) {
   });
   taskPriority.addEventListener("change", (event) => {
     task.priority = event.target.value;
-    buildProjectView(projects);
+    displayAllTasks(project);
   });
 }
 
 function displayTaskDescription(task, more) {
+  const taskDescription = document.createElement("div");
+  taskDescription.classList.add("task-description");
   if (task.description) {
-    more.textContent = task.description;
+    taskDescription.textContent = task.description;
   } else {
-    more.textContent = `add description`;
+    taskDescription.textContent = `add description`;
   }
+  more.appendChild(taskDescription);
 }
 
-function displayTaskDelete(index, more) {
-  const taskDelete = document.createElement("div");
-  taskDelete.classList.add("task-delete");
-  const deleteBtn = document.createElement("button");
-  deleteBtn.setAttribute("data-id", index);
-  deleteBtn.classList.add("delete-btn");
-  deleteBtn.textContent = "X";
-  taskDelete.appendChild(deleteBtn);
-  more.appendChild(taskDelete);
-  deleteBtn.addEventListener("click", () => {
-    const index = deleteBtn.getAttribute("data-id");
-    project.deleteTask(index);
+function displayTaskEdit(task, index, taskButtons) {
+  const taskEditBtn = document.createElement("button");
+  taskEditBtn.classList.add("task-edit");
+  taskEditBtn.setAttribute("data-id", index);
+  taskEditBtn.textContent = "edit";
+  taskButtons.appendChild(taskEditBtn);
+  taskEditBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    taskEntryForm.setAttribute("action", "edit");
+    taskEntryForm.setAttribute("data-id", event.target.getAttribute("data-id"));
+    taskEntryForm.querySelector("#title").value = task.title;
+    taskEntryForm.querySelector("#description").value = task.description;
+    taskEntryForm.querySelector("#dueDate").value = task.dueDate;
+    taskEntryForm.querySelector("#priority").value = task.priority;
   });
 }
 
-// ADD TASK
-const addTaskToProject = function (event) {
-  event.preventDefault();
-  const newTask = project.createTask(
-    addTaskform.elements["title"].value,
-    addTaskform.elements["description"].value,
-    addTaskform.elements["dueDate"].value,
-    addTaskform.elements["priority"].value
-  );
-  addTaskform.reset();
-  // form.classList.toggle("show-form");
-  // project.listTasks();
-};
-
-// get add task form submission
-const addTaskform = document.querySelector("form#add-task");
-addTaskform.onsubmit = addTaskToProject;
+function displayTaskDelete(index, taskButtons) {
+  const taskDeleteBtn = document.createElement("button");
+  taskDeleteBtn.setAttribute("data-id", index);
+  taskDeleteBtn.classList.add("delete-btn");
+  taskDeleteBtn.textContent = "X";
+  taskButtons.appendChild(taskDeleteBtn);
+  taskDeleteBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const index = taskDeleteBtn.getAttribute("data-id");
+    project.deleteTask(index);
+  });
+}
 
 // ADD PROJECT
 const addProject = function (event) {

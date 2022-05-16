@@ -21,8 +21,8 @@ export default class Task {
     this.description = description;
   }
 
-  setDueDate(date) {
-    this.date = date;
+  setDueDate(dueDate) {
+    this.dueDate = dueDate;
   }
 
   setPriority(priority) {
@@ -31,5 +31,12 @@ export default class Task {
 
   setComplete(complete) {
     this.complete = complete;
+  }
+
+  updateTask(title, description, dueDate, priority) {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.priority = priority;
   }
 }
