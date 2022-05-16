@@ -272,7 +272,7 @@ const displayTaskDelete = function (index, taskButtons) {
     class: "delete-btn",
     ["data-id"]: index,
   });
-  taskDeleteBtn.textContent = "X";
+  taskDeleteBtn.textContent = "delete";
   taskButtons.appendChild(taskDeleteBtn);
   taskDeleteBtn.addEventListener("click", (event) => {
     event.preventDefault();
