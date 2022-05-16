@@ -9,6 +9,24 @@ export { displayAllTasks, buildProjectView };
 // cache dom
 const main = document.querySelector("main");
 
+// dynamic desktop centering for large screen
+const column1 = main.querySelector(".column1");
+let column1Width = column1.offsetWidth;
+
+const adjustColumn1Position = function () {
+  if (window.innerWidth > 935) {
+    column1.style.marginLeft = `-${column1Width}px`;
+  } else {
+    column1.style = "";
+  }
+};
+adjustColumn1Position();
+
+window.addEventListener("resize", () => {
+  column1Width = column1.offsetWidth;
+  adjustColumn1Position();
+});
+
 // reused dom elements
 const selectProjectForm = document.querySelector("form#select-project");
 const selectProjectSelector = document.querySelector("#selectProject");
