@@ -104,6 +104,7 @@ main {
         }
         .add-task {
           justify-self: end;
+          font-weight: 600;
         }
       }
     }
@@ -204,6 +205,9 @@ main {
       textarea#description {
         height: 100px;
         resize: vertical;
+      }
+      button {
+        margin-top: 10px;
       }
     }
     form#task-entry .close-btn {
