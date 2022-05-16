@@ -50,20 +50,17 @@ main {
   text-align: center;
   padding: 30px;
   display: flex;
-  .container {
-    width: 200px;
-    .logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 30px;
-      svg {
-        width: 70px;
-      }
-      .logo-text {
-        font-size: 2.5rem;
-        font-weight: 600;
-      }
+  align-items: flex-start;
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      width: 70px;
+    }
+    .logo-text {
+      font-size: 2.5rem;
+      font-weight: 600;
     }
   }
 }
@@ -72,10 +69,11 @@ main {
   position: relative;
   height: 100%;
   .tasks {
-    max-width: 600px;
     padding: 30px 10px;
+    width: 100%;
     @media screen and (min-width: 600px) {
       padding: 30px;
+      width: 600px;
     }
     .tasks-header {
       display: grid;
@@ -84,11 +82,7 @@ main {
       grid-row-gap: 10px;
       margin-bottom: 15px;
       .hdr-col1 {
-        .current-project {
-          font-weight: 600;
-        }
         #select-project {
-          display: none;
           select {
             width: 100%;
           }
@@ -191,7 +185,8 @@ main {
       }
     }
   }
-  .task-entry {
+  .task-entry,
+  .project-entry {
     display: none;
     &.overlay {
       position: absolute;
@@ -201,28 +196,57 @@ main {
       background-color: rgba($color: #000000, $alpha: 0.8);
       padding: 30px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
     }
-    form#task-entry {
+    form {
       max-width: 300px;
       background-color: white;
       padding: 30px;
       border-radius: 2.5px;
       position: relative;
-      textarea#description {
-        height: 100px;
-        resize: vertical;
-      }
-      button {
-        margin-top: 10px;
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
       }
     }
-    form#task-entry .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
+  }
+  .task-entry {
+    &overlay {
+      form#task-entry {
+        max-width: 300px;
+        background-color: white;
+        padding: 30px;
+        border-radius: 2.5px;
+        position: relative;
+        textarea#description {
+          height: 100px;
+          resize: vertical;
+        }
+        button {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+  .project-entry {
+    &.overlay {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 40px;
+      button.delete-completed-tasks,
+      button.delete-all-tasks {
+        display: none;
+      }
+    }
+    &.editing {
+      button.delete-completed-tasks,
+      button.delete-all-tasks {
+        display: block;
+      }
     }
   }
 }

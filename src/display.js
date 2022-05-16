@@ -10,10 +10,13 @@ export { displayAllTasks, buildProjectView };
 const main = document.querySelector("main");
 
 // reused dom elements
-const selectProjectForm = document.querySelector("#select-project");
+const selectProjectForm = document.querySelector("form#select-project");
 const selectProjectSelector = document.querySelector("#selectProject");
 const taskEntry = document.querySelector(".task-entry");
 const taskEntryForm = document.querySelector("form#task-entry");
+const projectEntry = document.querySelector(".project-entry");
+const projectEntryForm = document.querySelector("form#project-entry");
+const editProjectLink = document.querySelector(".edit-list > a");
 
 // ready task form
 const getTaskFormSubmissions = (function () {
@@ -26,6 +29,7 @@ const getTaskFormSubmissions = (function () {
     "form#task-entry .close-btn"
   );
   closeTaskEntryForm.addEventListener("click", () => {
+    taskEntryForm.reset();
     taskEntry.classList.toggle("overlay");
   });
   taskEntryForm.addEventListener("submit", (event) => {
@@ -49,6 +53,49 @@ const getTaskFormSubmissions = (function () {
   });
 })();
 
+// ready project form
+const listenForProjectFormRequests = (function () {
+  // get "add list" click
+  const addProjectLink = document.querySelector(".add-list > a");
+  addProjectLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    projectEntry.classList.toggle("overlay");
+  });
+  // get "edit list" click
+  editProjectLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    projectEntry.classList.toggle("overlay");
+    projectEntry.classList.toggle("editing");
+    projectEntryForm.setAttribute("action", "edit");
+    projectEntryForm.querySelector("#title").value = project.title;
+    projectEntryForm.querySelector("label").textContent = "Change Name";
+  });
+  projectEntryForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (projectEntryForm.getAttribute("action") === "add") {
+      project.selected = false; // remove selected from current project
+      const newProject = new Project(
+        projectEntryForm.elements["title"].value,
+        true
+      );
+      projects.push(newProject);
+    } else if (projectEntryForm.getAttribute("action") === "edit") {
+      project.title = projectEntryForm.elements["title"].value;
+      projectEntryForm.setAttribute("action", "add");
+    }
+    projectEntryForm.reset();
+    buildProjectView(projects);
+  });
+  const closeProjectEntryForm = document.querySelector(
+    "form#project-entry .close-btn"
+  );
+  closeProjectEntryForm.addEventListener("click", () => {
+    projectEntryForm.reset();
+    projectEntry.classList.toggle("overlay");
+    projectEntry.classList.remove("editing");
+  });
+})();
+
 // create dom element factory function
 const createDomElement = (type, attributes) => {
   const el = document.createElement(type);
@@ -64,30 +111,7 @@ const createDomElement = (type, attributes) => {
 const buildProjectView = function (projects) {
   // find currently selected project from data
   findSelectedProject(projects);
-  const projectName = main.querySelector(".current-project");
-  projectName.textContent = project.title;
-  projectName.setAttribute("data-id", projectID);
-  // if (projects.length > 1) {
-  //   projectName.style.display = "none";
-  //   selectProjectForm.style.display = "block";
-  //   selectProjectSelector.textContent = "";
-  //   // NEED TO SORT BY SELECTED FIRST THEN ALPHA
-  //   projects.forEach((project, index) => {
-  //     const selectOption = document.createElement("option");
-  //     selectOption.setAttribute("value", index);
-  //     if (project.selected === true) {
-  //       selectOption.setAttribute("selected", "");
-  //     }
-  //     selectOption.textContent = project.title;
-  //     selectProjectSelector.appendChild(selectOption);
-  //   });
-  //   selectProject();
-  // } else {
-  //   projectName.style = "";
-  //   selectProjectForm.style = "";
-  // }
-  projectName.style.display = "none";
-  selectProjectForm.style.display = "block";
+  editProjectLink.setAttribute("data-id", projectID);
   selectProjectSelector.textContent = "";
   // NEED TO SORT BY SELECTED FIRST THEN ALPHA
   projects.forEach((project, index) => {
@@ -227,6 +251,7 @@ const displayTaskEdit = function (task, index, taskButtons) {
   taskEditBtn.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
+    taskEntry.classList.toggle("overlay");
     taskEntryForm.setAttribute("action", "edit");
     taskEntryForm.setAttribute("data-id", event.target.getAttribute("data-id"));
     taskEntryForm.querySelector("#title").value = task.title;
@@ -251,21 +276,7 @@ const displayTaskDelete = function (index, taskButtons) {
   });
 };
 
-// ADD PROJECT
-const addProject = function (event) {
-  event.preventDefault();
-  project.selected = false; // remove selected from current project
-  const newProject = new Project(addProjectForm.elements["title"].value, true);
-  projects.push(newProject);
-  addProjectForm.reset();
-  buildProjectView(projects);
-};
-
-// get new project form submission
-const addProjectForm = document.querySelector("form#add-project");
-addProjectForm.onsubmit = addProject;
-
-// SWITCH PROJECT VIEW
+// switch project view
 const selectProject = function () {
   selectProjectSelector.addEventListener("change", (event) => {
     projects.forEach((project) => {
