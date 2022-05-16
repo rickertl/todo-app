@@ -1,4 +1,4 @@
-import "./style.css";
+import "./style.scss";
 import { projects } from "./data.js";
 import { buildProjectView } from "./display.js";
 
