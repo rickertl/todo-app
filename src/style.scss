@@ -40,12 +40,12 @@ form label {
 }
 main {
   height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 }
 .column1 {
-  height: 100%;
+  height: 100px;
   background-color: powderblue;
   text-align: center;
   padding: 30px;
@@ -56,7 +56,7 @@ main {
     .logo {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: center;
       margin-bottom: 40px;
       svg {
         width: 70px;
@@ -73,10 +73,10 @@ main {
   position: relative;
   .tasks {
     max-width: 600px;
-    // @media (min-width: 500px) {
-    //   min-width: 200px;
-    // }
-    padding: 30px;
+    padding: 30px 10px;
+    @media screen and (min-width: 600px) {
+      padding: 30px 40px;
+    }
     .tasks-header {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(262px, 1fr));
@@ -124,7 +124,7 @@ main {
       background-color: rgba(176, 224, 230, 0.15);
       border: 1px solid powderblue;
       padding: 6px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       border-radius: 2.5px;
       div {
         display: flex;
