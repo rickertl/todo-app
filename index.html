@@ -63,23 +63,23 @@
               <option value="low">low</option>
             </select>
             <button type="submit">Submit</button>
-            <div class="close-btn">X</div>
+            <div class="close-btn">&#x2715;</div>
           </form>
         </div>
         <div class="project-entry">
+          <form id="project-entry" action="add">
+            <label for="title">List Name</label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              placeholder="List Name"
+              required
+            />
+            <button type="submit">Submit</button>
+            <div class="close-btn">&#x2715;</div>
+          </form>
           <div class="container">
-            <form id="project-entry" action="add">
-              <label for="title">List Name</label>
-              <input
-                type="text"
-                name="title"
-                id="title"
-                placeholder="List Name"
-                required
-              />
-              <button type="submit">Submit</button>
-              <div class="close-btn">X</div>
-            </form>
             <button class="delete-completed-tasks">
               Delete COMPLETED Tasks
             </button>
