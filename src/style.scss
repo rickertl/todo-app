@@ -17,7 +17,7 @@ body {
   font-family: $global-font;
 }
 button {
-  padding: 4px 10px;
+  height: 35px;
   font-size: 1rem;
   font-family: $global-font;
 }
@@ -39,17 +39,14 @@ form label {
 }
 main {
   height: 100vh;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
+  display: grid;
+  grid-template-columns: auto 1fr;
 }
 .column1 {
   height: 100%;
   background-color: powderblue;
   text-align: center;
   padding: 30px;
-  flex: 0 1 200px;
   .logo {
     display: flex;
     align-items: center;
@@ -65,36 +62,48 @@ main {
   }
 }
 .column2 {
-  display: flex;
-  flex-wrap: wrap;
-  justify-items: flex-start;
-  gap: 40px;
-  padding: 30px;
-  padding-left: 0;
-  flex: 1 1 200px;
+  position: relative;
   .tasks {
-    flex: 1 1 400px;
-    .current-project {
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    #select-project {
-      display: none;
-      align-items: center;
-      select {
-        margin-bottom: 0;
-      }
-      span {
-        margin-left: 10px;
-        font-size: 0.8rem;
-        display: flex;
-        align-items: center;
-        a > svg {
-          width: 20px;
-          color: powderblue;
+    max-width: 600px;
+    // @media (min-width: 500px) {
+    //   min-width: 200px;
+    // }
+    padding: 30px;
+    .tasks-header {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(262px, 1fr));
+      grid-column-gap: 15px;
+      grid-row-gap: 10px;
+      margin-bottom: 15px;
+      .hdr-col1 {
+        .current-project {
+          font-weight: 600;
         }
-        div {
-          margin-bottom: 20px;
+        #select-project {
+          display: none;
+          select {
+            width: 100%;
+          }
+        }
+        form select {
+          margin-bottom: 0;
+        }
+      }
+      .hdr-col2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        a {
+          color: black;
+        }
+        .list-actions {
+          display: grid;
+          grid-template-columns: auto auto;
+          justify-content: start;
+          grid-gap: 15px;
+        }
+        .add-task {
+          justify-self: end;
         }
       }
     }
@@ -173,11 +182,35 @@ main {
       }
     }
   }
-}
-form#task-entry {
-  flex: 1 1 200px;
-  textarea#description {
-    height: 100px;
-    resize: vertical;
+  .task-entry {
+    display: none;
+    &.overlay {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba($color: #000000, $alpha: 0.8);
+      padding: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    form#task-entry {
+      max-width: 300px;
+      background-color: white;
+      padding: 30px;
+      border-radius: 2.5px;
+      position: relative;
+      textarea#description {
+        height: 100px;
+        resize: vertical;
+      }
+    }
+    form#task-entry .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
   }
 }

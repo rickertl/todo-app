@@ -12,10 +12,22 @@ const main = document.querySelector("main");
 // reused dom elements
 const selectProjectForm = document.querySelector("#select-project");
 const selectProjectSelector = document.querySelector("#selectProject");
+const taskEntry = document.querySelector(".task-entry");
 const taskEntryForm = document.querySelector("form#task-entry");
 
 // ready task form
 const getTaskFormSubmissions = (function () {
+  const taskEditLink = document.querySelector(".add-task > a");
+  taskEditLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    taskEntry.classList.toggle("overlay");
+  });
+  const closeTaskEntryForm = document.querySelector(
+    "form#task-entry .close-btn"
+  );
+  closeTaskEntryForm.addEventListener("click", () => {
+    taskEntry.classList.toggle("overlay");
+  });
   taskEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
     let taskInputs = [
@@ -33,6 +45,7 @@ const getTaskFormSubmissions = (function () {
       project.listTasks();
     }
     taskEntryForm.reset();
+    taskEntry.classList.toggle("overlay");
   });
 })();
 
@@ -54,25 +67,39 @@ const buildProjectView = function (projects) {
   const projectName = main.querySelector(".current-project");
   projectName.textContent = project.title;
   projectName.setAttribute("data-id", projectID);
-  if (projects.length > 1) {
-    projectName.style.display = "none";
-    selectProjectForm.style.display = "flex";
-    selectProjectSelector.textContent = "";
-    // NEED TO SORT BY SELECTED FIRST THEN ALPHA
-    projects.forEach((project, index) => {
-      const selectOption = document.createElement("option");
-      selectOption.setAttribute("value", index);
-      if (project.selected === true) {
-        selectOption.setAttribute("selected", "");
-      }
-      selectOption.textContent = project.title;
-      selectProjectSelector.appendChild(selectOption);
-    });
-    selectProject();
-  } else {
-    projectName.style = "";
-    selectProjectForm.style = "";
-  }
+  // if (projects.length > 1) {
+  //   projectName.style.display = "none";
+  //   selectProjectForm.style.display = "block";
+  //   selectProjectSelector.textContent = "";
+  //   // NEED TO SORT BY SELECTED FIRST THEN ALPHA
+  //   projects.forEach((project, index) => {
+  //     const selectOption = document.createElement("option");
+  //     selectOption.setAttribute("value", index);
+  //     if (project.selected === true) {
+  //       selectOption.setAttribute("selected", "");
+  //     }
+  //     selectOption.textContent = project.title;
+  //     selectProjectSelector.appendChild(selectOption);
+  //   });
+  //   selectProject();
+  // } else {
+  //   projectName.style = "";
+  //   selectProjectForm.style = "";
+  // }
+  projectName.style.display = "none";
+  selectProjectForm.style.display = "block";
+  selectProjectSelector.textContent = "";
+  // NEED TO SORT BY SELECTED FIRST THEN ALPHA
+  projects.forEach((project, index) => {
+    const selectOption = document.createElement("option");
+    selectOption.setAttribute("value", index);
+    if (project.selected === true) {
+      selectOption.setAttribute("selected", "");
+    }
+    selectOption.textContent = project.title;
+    selectProjectSelector.appendChild(selectOption);
+  });
+  selectProject();
   project.listTasks();
 };
 
