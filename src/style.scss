@@ -43,21 +43,20 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-content: flex-start;
 }
 .column1 {
-  height: 100px;
   background-color: powderblue;
   text-align: center;
   padding: 30px;
   display: flex;
-  justify-content: flex-end;
   .container {
     width: 200px;
     .logo {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       svg {
         width: 70px;
       }
@@ -71,6 +70,7 @@ main {
 .column2 {
   background-color: white;
   position: relative;
+  height: 100%;
   .tasks {
     max-width: 600px;
     padding: 30px 10px;
