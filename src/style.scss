@@ -48,7 +48,7 @@ main {
 .column1 {
   background-color: powderblue;
   text-align: center;
-  padding: 30px;
+  padding: 15px 25px;
   display: flex;
   align-items: flex-start;
   .logo {
@@ -205,6 +205,15 @@ main {
       padding: 30px;
       border-radius: 2.5px;
       position: relative;
+      &#task-entry {
+        textarea {
+          height: 100px;
+          resize: vertical;
+        }
+        button {
+          margin-top: 10px;
+        }
+      }
       .close-btn {
         position: absolute;
         top: 10px;
@@ -213,39 +222,22 @@ main {
       }
     }
   }
-  .task-entry {
-    &overlay {
-      form#task-entry {
-        max-width: 300px;
-        background-color: white;
-        padding: 30px;
-        border-radius: 2.5px;
-        position: relative;
-        textarea#description {
-          height: 100px;
-          resize: vertical;
-        }
-        button {
-          margin-top: 10px;
-        }
-      }
-    }
-  }
   .project-entry {
-    &.overlay {
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 40px;
+    .container {
       button.delete-completed-tasks,
       button.delete-all-tasks {
         display: none;
       }
     }
     &.editing {
-      button.delete-completed-tasks,
-      button.delete-all-tasks {
-        display: block;
+      .container {
+        button.delete-completed-tasks,
+        button.delete-all-tasks {
+          display: block;
+        }
+        display: grid;
+        justify-content: center;
+        grid-gap: 30px;
       }
     }
   }

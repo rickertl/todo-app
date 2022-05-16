@@ -67,20 +67,24 @@
           </form>
         </div>
         <div class="project-entry">
-          <form id="project-entry" action="add">
-            <label for="title">List Name</label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              placeholder="List Name"
-              required
-            />
-            <button type="submit">Submit</button>
-            <div class="close-btn">X</div>
-          </form>
-          <button class="delete-completed-tasks">Delete Completed Tasks</button>
-          <button class="delete-all-tasks">Delete ALL Tasks</button>
+          <div class="container">
+            <form id="project-entry" action="add">
+              <label for="title">List Name</label>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                placeholder="List Name"
+                required
+              />
+              <button type="submit">Submit</button>
+              <div class="close-btn">X</div>
+            </form>
+            <button class="delete-completed-tasks">
+              Delete COMPLETED Tasks
+            </button>
+            <button class="delete-all-tasks">Delete ALL Tasks</button>
+          </div>
         </div>
       </div>
     </main>

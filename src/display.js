@@ -18,6 +18,8 @@ const projectEntry = document.querySelector(".project-entry");
 const projectEntryForm = document.querySelector("form#project-entry");
 const editProjectLink = document.querySelector(".edit-list > a");
 
+//  BUG if you edit list, back out, then try to add list
+
 // ready task form
 const getTaskFormSubmissions = (function () {
   const taskEditLink = document.querySelector(".add-task > a");
@@ -84,6 +86,9 @@ const listenForProjectFormRequests = (function () {
       projectEntryForm.setAttribute("action", "add");
     }
     projectEntryForm.reset();
+    projectEntry.classList.toggle("overlay");
+    projectEntry.classList.remove("editing");
+    projectEntryForm.querySelector("label").textContent = "List Name";
     buildProjectView(projects);
   });
   const closeProjectEntryForm = document.querySelector(
@@ -93,6 +98,7 @@ const listenForProjectFormRequests = (function () {
     projectEntryForm.reset();
     projectEntry.classList.toggle("overlay");
     projectEntry.classList.remove("editing");
+    projectEntryForm.querySelector("label").textContent = "List Name";
   });
 })();
 
