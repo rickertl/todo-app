@@ -6,73 +6,33 @@ import { format } from "date-fns";
 
 export { buildProjectView, displayAllTasks };
 
+// dynamic desktop centering for large screen
+// const column1 = main.querySelector(".column1");
+// let column1Width = column1.offsetWidth;
+
+// const adjustColumn1Position = function () {
+//   if (window.innerWidth > 935) {
+//     column1.style.marginLeft = `-${column1Width}px`;
+//   } else {
+//     column1.style = "";
+//   }
+// };
+// adjustColumn1Position();
+
+// window.addEventListener("resize", () => {
+//   column1Width = column1.offsetWidth;
+//   adjustColumn1Position();
+// });
+
 // cache dom
 const main = document.querySelector("main");
 
-// dynamic desktop centering for large screen
-const column1 = main.querySelector(".column1");
-let column1Width = column1.offsetWidth;
-
-const adjustColumn1Position = function () {
-  if (window.innerWidth > 935) {
-    column1.style.marginLeft = `-${column1Width}px`;
-  } else {
-    column1.style = "";
-  }
-};
-adjustColumn1Position();
-
-window.addEventListener("resize", () => {
-  column1Width = column1.offsetWidth;
-  adjustColumn1Position();
-});
-
 // reused dom elements
-const selectProjectSelector = document.querySelector("#selectProject");
-const taskEntry = document.querySelector(".task-entry");
-const taskEntryForm = document.querySelector("form#task-entry");
-const projectEntry = document.querySelector(".project-entry");
-const projectEntryForm = document.querySelector("form#project-entry");
-const deleteCompletedTasksBtn = projectEntry.querySelector(
-  "button.delete-completed-tasks"
-);
-const deleteAllTasksBtn = projectEntry.querySelector("button.delete-all-tasks");
-const editProjectLink = document.querySelector(".edit-list > a");
-
-// ready task form
-const getTaskFormSubmissions = (function () {
-  const taskEditLink = document.querySelector(".add-task > a");
-  taskEditLink.addEventListener("click", (event) => {
-    event.preventDefault();
-    taskEntry.classList.toggle("overlay");
-  });
-  const closeTaskEntryForm = document.querySelector(
-    "form#task-entry .close-btn"
-  );
-  closeTaskEntryForm.addEventListener("click", () => {
-    taskEntryForm.reset();
-    taskEntry.classList.toggle("overlay");
-  });
-  taskEntryForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    let taskInputs = [
-      taskEntryForm.elements["title"].value,
-      taskEntryForm.elements["description"].value,
-      taskEntryForm.elements["dueDate"].value,
-      taskEntryForm.elements["priority"].value,
-    ];
-    const index = event.target.getAttribute("data-id");
-    if (taskEntryForm.getAttribute("action") === "add") {
-      project.createTask(...taskInputs);
-    } else if (taskEntryForm.getAttribute("action") === "edit") {
-      project.tasks[index].updateTask(...taskInputs);
-      taskEntryForm.setAttribute("action", "add");
-      project.listTasks();
-    }
-    taskEntryForm.reset();
-    taskEntry.classList.toggle("overlay");
-  });
-})();
+const taskEntry = main.querySelector(".task-entry");
+const taskEntryForm = taskEntry.querySelector("form#task-entry");
+const projectEntry = main.querySelector(".project-entry");
+const projectEntryForm = projectEntry.querySelector("form#project-entry");
+const selectProjectSelector = main.querySelector("#selectProject");
 
 // create dom element factory function
 const createDomElement = (type, attributes) => {
@@ -88,7 +48,6 @@ const createDomElement = (type, attributes) => {
 // build project view
 const buildProjectView = function (projects) {
   findSelectedProject(projects);
-  editProjectLink.setAttribute("data-id", projectID);
   buildProjectSelector();
   project.listTasks();
 };
@@ -96,7 +55,6 @@ const buildProjectView = function (projects) {
 // display all tasks
 const taskList = main.querySelector(".task-list");
 let taskTitle = "";
-
 const displayAllTasks = function (project) {
   taskList.textContent = "";
   project.sortTasks().forEach((task, index) => {
@@ -109,7 +67,8 @@ const displayTask = function (task, index) {
   const taskContainer = createDomElement("div", { class: "task-container" });
   // always visible task content
   displayTaskTitle(task, taskContainer);
-  displayTaskCheckbox(task, taskContainer, taskTitle); // after taskTitle to get current value
+  // after above to set completed style on newly created title element
+  displayTaskCheckbox(task, taskContainer);
   displayTaskDueDate(task, taskContainer);
   displayTaskPriority(task, taskContainer);
   // expandable task content
@@ -128,14 +87,6 @@ const displayTask = function (task, index) {
   });
 };
 
-const displayTaskTitle = function (task, taskContainer) {
-  taskTitle = createDomElement("div", { class: "task-title" });
-  const taskTitleBox = createDomElement("span"); // need span for ellipsis to work
-  taskTitleBox.textContent = task.title;
-  taskContainer.appendChild(taskTitle);
-  taskTitle.appendChild(taskTitleBox);
-};
-
 const displayTaskCheckbox = function (task, taskContainer) {
   const taskCheckbox = createDomElement("input", {
     class: "task-checkbox",
@@ -152,6 +103,14 @@ const displayTaskCheckbox = function (task, taskContainer) {
     task.complete === false ? task.setComplete(true) : task.setComplete(false);
     displayAllTasks(project);
   });
+};
+
+const displayTaskTitle = function (task, taskContainer) {
+  taskTitle = createDomElement("div", { class: "task-title" });
+  const taskTitleBox = createDomElement("span"); // need span for ellipsis to work
+  taskTitleBox.textContent = task.title;
+  taskContainer.appendChild(taskTitle);
+  taskTitle.appendChild(taskTitleBox);
 };
 
 const displayTaskDueDate = function (task, taskContainer) {
@@ -244,13 +203,13 @@ const displayTaskDelete = function (index, taskButtons) {
 // ready app for project(list) additions and edits
 const readyForProjects = (function () {
   // listen for "add list" click
-  const addProjectLink = document.querySelector(".add-list > a");
+  const addProjectLink = main.querySelector(".add-list > a");
   addProjectLink.addEventListener("click", (event) => {
     event.preventDefault();
     projectEntry.classList.add("overlay");
   });
   // listen for "edit list" click
-  editProjectLink.addEventListener("click", (event) => {
+  main.querySelector(".edit-list > a").addEventListener("click", (event) => {
     event.preventDefault();
     projectEntry.classList.add("overlay");
     projectEntry.classList.add("editing");
@@ -270,22 +229,25 @@ const readyForProjects = (function () {
     buildProjectView(projects);
   });
   // listen for "delete COMPLETED tasks" button click
-  deleteCompletedTasksBtn.addEventListener("click", (event) => {
-    event.preventDefault();
-    project.deleteTasks("completed");
-    resetProjectEntry();
-  });
-  // listen for "delete ALL tasks" button click
-  deleteAllTasksBtn.addEventListener("click", (event) => {
-    event.preventDefault();
-    project.deleteTasks("all");
-    resetProjectEntry();
-  });
-  document
-    .querySelector("form#project-entry .close-btn")
-    .addEventListener("click", () => {
+  projectEntry
+    .querySelector("button.delete-completed-tasks")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      project.deleteTasks("completed");
       resetProjectEntry();
     });
+  // listen for "delete ALL tasks" button click
+  projectEntry
+    .querySelector("button.delete-all-tasks")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      project.deleteTasks("all");
+      resetProjectEntry();
+    });
+  // close button
+  projectEntryForm.querySelector(".close-btn").addEventListener("click", () => {
+    resetProjectEntry();
+  });
   const resetProjectEntry = function () {
     projectEntryForm.reset();
     projectEntryForm.setAttribute("action", "add");
@@ -300,8 +262,7 @@ const buildProjectSelector = function () {
   selectProjectSelector.textContent = "";
   // NEED TO SORT BY SELECTED FIRST THEN ALPHA
   projects.forEach((project, index) => {
-    const selectOption = document.createElement("option");
-    selectOption.setAttribute("value", index);
+    const selectOption = createDomElement("option", { value: index });
     if (project.selected === true) {
       selectOption.setAttribute("selected", "");
     }
@@ -316,5 +277,38 @@ const selectProject = (function () {
     const index = event.target.value;
     project.switchSelectedProject(index);
     buildProjectView(projects);
+  });
+})();
+
+// ready app for task additions and edits
+const readyForTasks = (function () {
+  const taskEditLink = main.querySelector(".add-task > a");
+  taskEditLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    taskEntry.classList.toggle("overlay");
+  });
+  taskEntryForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    let taskInputs = [
+      taskEntryForm.elements["title"].value,
+      taskEntryForm.elements["description"].value,
+      taskEntryForm.elements["dueDate"].value,
+      taskEntryForm.elements["priority"].value,
+    ];
+    const index = event.target.getAttribute("data-id");
+    if (taskEntryForm.getAttribute("action") === "add") {
+      project.createTask(...taskInputs);
+    } else if (taskEntryForm.getAttribute("action") === "edit") {
+      project.tasks[index].updateTask(...taskInputs);
+      taskEntryForm.setAttribute("action", "add");
+      project.listTasks();
+    }
+    taskEntryForm.reset();
+    taskEntry.classList.toggle("overlay");
+  });
+  // close button
+  taskEntryForm.querySelector(".close-btn").addEventListener("click", () => {
+    taskEntryForm.reset();
+    taskEntry.classList.toggle("overlay");
   });
 })();
