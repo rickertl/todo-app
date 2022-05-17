@@ -13,7 +13,7 @@ date2.setHours(16, 0, 0, 0);
 const tasks = new Project("Tasks", true);
 tasks.createTask("Clean room", "", date1.setDate(date1.getDate() + 4));
 tasks.createTask(
-  "Write thank you letter to Rachel for sending soup when I was sick",
+  "Write thank you note to mom for sending soup when I was sick",
   "",
   "",
   "low"
