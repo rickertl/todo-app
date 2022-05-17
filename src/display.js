@@ -83,13 +83,13 @@ const listenForProjectFormRequests = (function () {
   const addProjectLink = document.querySelector(".add-list > a");
   addProjectLink.addEventListener("click", (event) => {
     event.preventDefault();
-    projectEntry.classList.classList.add("overlay");
+    projectEntry.classList.add("overlay");
   });
   // listen for "edit list" click
   editProjectLink.addEventListener("click", (event) => {
     event.preventDefault();
-    projectEntry.classList.classList.add("overlay");
-    projectEntry.classList.classList.add("editing");
+    projectEntry.classList.add("overlay");
+    projectEntry.classList.add("editing");
     projectEntryForm.setAttribute("action", "edit");
     projectEntryForm.querySelector("#title").value = project.title;
     projectEntryForm.querySelector("label").textContent = "Change Name";
