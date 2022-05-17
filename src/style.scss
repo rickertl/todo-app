@@ -21,6 +21,7 @@ button {
   height: 35px;
   font-size: 1rem;
   font-family: $global-font;
+  padding: 5px 10px;
 }
 form:not(#select-project) {
   display: flex;
@@ -214,7 +215,7 @@ main {
       justify-content: center;
     }
     form {
-      max-width: 300px;
+      max-width: 320px;
       background-color: white;
       padding: 30px;
       border-radius: 2.5px;
