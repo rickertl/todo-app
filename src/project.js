@@ -12,6 +12,16 @@ export default class Project {
     displayAllTasks(this);
   }
 
+  createProject(title) {
+    this.selected = false; // remove "selected" from current project
+    const newProject = new Project(title, true);
+    this.projects.push(newProject);
+  }
+
+  editProject(title) {
+    this.project.title = title;
+  }
+
   createTask(title, description, dueDate, priority, complete) {
     let task = new Task(title, description, dueDate, priority, complete);
     this.tasks.push(task);
@@ -22,6 +32,19 @@ export default class Project {
     this.tasks[index] = null; // set to null for garbage collection
     this.tasks.splice(index, 1);
     this.listTasks();
+  }
+
+  deleteTasks(type) {
+    // loop through array in reverse to get all elements
+    for (let i = this.tasks.length - 1; i >= 0; i--) {
+      if (type === "completed") {
+        if (this.tasks[i].complete) {
+          this.deleteTask(i);
+        }
+      } else {
+        this.deleteTask(i);
+      }
+    }
   }
 
   sortTasks() {

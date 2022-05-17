@@ -83,13 +83,13 @@ const listenForProjectFormRequests = (function () {
   const addProjectLink = document.querySelector(".add-list > a");
   addProjectLink.addEventListener("click", (event) => {
     event.preventDefault();
-    projectEntry.classList.toggle("overlay");
+    projectEntry.classList.classList.add("overlay");
   });
   // listen for "edit list" click
   editProjectLink.addEventListener("click", (event) => {
     event.preventDefault();
-    projectEntry.classList.toggle("overlay");
-    projectEntry.classList.toggle("editing");
+    projectEntry.classList.classList.add("overlay");
+    projectEntry.classList.classList.add("editing");
     projectEntryForm.setAttribute("action", "edit");
     projectEntryForm.querySelector("#title").value = project.title;
     projectEntryForm.querySelector("label").textContent = "Change Name";
@@ -98,56 +98,37 @@ const listenForProjectFormRequests = (function () {
   projectEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
     if (projectEntryForm.getAttribute("action") === "add") {
-      project.selected = false; // remove selected from current project
-      const newProject = new Project(
-        projectEntryForm.elements["title"].value,
-        true
-      );
-      projects.push(newProject);
+      createProject(projectEntryForm.elements["title"].value);
     } else if (projectEntryForm.getAttribute("action") === "edit") {
-      project.title = projectEntryForm.elements["title"].value;
-      projectEntryForm.setAttribute("action", "add");
+      editProject(projectEntryForm.elements["title"].value);
     }
-    projectEntryForm.reset();
-    projectEntry.classList.toggle("overlay");
-    projectEntry.classList.remove("editing");
-    projectEntryForm.querySelector("label").textContent = "List Name";
+    resetProjectEntry();
     buildProjectView(projects);
   });
-  // listen for "delete COMPLETED tasks" click
+  // listen for "delete COMPLETED tasks" button click
   deleteCompletedTasksBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    for (let index = project.tasks.length - 1; index > -1; index--) {
-      if (project.tasks[index].complete) {
-        project.deleteTask(index);
-      }
-    }
-    projectEntryForm.reset();
-    projectEntry.classList.toggle("overlay");
-    projectEntry.classList.remove("editing");
-    projectEntryForm.querySelector("label").textContent = "List Name";
+    project.deleteTasks("completed");
+    resetProjectEntry();
   });
-  // listen for "delete ALL tasks" click
+  // listen for "delete ALL tasks" button click
   deleteAllTasksBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    // https://stackoverflow.com/questions/51227436/foreach-does-not-access-all-elements-in-nodelist
-    for (let index = project.tasks.length - 1; index > -1; index--) {
-      project.deleteTask(index);
-    }
+    project.deleteTasks("all");
+    resetProjectEntry();
+  });
+  document
+    .querySelector("form#project-entry .close-btn")
+    .addEventListener("click", () => {
+      resetProjectEntry();
+    });
+  const resetProjectEntry = function () {
     projectEntryForm.reset();
-    projectEntry.classList.toggle("overlay");
+    projectEntryForm.setAttribute("action", "add");
+    projectEntry.classList.remove("overlay");
     projectEntry.classList.remove("editing");
     projectEntryForm.querySelector("label").textContent = "List Name";
-  });
-  const closeProjectEntryForm = document.querySelector(
-    "form#project-entry .close-btn"
-  );
-  closeProjectEntryForm.addEventListener("click", () => {
-    projectEntryForm.reset();
-    projectEntry.classList.toggle("overlay");
-    projectEntry.classList.remove("editing");
-    projectEntryForm.querySelector("label").textContent = "List Name";
-  });
+  };
 })();
 
 // create dom element factory function
