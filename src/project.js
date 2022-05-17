@@ -1,4 +1,5 @@
 import Task from "./task.js";
+import { projects } from "./data.js";
 import { displayAllTasks } from "./display.js";
 
 export default class Project {
@@ -14,12 +15,18 @@ export default class Project {
 
   createProject(title) {
     this.selected = false; // remove "selected" from current project
-    const newProject = new Project(title, true);
-    this.projects.push(newProject);
+    projects.push(new Project(title, true));
   }
 
   editProject(title) {
-    this.project.title = title;
+    this.title = title;
+  }
+
+  switchSelectedProject(index) {
+    projects.forEach((project) => {
+      project.selected = false;
+    });
+    projects[index].selected = true;
   }
 
   createTask(title, description, dueDate, priority, complete) {

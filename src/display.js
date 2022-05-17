@@ -28,7 +28,6 @@ window.addEventListener("resize", () => {
 });
 
 // reused dom elements
-// const selectProjectForm = document.querySelector("form#select-project");
 const selectProjectSelector = document.querySelector("#selectProject");
 const taskEntry = document.querySelector(".task-entry");
 const taskEntryForm = document.querySelector("form#task-entry");
@@ -77,60 +76,6 @@ const getTaskFormSubmissions = (function () {
   });
 })();
 
-// ready project form
-const listenForProjectFormRequests = (function () {
-  // listen for "add list" click
-  const addProjectLink = document.querySelector(".add-list > a");
-  addProjectLink.addEventListener("click", (event) => {
-    event.preventDefault();
-    projectEntry.classList.add("overlay");
-  });
-  // listen for "edit list" click
-  editProjectLink.addEventListener("click", (event) => {
-    event.preventDefault();
-    projectEntry.classList.add("overlay");
-    projectEntry.classList.add("editing");
-    projectEntryForm.setAttribute("action", "edit");
-    projectEntryForm.querySelector("#title").value = project.title;
-    projectEntryForm.querySelector("label").textContent = "Change Name";
-  });
-  // get project form submissions
-  projectEntryForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    if (projectEntryForm.getAttribute("action") === "add") {
-      createProject(projectEntryForm.elements["title"].value);
-    } else if (projectEntryForm.getAttribute("action") === "edit") {
-      editProject(projectEntryForm.elements["title"].value);
-    }
-    resetProjectEntry();
-    buildProjectView(projects);
-  });
-  // listen for "delete COMPLETED tasks" button click
-  deleteCompletedTasksBtn.addEventListener("click", (event) => {
-    event.preventDefault();
-    project.deleteTasks("completed");
-    resetProjectEntry();
-  });
-  // listen for "delete ALL tasks" button click
-  deleteAllTasksBtn.addEventListener("click", (event) => {
-    event.preventDefault();
-    project.deleteTasks("all");
-    resetProjectEntry();
-  });
-  document
-    .querySelector("form#project-entry .close-btn")
-    .addEventListener("click", () => {
-      resetProjectEntry();
-    });
-  const resetProjectEntry = function () {
-    projectEntryForm.reset();
-    projectEntryForm.setAttribute("action", "add");
-    projectEntry.classList.remove("overlay");
-    projectEntry.classList.remove("editing");
-    projectEntryForm.querySelector("label").textContent = "List Name";
-  };
-})();
-
 // create dom element factory function
 const createDomElement = (type, attributes) => {
   const el = document.createElement(type);
@@ -158,7 +103,6 @@ const buildProjectView = function (projects) {
     selectOption.textContent = project.title;
     selectProjectSelector.appendChild(selectOption);
   });
-  selectProject();
   project.listTasks();
 };
 
@@ -311,13 +255,65 @@ const displayTaskDelete = function (index, taskButtons) {
   });
 };
 
-// switch project view
-const selectProject = function () {
-  selectProjectSelector.addEventListener("change", (event) => {
-    projects.forEach((project) => {
-      project.selected = false;
-    });
-    projects[event.target.value].selected = true;
+// ready app for project(list) additions and edits
+const readyForProjects = (function () {
+  // listen for "add list" click
+  const addProjectLink = document.querySelector(".add-list > a");
+  addProjectLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    projectEntry.classList.add("overlay");
+  });
+  // listen for "edit list" click
+  editProjectLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    projectEntry.classList.add("overlay");
+    projectEntry.classList.add("editing");
+    projectEntryForm.setAttribute("action", "edit");
+    projectEntryForm.querySelector("#title").value = project.title;
+    projectEntryForm.querySelector("label").textContent = "Change Name";
+  });
+  // get project form submissions
+  projectEntryForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (projectEntryForm.getAttribute("action") === "add") {
+      project.createProject(projectEntryForm.elements["title"].value);
+    } else if (projectEntryForm.getAttribute("action") === "edit") {
+      project.editProject(projectEntryForm.elements["title"].value);
+    }
+    resetProjectEntry();
     buildProjectView(projects);
   });
-};
+  // listen for "delete COMPLETED tasks" button click
+  deleteCompletedTasksBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    project.deleteTasks("completed");
+    resetProjectEntry();
+  });
+  // listen for "delete ALL tasks" button click
+  deleteAllTasksBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    project.deleteTasks("all");
+    resetProjectEntry();
+  });
+  document
+    .querySelector("form#project-entry .close-btn")
+    .addEventListener("click", () => {
+      resetProjectEntry();
+    });
+  const resetProjectEntry = function () {
+    projectEntryForm.reset();
+    projectEntryForm.setAttribute("action", "add");
+    projectEntry.classList.remove("overlay");
+    projectEntry.classList.remove("editing");
+    projectEntryForm.querySelector("label").textContent = "List Name";
+  };
+})();
+
+// switch project view
+const selectProject = (function () {
+  selectProjectSelector.addEventListener("change", (event) => {
+    const index = event.target.value;
+    project.switchSelectedProject(index);
+    buildProjectView(projects);
+  });
+})();
