@@ -2,9 +2,16 @@ import Project from "./project";
 
 export { projects };
 
+// demo dates
+const date1 = new Date();
+date1.setHours(10, 0, 0, 0);
+
+const date2 = new Date();
+date2.setHours(16, 0, 0, 0);
+
 // generate default project
 const tasks = new Project("Tasks", true);
-tasks.createTask("Clean room", "", "2022-05-18T13:16");
+tasks.createTask("Clean room", "", date1.setDate(date1.getDate() + 4));
 tasks.createTask(
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa, tristique eu eleifend in, porta ut tortor. Morbi lorem erat, gravida a bibendum eget, suscipit id orci. Vivamus id felis metus. ",
   "",
@@ -14,7 +21,7 @@ tasks.createTask(
 tasks.createTask(
   "Mow lawn",
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa,",
-  "2022-05-14T11:16",
+  date2.setDate(date2.getDate() - 7),
   "high",
   true
 );

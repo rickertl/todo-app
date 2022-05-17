@@ -247,7 +247,7 @@ const displayTaskDueDate = function (task, taskContainer) {
   if (task.dueDate) {
     taskDueDate.textContent = format(
       new Date(task.dueDate),
-      "eee, h:m bbb (M/d)"
+      "eee, h:mm bbb (M/d)"
     );
   }
   taskContainer.appendChild(taskDueDate);
