@@ -160,10 +160,8 @@ const displayTaskDescription = function (task, more) {
   });
   if (task.description) {
     taskDescription.textContent = task.description;
-  } else {
-    taskDescription.textContent = `add description`;
+    more.appendChild(taskDescription);
   }
-  more.appendChild(taskDescription);
 };
 
 const displayTaskEdit = function (task, index, taskButtons) {
