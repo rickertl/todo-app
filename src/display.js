@@ -4,7 +4,7 @@ import { findSelectedProject, project, projectID } from "./controller.js";
 import { projects } from "./data.js";
 import { format } from "date-fns";
 
-export { displayAllTasks, buildProjectView };
+export { buildProjectView, displayAllTasks };
 
 // cache dom
 const main = document.querySelector("main");
@@ -38,8 +38,6 @@ const deleteCompletedTasksBtn = projectEntry.querySelector(
 );
 const deleteAllTasksBtn = projectEntry.querySelector("button.delete-all-tasks");
 const editProjectLink = document.querySelector(".edit-list > a");
-
-//  BUG if you edit list, back out, then try to add list
 
 // ready task form
 const getTaskFormSubmissions = (function () {
@@ -89,20 +87,9 @@ const createDomElement = (type, attributes) => {
 
 // build project view
 const buildProjectView = function (projects) {
-  // find currently selected project from data
   findSelectedProject(projects);
   editProjectLink.setAttribute("data-id", projectID);
-  selectProjectSelector.textContent = "";
-  // NEED TO SORT BY SELECTED FIRST THEN ALPHA
-  projects.forEach((project, index) => {
-    const selectOption = document.createElement("option");
-    selectOption.setAttribute("value", index);
-    if (project.selected === true) {
-      selectOption.setAttribute("selected", "");
-    }
-    selectOption.textContent = project.title;
-    selectProjectSelector.appendChild(selectOption);
-  });
+  buildProjectSelector();
   project.listTasks();
 };
 
@@ -250,8 +237,7 @@ const displayTaskDelete = function (index, taskButtons) {
   taskDeleteBtn.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const index = taskDeleteBtn.getAttribute("data-id");
-    project.deleteTask(index);
+    project.deleteTask(taskDeleteBtn.getAttribute("data-id"));
   });
 };
 
@@ -308,6 +294,21 @@ const readyForProjects = (function () {
     projectEntryForm.querySelector("label").textContent = "List Name";
   };
 })();
+
+// build project selector with current projects
+const buildProjectSelector = function () {
+  selectProjectSelector.textContent = "";
+  // NEED TO SORT BY SELECTED FIRST THEN ALPHA
+  projects.forEach((project, index) => {
+    const selectOption = document.createElement("option");
+    selectOption.setAttribute("value", index);
+    if (project.selected === true) {
+      selectOption.setAttribute("selected", "");
+    }
+    selectOption.textContent = project.title;
+    selectProjectSelector.appendChild(selectOption);
+  });
+};
 
 // switch project view
 const selectProject = (function () {

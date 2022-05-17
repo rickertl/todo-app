@@ -35,6 +35,11 @@ export default class Project {
     this.listTasks();
   }
 
+  completeTask(index) {
+    this.tasks[index].complete = true;
+    this.listTasks();
+  }
+
   deleteTask(index) {
     this.tasks[index] = null; // set to null for garbage collection
     this.tasks.splice(index, 1);
@@ -69,11 +74,6 @@ export default class Project {
       (a, b) => Number(a.complete) - Number(b.complete)
     );
     return sortedByComplete;
-  }
-
-  completeTask(index) {
-    this.tasks[index].complete = true;
-    this.listTasks();
   }
 }
 
