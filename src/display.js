@@ -1,7 +1,7 @@
 import Task from "./task.js";
 import Project from "./project.js";
-import { findSelectedProject, project, projectID } from "./controller.js";
 import { projects } from "./data.js";
+import { findSelectedProject, project, projectID } from "./controller.js";
 import { format } from "date-fns";
 
 export { buildProjectView, displayAllTasks };
@@ -46,8 +46,8 @@ const createDomElement = (type, attributes) => {
 };
 
 // build project view
-const buildProjectView = function (projects) {
-  findSelectedProject(projects);
+const buildProjectView = function () {
+  findSelectedProject();
   buildProjectSelector();
   project.listTasks();
 };
@@ -194,7 +194,7 @@ const displayTaskDelete = function (index, taskButtons) {
   taskDeleteBtn.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    project.deleteTask(taskDeleteBtn.getAttribute("data-id"));
+    project.deleteTask(taskDeleteBtn.getAttribute("data-id"), true);
   });
 };
 
@@ -231,7 +231,7 @@ const readyForProjects = (function () {
     .querySelector("button.delete-completed-tasks")
     .addEventListener("click", (event) => {
       event.preventDefault();
-      project.deleteTasks("completed");
+      project.deleteTasks("completed", false);
       resetProjectEntry();
     });
   // listen for "delete ALL tasks" button click
@@ -239,7 +239,7 @@ const readyForProjects = (function () {
     .querySelector("button.delete-all-tasks")
     .addEventListener("click", (event) => {
       event.preventDefault();
-      project.deleteTasks("all");
+      project.deleteTasks("all", false);
       resetProjectEntry();
     });
   // listen for "delete list" button click
@@ -247,7 +247,6 @@ const readyForProjects = (function () {
     .querySelector("button.delete-project")
     .addEventListener("click", (event) => {
       event.preventDefault();
-      // project.deleteTasks("all");
       project.deleteProject();
       resetProjectEntry();
       buildProjectView(projects);

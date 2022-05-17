@@ -1,6 +1,6 @@
 import Task from "./task.js";
 import { projects } from "./data.js";
-import { displayAllTasks } from "./display.js";
+import { buildProjectView, displayAllTasks } from "./display.js";
 
 export default class Project {
   constructor(title, selected = false, tasks = []) {
@@ -40,36 +40,51 @@ export default class Project {
     this.listTasks();
   }
 
-  deleteTask(index) {
-    confirm("WARNING!!! Task deletion is permanent.");
+  deleteTask(index, oneTask) {
+    if (oneTask === true) {
+      if (confirm("WARNING!!! Task deletion is permanent.") == false) {
+        return;
+      }
+    }
     this.tasks[index] = null; // set to null for garbage collection
     this.tasks.splice(index, 1);
     this.listTasks();
   }
 
-  deleteTasks(type) {
-    confirm("WARNING!!! Task deletion is permanent.");
-    // loop through array in reverse to get all elements
+  deleteTasks(type, projectDelete) {
+    if (projectDelete === false) {
+      if (confirm("WARNING!!! Task deletion is permanent.") == false) {
+        return;
+      }
+    }
     for (let i = this.tasks.length - 1; i >= 0; i--) {
       if (type === "completed") {
         if (this.tasks[i].complete) {
-          this.deleteTask(i);
+          this.deleteTask(i, false);
         }
       } else {
-        this.deleteTask(i);
+        this.deleteTask(i, false);
       }
     }
   }
 
-  deleteProject(project) {
-    if (projects.length !== 1) {
-      this.deleteTasks();
-      projects[project] = null; // set to null for garbage collection
-      projects.splice([project], 1);
-      console.log(projects);
+  deleteProject() {
+    if (projects.length > 1) {
+      if (confirm("WARNING!!! Task List deletion is permanent.") == true) {
+        this.deleteTasks("all", true);
+        let projectIndex = projects.indexOf(this);
+        projects[projectIndex] = null; // set to null for garbage collection
+        projects.splice(projectIndex, 1);
+        this.switchSelectedProject(
+          // find first project left to switch to
+          projects.indexOf(projects.find((el) => el !== undefined))
+        );
+        buildProjectView(projects);
+        console.log(projects);
+      }
     } else {
       alert(
-        "SORRY! This is your only list. At least one list is required.\n\nPlease create a new default list and try again."
+        "SORRY! This is your only task list. At least one list is required.\n\nPlease create a new default list and try again."
       );
     }
   }

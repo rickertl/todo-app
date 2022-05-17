@@ -246,7 +246,8 @@ main {
   .project-entry {
     .container {
       button.delete-completed-tasks,
-      button.delete-all-tasks {
+      button.delete-all-tasks,
+      button.delete-project {
         display: none;
       }
     }
@@ -260,7 +261,8 @@ main {
         background-color: white;
         padding: 30px;
         button.delete-completed-tasks,
-        button.delete-all-tasks {
+        button.delete-all-tasks,
+        button.delete-project {
           display: block;
         }
       }
