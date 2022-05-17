@@ -244,6 +244,16 @@ const readyForProjects = (function () {
       project.deleteTasks("all");
       resetProjectEntry();
     });
+  // listen for "delete list" button click
+  projectEntry
+    .querySelector("button.delete-project")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      // project.deleteTasks("all");
+      project.deleteProject();
+      resetProjectEntry();
+      buildProjectView(projects);
+    });
   // close button
   projectEntryForm.querySelector(".close-btn").addEventListener("click", () => {
     resetProjectEntry();

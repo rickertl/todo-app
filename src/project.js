@@ -59,6 +59,24 @@ export default class Project {
     }
   }
 
+  deleteProject(project) {
+    if (projects.length !== 1) {
+      this.deleteTasks();
+      projects[project] = null; // set to null for garbage collection
+      projects.splice([project], 1);
+      console.log(projects);
+    } else {
+      alert(
+        `SORRY!
+
+This is your only list. At least one list is required. 
+        
+Please create a new default list and try again.
+`
+      );
+    }
+  }
+
   sortTasks() {
     //https://serveanswer.com/questions/js-sort-array-object-by-custom-key-and-value
     const priority = {
