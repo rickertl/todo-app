@@ -41,12 +41,14 @@ export default class Project {
   }
 
   deleteTask(index) {
+    confirm("WARNING!!! Task deletion is permanent.");
     this.tasks[index] = null; // set to null for garbage collection
     this.tasks.splice(index, 1);
     this.listTasks();
   }
 
   deleteTasks(type) {
+    confirm("WARNING!!! Task deletion is permanent.");
     // loop through array in reverse to get all elements
     for (let i = this.tasks.length - 1; i >= 0; i--) {
       if (type === "completed") {
@@ -67,12 +69,7 @@ export default class Project {
       console.log(projects);
     } else {
       alert(
-        `SORRY!
-
-This is your only list. At least one list is required. 
-        
-Please create a new default list and try again.
-`
+        "SORRY! This is your only list. At least one list is required.\n\nPlease create a new default list and try again."
       );
     }
   }
