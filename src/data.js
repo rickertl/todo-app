@@ -13,7 +13,7 @@ date2.setHours(16, 0, 0, 0);
 const tasks = new Project("Tasks", true);
 tasks.createTask("Clean room", "", date1.setDate(date1.getDate() + 4));
 tasks.createTask(
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa, tristique eu eleifend in, porta ut tortor. Morbi lorem erat, gravida a bibendum eget, suscipit id orci. Vivamus id felis metus. ",
+  "Write thank you letter to Rachel for sending soup when I was sick",
   "",
   "",
   "low"
