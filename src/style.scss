@@ -78,6 +78,7 @@ main {
   .tasks {
     padding: 20px 10px;
     @media screen and (min-width: 600px) {
+      width: 3px * $col1-width + 15 + 60;
       padding: 30px;
     }
     .tasks-header {
