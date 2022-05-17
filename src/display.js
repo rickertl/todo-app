@@ -28,12 +28,16 @@ window.addEventListener("resize", () => {
 });
 
 // reused dom elements
-const selectProjectForm = document.querySelector("form#select-project");
+// const selectProjectForm = document.querySelector("form#select-project");
 const selectProjectSelector = document.querySelector("#selectProject");
 const taskEntry = document.querySelector(".task-entry");
 const taskEntryForm = document.querySelector("form#task-entry");
 const projectEntry = document.querySelector(".project-entry");
 const projectEntryForm = document.querySelector("form#project-entry");
+const deleteCompletedTasksBtn = projectEntry.querySelector(
+  "button.delete-completed-tasks"
+);
+const deleteAllTasksBtn = projectEntry.querySelector("button.delete-all-tasks");
 const editProjectLink = document.querySelector(".edit-list > a");
 
 //  BUG if you edit list, back out, then try to add list
@@ -75,13 +79,13 @@ const getTaskFormSubmissions = (function () {
 
 // ready project form
 const listenForProjectFormRequests = (function () {
-  // get "add list" click
+  // listen for "add list" click
   const addProjectLink = document.querySelector(".add-list > a");
   addProjectLink.addEventListener("click", (event) => {
     event.preventDefault();
     projectEntry.classList.toggle("overlay");
   });
-  // get "edit list" click
+  // listen for "edit list" click
   editProjectLink.addEventListener("click", (event) => {
     event.preventDefault();
     projectEntry.classList.toggle("overlay");
@@ -90,6 +94,7 @@ const listenForProjectFormRequests = (function () {
     projectEntryForm.querySelector("#title").value = project.title;
     projectEntryForm.querySelector("label").textContent = "Change Name";
   });
+  // get project form submissions
   projectEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
     if (projectEntryForm.getAttribute("action") === "add") {
@@ -108,6 +113,31 @@ const listenForProjectFormRequests = (function () {
     projectEntry.classList.remove("editing");
     projectEntryForm.querySelector("label").textContent = "List Name";
     buildProjectView(projects);
+  });
+  // listen for "delete COMPLETED tasks" click
+  deleteCompletedTasksBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    for (let index = project.tasks.length - 1; index > -1; index--) {
+      if (project.tasks[index].complete) {
+        project.deleteTask(index);
+      }
+    }
+    projectEntryForm.reset();
+    projectEntry.classList.toggle("overlay");
+    projectEntry.classList.remove("editing");
+    projectEntryForm.querySelector("label").textContent = "List Name";
+  });
+  // listen for "delete ALL tasks" click
+  deleteAllTasksBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    // https://stackoverflow.com/questions/51227436/foreach-does-not-access-all-elements-in-nodelist
+    for (let index = project.tasks.length - 1; index > -1; index--) {
+      project.deleteTask(index);
+    }
+    projectEntryForm.reset();
+    projectEntry.classList.toggle("overlay");
+    projectEntry.classList.remove("editing");
+    projectEntryForm.querySelector("label").textContent = "List Name";
   });
   const closeProjectEntryForm = document.querySelector(
     "form#project-entry .close-btn"
