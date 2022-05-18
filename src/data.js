@@ -32,6 +32,7 @@ if (localStorage.getItem("localProjects")) {
   const date2 = new Date();
   date2.setHours(16, 0, 0, 0);
 
+  // create demo tasks
   defaultProject.createTask(
     "Clean room",
     "",
@@ -57,6 +58,6 @@ if (localStorage.getItem("localProjects")) {
     "high"
   );
 
-  // create array of projects and add default project
+  // add default project to projects array
   projects.push(defaultProject);
 }

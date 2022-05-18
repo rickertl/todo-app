@@ -64,19 +64,18 @@ export default class Project {
     }
   }
 
-  deleteProject() {
+  deleteProject(projectID) {
     if (projects.length > 1) {
       if (confirm("WARNING!!! Task List deletion is permanent.") == true) {
         this.deleteTasks("all", true);
-        let projectIndex = projects.indexOf(this);
-        projects[projectIndex] = null; // set to null for garbage collection
-        projects.splice(projectIndex, 1);
+        // let projectIndex = projects.indexOf(this);
+        projects[projectID] = null; // set to null for garbage collection
+        projects.splice(projectID, 1);
         this.switchSelectedProject(
           // find first project left to switch to
           projects.indexOf(projects.find((el) => el !== undefined))
         );
         buildProjectView(projects);
-        console.log(projects);
       }
     } else {
       alert(

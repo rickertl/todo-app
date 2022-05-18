@@ -1,28 +1,9 @@
-import Task from "./task.js";
 import Project from "./project.js";
 import { projects } from "./data.js";
 import { findSelectedProject, project, projectID } from "./controller.js";
 import { format } from "date-fns";
 
 export { buildProjectView, displayAllTasks };
-
-// dynamic desktop centering for large screen
-// const column1 = main.querySelector(".column1");
-// let column1Width = column1.offsetWidth;
-
-// const adjustColumn1Position = function () {
-//   if (window.innerWidth > 935) {
-//     column1.style.marginLeft = `-${column1Width}px`;
-//   } else {
-//     column1.style = "";
-//   }
-// };
-// adjustColumn1Position();
-
-// window.addEventListener("resize", () => {
-//   column1Width = column1.offsetWidth;
-//   adjustColumn1Position();
-// });
 
 // cache dom
 const main = document.querySelector("main");
@@ -60,9 +41,6 @@ const displayAllTasks = function (project) {
   project.sortTasks().forEach((task, index) => {
     displayTask(task, index);
   });
-  // project.tasks.forEach((task, index) => {
-  //   displayTask(task, index);
-  // });
 };
 
 // display one(1) task
@@ -70,7 +48,7 @@ const displayTask = function (task, index) {
   const taskContainer = createDomElement("div", { class: "task-container" });
   // always visible task content
   displayTaskTitle(task, taskContainer);
-  // after above to set completed style on newly created title element
+  // after above to set "completed" style on newly created title element
   displayTaskCheckbox(task, taskContainer);
   displayTaskDueDate(task, taskContainer);
   displayTaskPriority(task, taskContainer);
@@ -255,7 +233,7 @@ const readyForProjects = (function () {
     .querySelector("button.delete-project")
     .addEventListener("click", (event) => {
       event.preventDefault();
-      project.deleteProject();
+      project.deleteProject(projectID);
       resetProjectEntry();
       buildProjectView(projects);
     });
@@ -291,7 +269,6 @@ const selectProject = (function () {
   selectProjectSelector.addEventListener("change", (event) => {
     const index = event.target.value;
     project.switchSelectedProject(index);
-    // project.switchSelectedProject(index);
     buildProjectView(projects);
   });
 })();
