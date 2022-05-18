@@ -1,37 +1,62 @@
-import Project from "./project";
+import Project from "./project.js";
 
 export { projects };
 
-// demo dates
-const date1 = new Date();
-date1.setHours(10, 0, 0, 0);
-
-const date2 = new Date();
-date2.setHours(16, 0, 0, 0);
-
-// generate default project
-const tasks = new Project("Tasks", true);
-tasks.createTask("Clean room", "", date1.setDate(date1.getDate() + 4));
-tasks.createTask(
-  "Write thank you note to mom for sending soup when I was sick",
-  "",
-  "",
-  "low"
-);
-tasks.createTask(
-  "Mow lawn",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa,",
-  date2.setDate(date2.getDate() - 7),
-  "high",
-  true
-);
-tasks.createTask(
-  "Empty dishwasher",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa,",
-  "",
-  "high"
-);
-
-// create array of projects and add default project
 const projects = [];
-projects.push(tasks);
+
+if (localStorage.getItem("localProjects")) {
+  const storedProjects = JSON.parse(localStorage.getItem("localProjects"));
+  storedProjects.forEach((project) => {
+    // creates instances of Project class
+    const newProject = new Project(project.title, project.selected);
+    projects.push(newProject);
+    // creates instances of new project's Task class
+    project.tasks.forEach((task) => {
+      newProject.createTask(
+        task.title,
+        task.description,
+        task.dueDate,
+        task.priority,
+        task.complete
+      );
+    });
+  });
+} else {
+  // create default project
+  const defaultProject = new Project("Tasks", true);
+
+  // demo dates
+  const date1 = new Date();
+  date1.setHours(10, 0, 0, 0);
+
+  const date2 = new Date();
+  date2.setHours(16, 0, 0, 0);
+
+  defaultProject.createTask(
+    "Clean room",
+    "",
+    date1.setDate(date1.getDate() + 4)
+  );
+  defaultProject.createTask(
+    "Write thank you note to mom for sending soup when I was sick",
+    "",
+    "",
+    "low"
+  );
+  defaultProject.createTask(
+    "Mow lawn",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa,",
+    date2.setDate(date2.getDate() - 7),
+    "high",
+    true
+  );
+  defaultProject.createTask(
+    "Empty dishwasher",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa,",
+    "",
+    "high"
+  );
+
+  // create array of projects and add default project
+  projects.push(defaultProject);
+}

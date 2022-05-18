@@ -28,6 +28,7 @@ export { buildProjectView, displayAllTasks };
 const main = document.querySelector("main");
 
 // reused dom elements
+const taskList = main.querySelector(".task-list");
 const taskEntry = main.querySelector(".task-entry");
 const taskEntryForm = taskEntry.querySelector("form#task-entry");
 const projectEntry = main.querySelector(".project-entry");
@@ -53,13 +54,15 @@ const buildProjectView = function () {
 };
 
 // display all tasks
-const taskList = main.querySelector(".task-list");
 let taskTitle = "";
 const displayAllTasks = function (project) {
   taskList.textContent = "";
   project.sortTasks().forEach((task, index) => {
     displayTask(task, index);
   });
+  // project.tasks.forEach((task, index) => {
+  //   displayTask(task, index);
+  // });
 };
 
 // display one(1) task
@@ -101,7 +104,7 @@ const displayTaskCheckbox = function (task, taskContainer) {
   taskCheckbox.addEventListener("click", (event) => {
     event.stopPropagation();
     task.complete === false ? task.setComplete(true) : task.setComplete(false);
-    displayAllTasks(project);
+    project.listTasks();
   });
 };
 
@@ -150,7 +153,7 @@ const displayTaskPriority = function (task, taskContainer) {
   });
   taskPriority.addEventListener("change", (event) => {
     task.priority = event.target.value;
-    displayAllTasks(project);
+    project.listTasks();
   });
 };
 
@@ -179,7 +182,9 @@ const displayTaskEdit = function (task, index, taskButtons) {
     taskEntryForm.setAttribute("data-id", event.target.getAttribute("data-id"));
     taskEntryForm.querySelector("#title").value = task.title;
     taskEntryForm.querySelector("#description").value = task.description;
-    taskEntryForm.querySelector("#dueDate").value = task.dueDate;
+    taskEntryForm.querySelector("#dueDate").value = new Date(task.dueDate)
+      .toISOString()
+      .slice(0, -1);
     taskEntryForm.querySelector("#priority").value = task.priority;
   });
 };
@@ -219,7 +224,10 @@ const readyForProjects = (function () {
   projectEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
     if (projectEntryForm.getAttribute("action") === "add") {
-      project.createProject(projectEntryForm.elements["title"].value);
+      project.selected = false; // remove "selected" from current project
+      projects.push(
+        new Project(projectEntryForm.elements["title"].value, true)
+      );
     } else if (projectEntryForm.getAttribute("action") === "edit") {
       project.editProject(projectEntryForm.elements["title"].value);
     }
@@ -283,6 +291,7 @@ const selectProject = (function () {
   selectProjectSelector.addEventListener("change", (event) => {
     const index = event.target.value;
     project.switchSelectedProject(index);
+    // project.switchSelectedProject(index);
     buildProjectView(projects);
   });
 })();

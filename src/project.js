@@ -11,11 +11,7 @@ export default class Project {
 
   listTasks() {
     displayAllTasks(this);
-  }
-
-  createProject(title) {
-    this.selected = false; // remove "selected" from current project
-    projects.push(new Project(title, true));
+    localStorage.setItem("localProjects", JSON.stringify(projects));
   }
 
   editProject(title) {
