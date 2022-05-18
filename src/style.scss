@@ -24,7 +24,7 @@ button {
   font-weight: 400;
   padding: 5px 10px;
   background-color: $light-gray;
-  border: 1px solid black;
+  border: 1px solid $dark-gray;
   border-radius: 2.5px;
   color: black;
   cursor: pointer;
@@ -41,7 +41,7 @@ form textarea {
   font-size: 1rem;
   font-family: $global-font;
   color: black;
-  border: 1px solid black;
+  border: 1px solid $dark-gray;
   border-radius: 2px;
   background-color: white;
 }
