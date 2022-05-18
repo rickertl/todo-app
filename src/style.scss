@@ -14,7 +14,6 @@ $col1-width: 170;
   box-sizing: border-box;
 }
 body {
-  min-height: 100vh;
   font-family: $global-font;
   background-color: powderblue;
 }
@@ -22,7 +21,12 @@ button {
   height: 35px;
   font-size: 1rem;
   font-family: $global-font;
+  font-weight: 400;
   padding: 5px 10px;
+  background-color: $light-gray;
+  border: 1px solid black;
+  border-radius: 2.5px;
+  color: black;
   cursor: pointer;
 }
 form:not(#select-project) {
@@ -36,6 +40,10 @@ form textarea {
   padding: 4px 10px;
   font-size: 1rem;
   font-family: $global-font;
+  color: black;
+  border: 1px solid black;
+  border-radius: 2px;
+  background-color: white;
 }
 form label {
   font-weight: 600;
@@ -72,6 +80,7 @@ main {
   }
 }
 .column2 {
+  // align-self: stretch;
   height: 100%;
   width: 100%;
   background-color: white;
@@ -80,7 +89,7 @@ main {
     width: auto;
   }
   .tasks {
-    padding: 20px 0;
+    padding: 20px 10px;
     @media screen and (min-width: 600px) {
       width: 3px * $col1-width + 15 + 60;
       padding: 30px;
@@ -94,10 +103,6 @@ main {
       grid-column-gap: 15px;
       grid-row-gap: 15px;
       margin-bottom: 20px;
-      padding: 10px;
-      @media screen and (min-width: 600px) {
-        padding: 0;
-      }
       .hdr-col1 {
         #select-project {
           select {
@@ -147,6 +152,7 @@ main {
       input.task-checkbox {
         width: 24px;
         height: 24px;
+        border: 1px solid $dark-gray;
         order: -1;
       }
       .task-title {
@@ -179,6 +185,7 @@ main {
         border-radius: 2px;
         padding: 2px 0;
         box-shadow: none !important;
+        color: black;
         &.high {
           background-color: $red;
         }

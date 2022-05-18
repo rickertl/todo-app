@@ -8,6 +8,13 @@ export { buildProjectView, displayAllTasks };
 // cache dom
 const main = document.querySelector("main");
 
+// dynamic height for mobile
+// const appHeight = () => {
+//   main.style.height = `${window.innerHeight}px`;
+// };
+// window.addEventListener("resize", appHeight);
+// appHeight();
+
 // reused dom elements
 const taskList = main.querySelector(".task-list");
 const taskEntry = main.querySelector(".task-entry");
