@@ -1,6 +1,5 @@
-import Project from "./project.js";
+import { Project, project, projectID } from "./project.js";
 import { projects, createDefaultData } from "./data.js";
-import { findSelectedProject, project, projectID } from "./controller.js";
 import { format } from "date-fns";
 
 export { buildProjectView, displayAllTasks };
@@ -36,7 +35,8 @@ const createDomElement = (type, attributes) => {
 
 // build project view
 const buildProjectView = function () {
-  findSelectedProject();
+  Project.findSelectedProject();
+  console.log(project);
   buildProjectSelector();
   project.listTasks();
 };
@@ -239,7 +239,7 @@ const readyForProjects = (function () {
     .querySelector("button.delete-project")
     .addEventListener("click", (event) => {
       event.preventDefault();
-      project.deleteProject(projectID);
+      Project.deleteProject(projectID);
       resetProjectEntry();
       buildProjectView();
     });
@@ -286,7 +286,7 @@ const buildProjectSelector = function () {
 const selectProject = (function () {
   selectProjectSelector.addEventListener("change", (event) => {
     const index = event.target.value;
-    project.switchSelectedProject(index);
+    Project.switchSelectedProject(index);
     buildProjectView();
   });
 })();

@@ -2,11 +2,52 @@ import Task from "./task.js";
 import { projects } from "./data.js";
 import { buildProjectView, displayAllTasks } from "./display.js";
 
-export default class Project {
+export { Project, project, projectID };
+
+let project = "";
+let projectID = "";
+
+class Project {
   constructor(title, selected = false, tasks = []) {
     this.title = title;
     this.selected = selected;
     this.tasks = tasks;
+  }
+
+  static findSelectedProject() {
+    projects.forEach((item, index) => {
+      if (item.selected === true) {
+        project = item;
+        projectID = index;
+      }
+    });
+  }
+
+  static switchSelectedProject(index) {
+    projects.forEach((project) => {
+      project.selected = false;
+    });
+    projects[index].selected = true;
+  }
+
+  static deleteProject(projectID) {
+    if (projects.length > 1) {
+      if (confirm("WARNING!!! Task List deletion is permanent.") == true) {
+        projects[projectID].deleteTasks("all", true);
+        // let projectIndex = projects.indexOf(this);
+        projects[projectID] = null; // set to null for garbage collection
+        projects.splice(projectID, 1);
+        Project.switchSelectedProject(
+          // find first project left to switch to
+          projects.indexOf(projects.find((el) => el !== undefined))
+        );
+        buildProjectView();
+      }
+    } else {
+      alert(
+        "SORRY! This is your only task list. At least one list is required.\n\nPlease create a new default list and try again."
+      );
+    }
   }
 
   listTasks() {
@@ -16,13 +57,6 @@ export default class Project {
 
   editProject(title) {
     this.title = title;
-  }
-
-  switchSelectedProject(index) {
-    projects.forEach((project) => {
-      project.selected = false;
-    });
-    projects[index].selected = true;
   }
 
   createTask(title, description, dueDate, priority, complete) {
@@ -61,26 +95,6 @@ export default class Project {
       } else {
         this.deleteTask(i, false);
       }
-    }
-  }
-
-  deleteProject(projectID) {
-    if (projects.length > 1) {
-      if (confirm("WARNING!!! Task List deletion is permanent.") == true) {
-        this.deleteTasks("all", true);
-        // let projectIndex = projects.indexOf(this);
-        projects[projectID] = null; // set to null for garbage collection
-        projects.splice(projectID, 1);
-        this.switchSelectedProject(
-          // find first project left to switch to
-          projects.indexOf(projects.find((el) => el !== undefined))
-        );
-        buildProjectView();
-      }
-    } else {
-      alert(
-        "SORRY! This is your only task list. At least one list is required.\n\nPlease create a new default list and try again."
-      );
     }
   }
 
