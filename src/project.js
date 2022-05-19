@@ -75,7 +75,7 @@ export default class Project {
           // find first project left to switch to
           projects.indexOf(projects.find((el) => el !== undefined))
         );
-        buildProjectView(projects);
+        buildProjectView();
       }
     } else {
       alert(

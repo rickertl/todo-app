@@ -1,5 +1,5 @@
 import Project from "./project.js";
-import { projects } from "./data.js";
+import { projects, createDefaultData } from "./data.js";
 import { findSelectedProject, project, projectID } from "./controller.js";
 import { format } from "date-fns";
 
@@ -216,7 +216,7 @@ const readyForProjects = (function () {
       project.editProject(projectEntryForm.elements["title"].value);
     }
     resetProjectEntry();
-    buildProjectView(projects);
+    buildProjectView();
   });
   // listen for "delete COMPLETED tasks" button click
   projectEntry
@@ -241,8 +241,20 @@ const readyForProjects = (function () {
       event.preventDefault();
       project.deleteProject(projectID);
       resetProjectEntry();
-      buildProjectView(projects);
+      buildProjectView();
     });
+  // reset data
+  const resetData = createDomElement("a", {
+    class: "reset-data",
+  });
+  resetData.textContent = "Reset Data";
+  projectEntry.querySelector(".container").appendChild(resetData);
+  resetData.addEventListener("click", (event) => {
+    event.preventDefault();
+    createDefaultData();
+    resetProjectEntry();
+    buildProjectView();
+  });
   // close button
   projectEntryForm.querySelector(".close-btn").addEventListener("click", () => {
     resetProjectEntry();
@@ -275,7 +287,7 @@ const selectProject = (function () {
   selectProjectSelector.addEventListener("change", (event) => {
     const index = event.target.value;
     project.switchSelectedProject(index);
-    buildProjectView(projects);
+    buildProjectView();
   });
 })();
 

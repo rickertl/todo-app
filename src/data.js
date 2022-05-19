@@ -1,33 +1,18 @@
 import Project from "./project.js";
 
-export { projects };
+export { projects, createDefaultData };
 
 const projects = [];
 
-if (localStorage.getItem("localProjects")) {
-  const storedProjects = JSON.parse(localStorage.getItem("localProjects"));
-  storedProjects.forEach((project) => {
-    // creates instances of Project class
-    const newProject = new Project(project.title, project.selected);
-    projects.push(newProject);
-    // creates instances of new project's Task class
-    project.tasks.forEach((task) => {
-      newProject.createTask(
-        task.title,
-        task.description,
-        task.dueDate,
-        task.priority,
-        task.complete
-      );
-    });
-  });
-} else {
+const createDefaultData = function () {
+  // clear projects array
+  projects.length = 0;
+
   // create default project
   const defaultProject = new Project("Tasks", true);
 
   // demo dates
   const date1 = new Date();
-
   const date2 = new Date();
 
   // create demo tasks
@@ -58,4 +43,25 @@ if (localStorage.getItem("localProjects")) {
 
   // add default project to projects array
   projects.push(defaultProject);
+};
+
+if (localStorage.getItem("localProjects")) {
+  const storedProjects = JSON.parse(localStorage.getItem("localProjects"));
+  storedProjects.forEach((project) => {
+    // creates instances of Project class
+    const newProject = new Project(project.title, project.selected);
+    projects.push(newProject);
+    // creates instances of new project's Task class
+    project.tasks.forEach((task) => {
+      newProject.createTask(
+        task.title,
+        task.description,
+        task.dueDate,
+        task.priority,
+        task.complete
+      );
+    });
+  });
+} else {
+  createDefaultData();
 }

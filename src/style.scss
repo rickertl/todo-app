@@ -266,11 +266,7 @@ main {
   }
   .project-entry {
     .container {
-      button.delete-completed-tasks,
-      button.delete-all-tasks,
-      button.delete-project {
-        display: none;
-      }
+      display: none;
     }
     &.editing {
       display: grid;
@@ -281,10 +277,9 @@ main {
         grid-gap: 30px;
         background-color: white;
         padding: 30px;
-        button.delete-completed-tasks,
-        button.delete-all-tasks,
-        button.delete-project {
-          display: block;
+        a {
+          text-align: center;
+          text-decoration: underline;
         }
       }
     }
