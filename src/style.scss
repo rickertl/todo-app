@@ -28,8 +28,8 @@ button {
   font-family: $global-font;
   font-weight: 400;
   padding: 5px 10px;
-  background-color: $light-gray;
-  border: 1px solid $dark-gray;
+  background-color: powderblue;
+  border: none;
   border-radius: 2.5px;
   color: black;
   cursor: pointer;
@@ -49,7 +49,7 @@ form input[type="date"] {
   font-size: 1rem;
   font-family: $global-font;
   color: black;
-  border: 1px solid $dark-gray;
+  border: 1px solid powderblue;
   border-radius: 2px;
   background-color: white;
 }
