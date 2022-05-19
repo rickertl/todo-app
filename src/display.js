@@ -104,10 +104,7 @@ const displayTaskTitle = function (task, taskContainer) {
 const displayTaskDueDate = function (task, taskContainer) {
   const taskDueDate = createDomElement("div", { class: "task-due-date" });
   if (task.dueDate) {
-    taskDueDate.textContent = format(
-      new Date(task.dueDate),
-      "eee, h:mm bbb (M/d)"
-    );
+    taskDueDate.textContent = format(new Date(task.dueDate), "eee, M/d");
   }
   taskContainer.appendChild(taskDueDate);
 };
@@ -167,9 +164,11 @@ const displayTaskEdit = function (task, index, taskButtons) {
     taskEntryForm.setAttribute("data-id", event.target.getAttribute("data-id"));
     taskEntryForm.querySelector("#title").value = task.title;
     taskEntryForm.querySelector("#description").value = task.description;
-    taskEntryForm.querySelector("#dueDate").value = new Date(task.dueDate)
-      .toISOString()
-      .slice(0, -1);
+    if (task.taskDueDate) {
+      // get first element of split ISO date string without time
+      const [date] = new Date(task.dueDate).toISOString().split("T");
+      taskEntryForm.querySelector("#dueDate").value = date;
+    }
     taskEntryForm.querySelector("#priority").value = task.priority;
   });
 };

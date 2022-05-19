@@ -27,10 +27,8 @@ if (localStorage.getItem("localProjects")) {
 
   // demo dates
   const date1 = new Date();
-  date1.setHours(10, 0, 0, 0);
 
   const date2 = new Date();
-  date2.setHours(16, 0, 0, 0);
 
   // create demo tasks
   defaultProject.createTask(
