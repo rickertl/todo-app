@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
 
 /* base color is powderblue, hex #B0E0E6 */
-$light-powderblue: rgba(176, 224, 230, 0.15);
+$light-powderblue: rgba(176, 224, 230, 0.3);
 $dark-gray: #767676;
 $light-gray: #efefef;
 $red: #e99979;
@@ -153,8 +153,8 @@ main {
       grid-template-columns: auto 1fr auto auto;
       align-items: center;
       grid-column-gap: 6px;
-      background-color: rgba(176, 224, 230, 0.15);
-      margin-bottom: 10px;
+      background-color: $light-powderblue;
+      margin-bottom: 2px;
       border-radius: 2.5px;
       padding: 0 6px;
       @media screen and (min-width: $break-point) {
@@ -169,7 +169,7 @@ main {
         height: 24px;
         border: 1px solid $dark-gray;
         order: -1;
-        margin: 6px 0 6px 6px;
+        margin: 9px 0 9px 6px;
       }
       .task-name {
         overflow: hidden;
