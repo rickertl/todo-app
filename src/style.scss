@@ -106,7 +106,7 @@ main {
   }
   .tasks {
     height: 100%;
-    padding: 15px 6px;
+    padding: 15px 0;
     @media screen and (min-width: $break-point) {
       width: 3px * $col1-width + 15 + 60;
       padding: 30px;
@@ -120,6 +120,7 @@ main {
       grid-column-gap: 15px;
       grid-row-gap: 15px;
       margin-bottom: 15px;
+      padding: 6px;
       .hdr-col1 {
         #select-project {
           select {
@@ -150,15 +151,15 @@ main {
     .task-container {
       display: grid;
       grid-template-columns: auto 1fr auto auto;
-      // @media screen and (min-width: 800px) {
-      //   grid-template-columns: auto minmax(0, 1fr) auto auto;
-      // }
       align-items: center;
       grid-column-gap: 6px;
       background-color: rgba(176, 224, 230, 0.15);
-      border: 1px solid powderblue;
       margin-bottom: 10px;
       border-radius: 2.5px;
+      padding: 0 6px;
+      @media screen and (min-width: $break-point) {
+        border: 1px solid powderblue;
+      }
       div {
         display: flex;
         align-items: center;
