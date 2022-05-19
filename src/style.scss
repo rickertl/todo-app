@@ -206,7 +206,10 @@ main {
         -moz-box-shadow: inset 0 0 2px powderblue;
         -webkit-box-shadow: inset 0 0 2px powderblue;
         box-shadow: inset 0 0 2px powderblue;
-
+        option {
+          background-color: white;
+          color: black;
+        }
         &.high {
           background-color: $red;
           color: transparent;
