@@ -36,7 +36,6 @@ const createDomElement = (type, attributes) => {
 // build project view
 const buildProjectView = function () {
   Project.findSelectedProject();
-  console.log(project);
   buildProjectSelector();
   project.listTasks();
 };
