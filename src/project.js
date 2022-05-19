@@ -8,8 +8,8 @@ let project = "";
 let projectID = "";
 
 class Project {
-  constructor(title, selected = false, tasks = []) {
-    this.title = title;
+  constructor(name, selected = false, tasks = []) {
+    this.name = name;
     this.selected = selected;
     this.tasks = tasks;
   }
@@ -55,12 +55,12 @@ class Project {
     localStorage.setItem("localProjects", JSON.stringify(projects));
   }
 
-  editProject(title) {
-    this.title = title;
+  editProject(name) {
+    this.name = name;
   }
 
-  createTask(title, description, dueDate, priority, complete) {
-    let task = new Task(title, description, dueDate, priority, complete);
+  createTask(name, notes, dueDate, priority, complete) {
+    let task = new Task(name, notes, dueDate, priority, complete);
     this.tasks.push(task);
     this.listTasks();
   }

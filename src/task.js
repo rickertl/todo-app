@@ -1,24 +1,24 @@
 export default class Task {
   constructor(
-    title,
-    description = "",
+    name,
+    notes = "",
     dueDate = false,
     priority = "normal",
     complete = false
   ) {
-    this.title = title;
-    this.description = description;
+    this.name = name;
+    this.notes = notes;
     this.dueDate = dueDate;
     this.priority = priority;
     this.complete = complete;
   }
 
-  setTitle(title) {
-    this.title = title;
+  setName(name) {
+    this.name = name;
   }
 
-  setDesc(description) {
-    this.description = description;
+  setDesc(notes) {
+    this.notes = notes;
   }
 
   setDueDate(dueDate) {
@@ -33,9 +33,9 @@ export default class Task {
     this.complete = complete;
   }
 
-  updateTask(title, description, dueDate, priority) {
-    this.title = title;
-    this.description = description;
+  updateTask(name, notes, dueDate, priority) {
+    this.name = name;
+    this.notes = notes;
     this.dueDate = dueDate;
     this.priority = priority;
   }

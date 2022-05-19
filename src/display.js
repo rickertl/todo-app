@@ -41,7 +41,7 @@ const buildProjectView = function () {
 };
 
 // display all tasks
-let taskTitle = "";
+let taskName = "";
 const displayAllTasks = function (project) {
   taskList.textContent = "";
   project.sortTasks().forEach((task, index) => {
@@ -53,15 +53,15 @@ const displayAllTasks = function (project) {
 const displayTask = function (task, index) {
   const taskContainer = createDomElement("div", { class: "task-container" });
   // always visible task content
-  displayTaskTitle(task, taskContainer);
-  // after above to set "completed" style on newly created title element
+  displayTaskName(task, taskContainer);
+  // after above to set "completed" style on newly created name element
   displayTaskCheckbox(task, taskContainer);
   displayTaskDueDate(task, taskContainer);
   displayTaskPriority(task, taskContainer);
   // expandable task content
   const more = createDomElement("div", { class: "more" });
   taskContainer.appendChild(more);
-  displayTaskDescription(task, more);
+  displayTaskNotes(task, more);
   const taskButtons = createDomElement("div", { class: "task-buttons" });
   displayTaskEdit(task, index, taskButtons);
   displayTaskDelete(index, taskButtons);
@@ -82,7 +82,7 @@ const displayTaskCheckbox = function (task, taskContainer) {
   if (task.complete === true) {
     taskCheckbox.setAttribute("checked", "");
     taskContainer.classList.toggle("complete");
-    taskTitle.classList.toggle("complete");
+    taskName.classList.toggle("complete");
   }
   taskContainer.appendChild(taskCheckbox);
   taskCheckbox.addEventListener("click", (event) => {
@@ -92,12 +92,12 @@ const displayTaskCheckbox = function (task, taskContainer) {
   });
 };
 
-const displayTaskTitle = function (task, taskContainer) {
-  taskTitle = createDomElement("div", { class: "task-title" });
-  const taskTitleBox = createDomElement("span"); // need span for ellipsis to work
-  taskTitleBox.textContent = task.title;
-  taskContainer.appendChild(taskTitle);
-  taskTitle.appendChild(taskTitleBox);
+const displayTaskName = function (task, taskContainer) {
+  taskName = createDomElement("div", { class: "task-name" });
+  const taskNameBox = createDomElement("span"); // need span for ellipsis to work
+  taskNameBox.textContent = task.name;
+  taskContainer.appendChild(taskName);
+  taskName.appendChild(taskNameBox);
 };
 
 const displayTaskDueDate = function (task, taskContainer) {
@@ -105,6 +105,8 @@ const displayTaskDueDate = function (task, taskContainer) {
   if (task.dueDate) {
     taskDueDate.textContent = format(new Date(task.dueDate), "eee, M/d");
   }
+  // const space = document.createTextNode("\u00A0");
+  // taskName.appendChild(space);
   taskContainer.appendChild(taskDueDate);
 };
 
@@ -138,13 +140,13 @@ const displayTaskPriority = function (task, taskContainer) {
   });
 };
 
-const displayTaskDescription = function (task, more) {
-  const taskDescription = createDomElement("div", {
-    class: "task-description",
+const displayTaskNotes = function (task, more) {
+  const taskNotes = createDomElement("div", {
+    class: "task-notes",
   });
-  if (task.description) {
-    taskDescription.textContent = task.description;
-    more.appendChild(taskDescription);
+  if (task.notes) {
+    taskNotes.textContent = task.notes;
+    more.appendChild(taskNotes);
   }
 };
 
@@ -159,11 +161,13 @@ const displayTaskEdit = function (task, index, taskButtons) {
     event.preventDefault();
     event.stopPropagation();
     taskEntry.classList.toggle("overlay");
+    taskEntryForm.querySelector("a.show-details").style.display = "none";
+    taskEntryForm.querySelector(".details").style.display = "flex";
     taskEntryForm.setAttribute("action", "edit");
     taskEntryForm.setAttribute("data-id", event.target.getAttribute("data-id"));
-    taskEntryForm.querySelector("#title").value = task.title;
-    taskEntryForm.querySelector("#description").value = task.description;
-    if (task.taskDueDate) {
+    taskEntryForm.querySelector("#name").value = task.name;
+    taskEntryForm.querySelector("#notes").value = task.notes;
+    if (task.dueDate !== "") {
       // get first element of split ISO date string without time
       const [date] = new Date(task.dueDate).toISOString().split("T");
       taskEntryForm.querySelector("#dueDate").value = date;
@@ -200,7 +204,7 @@ const readyForProjects = (function () {
     projectEntry.classList.add("overlay");
     projectEntry.classList.add("editing");
     projectEntryForm.setAttribute("action", "edit");
-    projectEntryForm.querySelector("#title").value = project.title;
+    projectEntryForm.querySelector("#name").value = project.name;
     projectEntryForm.querySelector("label").textContent = "Change Name";
   });
   // get project form submissions
@@ -208,11 +212,9 @@ const readyForProjects = (function () {
     event.preventDefault();
     if (projectEntryForm.getAttribute("action") === "add") {
       project.selected = false; // remove "selected" from current project
-      projects.push(
-        new Project(projectEntryForm.elements["title"].value, true)
-      );
+      projects.push(new Project(projectEntryForm.elements["name"].value, true));
     } else if (projectEntryForm.getAttribute("action") === "edit") {
-      project.editProject(projectEntryForm.elements["title"].value);
+      project.editProject(projectEntryForm.elements["name"].value);
     }
     resetProjectEntry();
     buildProjectView();
@@ -276,7 +278,7 @@ const buildProjectSelector = function () {
     if (project.selected === true) {
       selectOption.setAttribute("selected", "");
     }
-    selectOption.textContent = project.title;
+    selectOption.textContent = project.name;
     selectProjectSelector.appendChild(selectOption);
   });
 };
@@ -292,8 +294,8 @@ const selectProject = (function () {
 
 // ready app for task additions and edits
 const readyForTasks = (function () {
-  // edit task link
-  main.querySelector(".add-task > a").addEventListener("click", (event) => {
+  // add task button
+  main.querySelector("button.add-task").addEventListener("click", (event) => {
     event.preventDefault();
     taskEntry.classList.toggle("overlay");
   });
@@ -308,8 +310,8 @@ const readyForTasks = (function () {
   taskEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
     let taskInputs = [
-      taskEntryForm.elements["title"].value,
-      taskEntryForm.elements["description"].value,
+      taskEntryForm.elements["name"].value,
+      taskEntryForm.elements["notes"].value,
       taskEntryForm.elements["dueDate"].value,
       taskEntryForm.elements["priority"].value,
     ];

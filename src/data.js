@@ -21,12 +21,7 @@ const createDefaultData = function () {
     "",
     date1.setDate(date1.getDate() + 4)
   );
-  defaultProject.createTask(
-    "Write thank you note to mom for sending soup when I was sick",
-    "",
-    "",
-    "low"
-  );
+  defaultProject.createTask("Write thank you note to mom", "", "", "low");
   defaultProject.createTask(
     "Mow lawn",
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa,",
@@ -49,13 +44,13 @@ if (localStorage.getItem("localProjects")) {
   const storedProjects = JSON.parse(localStorage.getItem("localProjects"));
   storedProjects.forEach((project) => {
     // creates instances of Project class
-    const newProject = new Project(project.title, project.selected);
+    const newProject = new Project(project.name, project.selected);
     projects.push(newProject);
     // creates instances of new project's Task class
     project.tasks.forEach((task) => {
       newProject.createTask(
-        task.title,
-        task.description,
+        task.name,
+        task.notes,
         task.dueDate,
         task.priority,
         task.complete

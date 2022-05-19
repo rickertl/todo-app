@@ -33,19 +33,20 @@
                 <div class="edit-list"><a href="">edit list</a></div>
                 <div class="add-list"><a href="">add list</a></div>
               </div>
-              <div class="add-task"><a href="">add task</a></div>
+              <button class="add-task">add task</button>
             </div>
           </div>
           <div class="task-list"></div>
         </div>
         <div class="task-entry">
           <form id="task-entry" action="add">
-            <label for="title">Task Name</label>
+            <label for="name">Task Name</label>
             <input
               type="text"
-              name="title"
-              id="title"
+              name="name"
+              id="name"
               placeholder="Task Name"
+              maxlength="28"
               required
             />
             <a class="show-details">add details</a>
@@ -58,11 +59,11 @@
               </select>
               <label for="dueDate">Due Date</label>
               <input type="date" name="dueDate" id="dueDate" />
-              <label for="description">Description</label>
+              <label for="notes">Notes</label>
               <textarea
-                name="description"
-                id="description"
-                placeholder="Who, what, when, where? &#x0a;&#x0a;Definition of done?"
+                name="notes"
+                id="notes"
+                placeholder="Who, what, when, where?&#x0a;Definition of done?"
               ></textarea>
             </div>
             <button type="submit">Submit</button>
@@ -71,11 +72,11 @@
         </div>
         <div class="project-entry">
           <form id="project-entry" action="add">
-            <label for="title">List Name</label>
+            <label for="name">List Name</label>
             <input
               type="text"
-              name="title"
-              id="title"
+              name="name"
+              id="name"
               placeholder="List Name"
               required
             />
