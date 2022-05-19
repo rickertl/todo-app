@@ -292,11 +292,19 @@ const selectProject = (function () {
 
 // ready app for task additions and edits
 const readyForTasks = (function () {
-  const taskEditLink = main.querySelector(".add-task > a");
-  taskEditLink.addEventListener("click", (event) => {
+  // edit task link
+  main.querySelector(".add-task > a").addEventListener("click", (event) => {
     event.preventDefault();
     taskEntry.classList.toggle("overlay");
   });
+  // task details link
+  taskEntryForm
+    .querySelector("a.show-details")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      taskEntryForm.querySelector("a.show-details").style.display = "none";
+      taskEntryForm.querySelector(".details").style.display = "flex";
+    });
   taskEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
     let taskInputs = [
@@ -313,12 +321,16 @@ const readyForTasks = (function () {
       taskEntryForm.setAttribute("action", "add");
       project.listTasks();
     }
-    taskEntryForm.reset();
-    taskEntry.classList.toggle("overlay");
+    resetTaskEntry();
   });
   // close button
   taskEntryForm.querySelector(".close-btn").addEventListener("click", () => {
+    resetTaskEntry();
+  });
+  const resetTaskEntry = function () {
     taskEntryForm.reset();
     taskEntry.classList.toggle("overlay");
-  });
+    taskEntryForm.querySelector("a.show-details").style.display = "block";
+    taskEntryForm.querySelector(".details").style.display = "none";
+  };
 })();

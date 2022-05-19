@@ -13,6 +13,10 @@ $col1-width: 170;
   padding: 0;
   box-sizing: border-box;
 }
+html,
+body {
+  height: 100%;
+}
 body {
   font-family: $global-font;
   background-color: powderblue;
@@ -29,7 +33,8 @@ button {
   color: black;
   cursor: pointer;
 }
-form:not(#select-project) {
+form:not(#select-project),
+form > .details {
   display: flex;
   flex-direction: column;
 }
@@ -50,19 +55,20 @@ form label {
   margin-bottom: 8px;
 }
 main {
-  height: 100vh;
+  height: 100%;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
-  column-gap: 25px;
+  flex-direction: column;
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: center;
+  // align-content: flex-start;
+  // column-gap: 25px;
 }
 .column1 {
   min-width: $col1-width * 1px;
   background-color: powderblue;
-  padding: 15px 0;
   display: flex;
-  align-items: flex-start;
+  justify-content: center;
   @media screen and (min-width: 600px) {
     justify-content: flex-end;
   }
@@ -80,15 +86,13 @@ main {
   }
 }
 .column2 {
-  // align-self: stretch;
-  height: 100%;
-  width: 100%;
+  flex-grow: 1;
   background-color: white;
-  position: relative;
   @media screen and (min-width: 600px) {
     width: auto;
   }
   .tasks {
+    height: 100%;
     padding: 20px 10px;
     @media screen and (min-width: 600px) {
       width: 3px * $col1-width + 15 + 60;
@@ -236,13 +240,13 @@ main {
       height: 100%;
       width: 100%;
       background-color: rgba($color: #000000, $alpha: 0.8);
-      padding: 30px;
+      padding: 70px 10px 10px;
       display: flex;
       align-items: flex-start;
       justify-content: center;
     }
     form {
-      max-width: 320px;
+      width: 100%;
       background-color: white;
       padding: 30px;
       border-radius: 2.5px;
@@ -255,6 +259,15 @@ main {
         button {
           margin-top: 10px;
         }
+      }
+      a.show-details {
+        text-decoration: underline;
+        text-align: right;
+        margin-bottom: 15px;
+        cursor: pointer;
+      }
+      .details {
+        display: none;
       }
       .close-btn {
         position: absolute;
