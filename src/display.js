@@ -70,6 +70,7 @@ const displayTask = function (task, index) {
   taskList.appendChild(taskContainer);
   // watch taskContainer
   taskContainer.addEventListener("click", () => {
+    taskContainer.classList.toggle("expanded");
     more.classList.toggle("show-more");
   });
 };
@@ -102,6 +103,8 @@ const displayTaskName = function (task, taskContainer) {
 
 const displayTaskDueDate = function (task, taskContainer) {
   const taskDueDate = createDomElement("div", { class: "task-due-date" });
+  // console.log(task.dueDate.toLocalString());
+  console.log(task.dueDate);
   if (task.dueDate) {
     taskDueDate.textContent = format(new Date(task.dueDate), "eee, M/d");
   }
@@ -169,8 +172,11 @@ const displayTaskEdit = function (task, index, taskButtons) {
     taskEntryForm.querySelector("#notes").value = task.notes;
     if (task.dueDate !== "") {
       // get first element of split ISO date string without time
-      const [date] = new Date(task.dueDate).toISOString().split("T");
-      taskEntryForm.querySelector("#dueDate").value = date;
+      // const [date] = new Date(task.dueDate).toISOString().split("T");
+      taskEntryForm.querySelector("#dueDate").value = format(
+        new Date(task.dueDate),
+        "yyyy-MM-dd"
+      );
     }
     taskEntryForm.querySelector("#priority").value = task.priority;
   });
@@ -193,13 +199,13 @@ const displayTaskDelete = function (index, taskButtons) {
 // ready app for project(list) additions and edits
 const readyForProjects = (function () {
   // listen for "add list" click
-  const addProjectLink = main.querySelector(".add-list > a");
+  const addProjectLink = main.querySelector("button.add-list");
   addProjectLink.addEventListener("click", (event) => {
     event.preventDefault();
     projectEntry.classList.add("overlay");
   });
   // listen for "edit list" click
-  main.querySelector(".edit-list > a").addEventListener("click", (event) => {
+  main.querySelector("button.edit-list").addEventListener("click", (event) => {
     event.preventDefault();
     projectEntry.classList.add("overlay");
     projectEntry.classList.add("editing");
