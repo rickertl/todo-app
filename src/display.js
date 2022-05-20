@@ -104,7 +104,7 @@ const displayTaskName = function (task, taskContainer) {
 const displayTaskDueDate = function (task) {
   const taskDueDate = createDomElement("div", { class: "task-due-date" });
   // console.log(task.dueDate.toLocalString());
-  console.log(task.dueDate);
+  // console.log(task.dueDate);
   if (task.dueDate) {
     taskDueDate.textContent = format(new Date(task.dueDate), "eee, M/d");
   }
@@ -171,7 +171,10 @@ const displayTaskEdit = function (task, index, taskButtons) {
     taskEntryForm.querySelector("a.show-details").style.display = "none";
     taskEntryForm.querySelector(".details").style.display = "flex";
     taskEntryForm.setAttribute("action", "edit");
-    taskEntryForm.setAttribute("data-id", event.target.getAttribute("data-id"));
+    taskEntryForm.setAttribute(
+      "data-id",
+      event.currentTarget.getAttribute("data-id")
+    );
     taskEntryForm.querySelector("#name").value = task.name;
     taskEntryForm.querySelector("#notes").value = task.notes;
     if (task.dueDate !== "") {
