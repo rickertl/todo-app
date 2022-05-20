@@ -9,7 +9,7 @@ const createDefaultData = function () {
   projects.length = 0;
 
   // create default project
-  const defaultProject = new Project("Tasks", true);
+  const defaultProject = new Project("My List", true);
 
   // demo dates
   const date1 = new Date();
