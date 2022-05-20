@@ -165,6 +165,7 @@ main {
         grid-template-columns: 28px auto;
         align-items: center;
         margin-bottom: 25px;
+        cursor: pointer;
       }
       .close-btn {
         color: white;
@@ -354,6 +355,9 @@ main {
           display: flex;
           justify-content: space-between;
           gap: 20px;
+          div {
+            cursor: pointer;
+          }
         }
       }
     }
