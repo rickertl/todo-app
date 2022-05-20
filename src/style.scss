@@ -268,10 +268,12 @@ main {
       }
       .task-name {
         overflow: hidden;
-        span {
+        > span {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          display: flex;
+          flex-direction: column;
         }
         &.complete {
           text-decoration: line-through;

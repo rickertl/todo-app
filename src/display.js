@@ -95,14 +95,14 @@ const displayTaskCheckbox = function (task, taskContainer) {
 
 const displayTaskName = function (task, taskContainer) {
   taskName = createDomElement("div", { class: "task-name" });
-  const taskNameBox = createDomElement("span"); // need span for ellipsis to work
+  const taskNameBox = createDomElement("span"); // need child div for ellipsis to work
   taskNameBox.textContent = task.name;
   taskContainer.appendChild(taskName);
   taskName.appendChild(taskNameBox);
 };
 
 const displayTaskDueDate = function (task) {
-  const taskDueDate = createDomElement("div", { class: "task-due-date" });
+  const taskDueDate = createDomElement("span", { class: "task-due-date" });
   // console.log(task.dueDate.toLocalString());
   // console.log(task.dueDate);
   if (task.dueDate) {
