@@ -4,7 +4,12 @@
 $light-powderblue: rgba(176, 224, 230, 0.3);
 $dark-gray: #767676;
 $light-gray: #efefef;
+$overlay-color: rgba(
+  $color: #000000,
+  $alpha: 0.8,
+);
 $red: #e99979;
+$yellow: #e6dd9a;
 $global-font: "Inter", sans-serif;
 $col1-width: 170;
 $break-point: 750px;
@@ -38,6 +43,7 @@ form:not(#select-project),
 form > .details {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 form input,
 form select,
@@ -53,19 +59,36 @@ form input[type="date"] {
   border-radius: 2px;
   background-color: white;
 }
+form select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' version='1.1'%3E%3Cg id='surface1'%3E%3Cpath style=' stroke:none;fill-rule:nonzero;fill:rgb(0%25,0%25,0%25);fill-opacity:1;' d='M 10 15.140625 L 7.359375 12.5 L 6.183594 13.675781 L 10 17.5 L 13.824219 13.675781 L 12.640625 12.5 M 10 4.859375 L 12.640625 7.5 L 13.816406 6.324219 L 10 2.5 L 6.175781 6.324219 L 7.359375 7.5 Z M 10 4.859375 '/%3E%3C/g%3E%3C/svg%3E%0A")
+    no-repeat;
+  background-position: center right 0;
+}
 form label {
   font-weight: 600;
   margin-bottom: 8px;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  cursor: pointer;
+  font-size: 1.5rem;
 }
 main {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
   @media screen and (min-width: $break-point) {
     flex-direction: row;
     justify-content: center;
     align-content: flex-start;
     column-gap: 25px;
+    width: calc(1px * #{$col1-width} + 30px + 20px);
+    margin: 0 auto;
   }
 
   // display: flex;
@@ -78,22 +101,78 @@ main {
   min-width: $col1-width * 1px;
   background-color: powderblue;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 10px;
   @media screen and (min-width: $break-point) {
-    justify-content: flex-end;
-    margin-top: 15px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 15px 0 0;
   }
   .logo {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 4px;
     svg {
-      width: 70px;
+      width: 2.5rem;
     }
     .logo-text {
       font-size: 2.5rem;
       font-weight: 600;
+    }
+  }
+  .top-nav {
+    .hamburger {
+      display: flex;
+      align-items: center;
+      // &.open {
+      //   display: none;
+      // }
+      svg {
+        height: 35px;
+        cursor: pointer;
+      }
+      @media screen and (min-width: $break-point) {
+        position: relative;
+        top: -47px;
+        left: calc(3px * #{$col1-width} + 75px);
+        z-index: 1;
+      }
+    }
+    .list-actions {
+      display: none;
+      // width: 50%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      padding: 60px 30px 0 26px;
+      background-color: $overlay-color;
+      &.open {
+        display: block;
+        @media screen and (min-width: $break-point) {
+          right: -280px;
+          z-index: 1;
+        }
+      }
+      li {
+        color: white;
+        list-style: none;
+        display: grid;
+        grid-template-columns: 28px auto;
+        align-items: center;
+        margin-bottom: 25px;
+      }
+      .close-btn {
+        color: white;
+        left: 10px;
+        svg {
+          width: 28px;
+        }
+      }
     }
   }
 }
@@ -103,22 +182,28 @@ main {
   @media screen and (min-width: $break-point) {
     flex-grow: 0;
     width: auto;
+    position: relative;
   }
   .tasks {
     height: 100%;
     padding: 15px 0;
     @media screen and (min-width: $break-point) {
       width: 3px * $col1-width + 15 + 60;
-      padding: 30px;
+      padding: 25px 30px 30px;
     }
     .tasks-header {
       margin-bottom: 15px;
       padding: 0 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
       @media screen and (min-width: $break-point) {
         padding: 0;
+        width: 485px;
       }
       .hdr-col1 {
-        margin-bottom: 15px;
+        flex-grow: 1;
         #select-project {
           select {
             height: 35px;
@@ -128,24 +213,7 @@ main {
         }
       }
       .hdr-col2 {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        align-items: center;
-        button {
-          display: flex;
-          align-items: center;
-        }
-        .list-actions {
-          display: grid;
-          grid-template-columns: auto auto;
-          justify-content: start;
-          grid-gap: 15px;
-          button {
-            background-color: white;
-            border: 1px solid powderblue;
-          }
-        }
-        .add-task {
+        button.add-task {
           justify-self: end;
           display: flex;
           align-items: center;
@@ -154,9 +222,9 @@ main {
     }
     .task-container {
       display: grid;
-      grid-template-columns: auto 1fr auto auto;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
-      grid-column-gap: 6px;
+      grid-column-gap: 12px;
       background-color: $light-powderblue;
       margin-bottom: 2px;
       border-radius: 2.5px;
@@ -165,13 +233,9 @@ main {
         border: 1px solid powderblue;
       }
       &.expanded {
-        margin: 15px 0;
-        border-top: 2px solid powderblue;
-        border-bottom: 2px solid powderblue;
+        margin: 12px 6px;
+        border: 1px solid powderblue;
         background-color: white;
-        @media screen and (min-width: $break-point) {
-          border: 1px solid powderblue;
-        }
       }
       div {
         display: flex;
@@ -180,22 +244,25 @@ main {
       input.task-checkbox {
         width: 24px;
         height: 24px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
         appearance: none;
         background-color: white;
         border: 1px solid powderblue;
         order: -1;
-        margin: 9px 0 9px 6px;
+        padding: 0;
+        margin: 15px 0 15px 6px;
         &:checked {
-          border: 1px solid $dark-gray;
+          border: none;
           background-color: powderblue;
           position: relative;
           &::before {
-            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z' /%3E%3C/svg%3E");
-            // font-size: 1.5rem;
+            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z' /%3E%3C/svg%3E");
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 32px;
             color: black;
-            display: flex;
-            // margin-top: -4px;
-            justify-content: center;
           }
         }
       }
@@ -206,7 +273,6 @@ main {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-
         &.complete {
           text-decoration: line-through;
         }
@@ -222,18 +288,21 @@ main {
         color: $dark-gray;
       }
       .task-priority {
+        -webkit-appearance: none;
+        -moz-appearance: none;
         appearance: none;
         height: 100%;
         width: 20px;
         margin-right: 6px;
-        background-color: powderblue;
+        background-color: $yellow;
         color: transparent;
         border: none;
+        border-radius: 0;
         // border-left: 1px solid powderblue;
         // border-right: 1px solid powderblue;
-        -moz-box-shadow: inset 0 0 2px powderblue;
-        -webkit-box-shadow: inset 0 0 2px powderblue;
-        box-shadow: inset 0 0 2px powderblue;
+        // -moz-box-shadow: inset 0 0 2px powderblue;
+        // -webkit-box-shadow: inset 0 0 2px powderblue;
+        // box-shadow: inset 0 0 2px powderblue;
         option {
           background-color: white;
           color: black;
@@ -243,7 +312,7 @@ main {
           color: transparent;
         }
         &.low {
-          background-color: white;
+          background-color: powderblue;
           color: transparent;
         }
       }
@@ -256,20 +325,22 @@ main {
         color: transparent;
       }
       .more {
-        grid-column: span 4;
+        grid-column: span 3;
         display: none;
-        padding: 6px;
+        // padding: 6px;
         // @media screen and (min-width: 800px) {
         //   grid-column: span 4;
         // }
       }
       .show-more {
         display: block;
+        border-top: 1px dashed powderblue;
+        margin: 0 6px 6px 6px;
         .task-notes {
           display: grid;
-          margin: 5px 0 15px;
-          padding-top: 10px;
-          border-top: 1px dotted powderblue;
+          // margin: 0 0 15px;
+          // padding-top: 10px;
+          margin-top: 10px;
           &::before {
             content: "Notes:";
             font-weight: 600;
@@ -277,9 +348,10 @@ main {
           }
         }
         .task-buttons {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          grid-gap: 20px;
+          margin-top: 10px;
+          display: flex;
+          justify-content: space-between;
+          gap: 20px;
         }
       }
     }
@@ -289,11 +361,12 @@ main {
     display: none;
     &.overlay {
       position: absolute;
+      z-index: 1;
       top: 0;
       bottom: 0;
       right: 0;
       left: 0;
-      background-color: rgba($color: #000000, $alpha: 0.8);
+      background-color: $overlay-color;
       padding: 10px;
       display: flex;
       align-items: flex-start;
@@ -332,10 +405,7 @@ main {
         display: none;
       }
       .close-btn {
-        position: absolute;
-        top: 10px;
         right: 10px;
-        cursor: pointer;
       }
     }
   }
@@ -346,12 +416,18 @@ main {
     &.editing {
       display: grid;
       grid-gap: 30px;
+      justify-items: center;
+      justify-content: stretch;
       align-content: start;
       .container {
         display: grid;
         grid-gap: 30px;
         background-color: white;
         padding: 30px;
+        width: 100%;
+        @media screen and (min-width: $break-point) {
+          max-width: 300px;
+        }
         a {
           text-align: center;
           text-decoration: underline;

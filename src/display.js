@@ -101,7 +101,7 @@ const displayTaskName = function (task, taskContainer) {
   taskName.appendChild(taskNameBox);
 };
 
-const displayTaskDueDate = function (task, taskContainer) {
+const displayTaskDueDate = function (task) {
   const taskDueDate = createDomElement("div", { class: "task-due-date" });
   // console.log(task.dueDate.toLocalString());
   console.log(task.dueDate);
@@ -110,7 +110,7 @@ const displayTaskDueDate = function (task, taskContainer) {
   }
   // const space = document.createTextNode("\u00A0");
   // taskName.appendChild(space);
-  taskContainer.appendChild(taskDueDate);
+  taskName.querySelector("span").appendChild(taskDueDate);
 };
 
 const displayTaskPriority = function (task, taskContainer) {
@@ -154,11 +154,15 @@ const displayTaskNotes = function (task, more) {
 };
 
 const displayTaskEdit = function (task, index, taskButtons) {
-  const taskEditBtn = createDomElement("button", {
+  const taskEditBtn = createDomElement("div", {
     class: "task-edit",
     ["data-id"]: index,
   });
-  taskEditBtn.textContent = "edit";
+  taskEditBtn.innerHTML = `
+  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M19,19V5H5V19H19M19,3A2,2 0 0,1 21,5V19C21,20.11 20.1,21 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M16.7,9.35L15.7,10.35L13.65,8.3L14.65,7.3C14.86,7.08 15.21,7.08 15.42,7.3L16.7,8.58C16.92,8.79 16.92,9.14 16.7,9.35M7,14.94L13.06,8.88L15.12,10.94L9.06,17H7V14.94Z" />
+  </svg>
+  `;
   taskButtons.appendChild(taskEditBtn);
   taskEditBtn.addEventListener("click", (event) => {
     event.preventDefault();
@@ -183,11 +187,15 @@ const displayTaskEdit = function (task, index, taskButtons) {
 };
 
 const displayTaskDelete = function (index, taskButtons) {
-  const taskDeleteBtn = createDomElement("button", {
+  const taskDeleteBtn = createDomElement("div", {
     class: "delete-btn",
     ["data-id"]: index,
   });
-  taskDeleteBtn.textContent = "delete";
+  taskDeleteBtn.innerHTML = `
+  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H16V19H8V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" />
+  </svg>
+  `;
   taskButtons.appendChild(taskDeleteBtn);
   taskDeleteBtn.addEventListener("click", (event) => {
     event.preventDefault();
@@ -198,20 +206,40 @@ const displayTaskDelete = function (index, taskButtons) {
 
 // ready app for project(list) additions and edits
 const readyForProjects = (function () {
+  // listen for "hamburger" click
+  const topNav = main.querySelector(".top-nav");
+  topNav.querySelector(".hamburger").addEventListener("click", (event) => {
+    event.preventDefault();
+    // topNav.querySelector(".hamburger").classList.toggle("open");
+    topNav.querySelector(".list-actions").classList.toggle("open");
+  });
+  topNav.querySelector(".close-btn").addEventListener("click", () => {
+    // topNav.querySelector(".hamburger").classList.toggle("open");
+    topNav.querySelector(".list-actions").classList.toggle("open");
+  });
   // listen for "add list" click
-  const addProjectLink = main.querySelector("button.add-list");
+  const addProjectLink = topNav.querySelector(".add-list");
   addProjectLink.addEventListener("click", (event) => {
     event.preventDefault();
     projectEntry.classList.add("overlay");
   });
   // listen for "edit list" click
-  main.querySelector("button.edit-list").addEventListener("click", (event) => {
+  topNav.querySelector(".edit-list").addEventListener("click", (event) => {
     event.preventDefault();
     projectEntry.classList.add("overlay");
     projectEntry.classList.add("editing");
     projectEntryForm.setAttribute("action", "edit");
     projectEntryForm.querySelector("#name").value = project.name;
     projectEntryForm.querySelector("label").textContent = "Change Name";
+  });
+  // reset data
+  topNav.querySelector(".reset-data").addEventListener("click", (event) => {
+    event.preventDefault();
+    topNav.querySelector(".hamburger").classList.toggle("open");
+    topNav.querySelector(".list-actions").classList.toggle("open");
+    createDefaultData();
+    resetProjectEntry();
+    buildProjectView();
   });
   // get project form submissions
   projectEntryForm.addEventListener("submit", (event) => {
@@ -250,18 +278,6 @@ const readyForProjects = (function () {
       resetProjectEntry();
       buildProjectView();
     });
-  // reset data
-  const resetData = createDomElement("a", {
-    class: "reset-data",
-  });
-  resetData.textContent = "Reset Data";
-  projectEntry.querySelector(".container").appendChild(resetData);
-  resetData.addEventListener("click", (event) => {
-    event.preventDefault();
-    createDefaultData();
-    resetProjectEntry();
-    buildProjectView();
-  });
   // close button
   projectEntryForm.querySelector(".close-btn").addEventListener("click", () => {
     resetProjectEntry();
