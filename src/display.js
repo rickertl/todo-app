@@ -1,6 +1,6 @@
 import { Project, project, projectID } from "./project.js";
 import { projects, createDefaultData } from "./data.js";
-import { format } from "date-fns";
+import { format, addMinutes } from "date-fns";
 
 export { buildProjectView, displayAllTasks };
 
@@ -103,13 +103,14 @@ const displayTaskName = function (task, taskContainer) {
 
 const displayTaskDueDate = function (task) {
   const taskDueDate = createDomElement("span", { class: "task-due-date" });
-  // console.log(task.dueDate.toLocalString());
-  // console.log(task.dueDate);
+  //https://stackoverflow.com/a/70296645
   if (task.dueDate) {
-    taskDueDate.textContent = format(new Date(task.dueDate), "eee, M/d");
+    const date = new Date(task.dueDate);
+    taskDueDate.textContent = format(
+      addMinutes(date, date.getTimezoneOffset()),
+      "eee, M/d"
+    );
   }
-  // const space = document.createTextNode("\u00A0");
-  // taskName.appendChild(space);
   taskName.querySelector("span").appendChild(taskDueDate);
 };
 
@@ -178,12 +179,7 @@ const displayTaskEdit = function (task, index, taskButtons) {
     taskEntryForm.querySelector("#name").value = task.name;
     taskEntryForm.querySelector("#notes").value = task.notes;
     if (task.dueDate !== "") {
-      // get first element of split ISO date string without time
-      // const [date] = new Date(task.dueDate).toISOString().split("T");
-      taskEntryForm.querySelector("#dueDate").value = format(
-        new Date(task.dueDate),
-        "yyyy-MM-dd"
-      );
+      taskEntryForm.querySelector("#dueDate").value = task.dueDate;
     }
     taskEntryForm.querySelector("#priority").value = task.priority;
   });

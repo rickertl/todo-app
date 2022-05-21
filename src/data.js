@@ -1,4 +1,5 @@
 import { Project } from "./project.js";
+import { format } from "date-fns";
 
 export { projects, createDefaultData };
 
@@ -19,13 +20,13 @@ const createDefaultData = function () {
   defaultProject.createTask(
     "Clean room",
     "",
-    date1.setDate(date1.getDate() + 4)
+    format(date1.setDate(date1.getDate() + 4), "yyyy-MM-dd")
   );
   defaultProject.createTask("Write thank you note to mom", "", "", "low");
   defaultProject.createTask(
     "Mow lawn",
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa,",
-    date2.setDate(date2.getDate() - 7),
+    format(date2.setDate(date2.getDate() - 7), "yyyy-MM-dd"),
     "high",
     true
   );
