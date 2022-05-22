@@ -5,22 +5,15 @@ import { format, addMinutes } from "date-fns";
 export { buildProjectView, displayAllTasks };
 
 // cache dom
-const main = document.querySelector("main");
-
-// dynamic height for mobile
-// const appHeight = () => {
-//   main.style.height = `${window.innerHeight}px`;
-// };
-// window.addEventListener("resize", appHeight);
-// appHeight();
+const body = document.querySelector("body");
 
 // reused dom elements
-const taskList = main.querySelector(".task-list");
-const taskEntry = main.querySelector(".task-entry");
+const taskList = body.querySelector(".tasks");
+const taskEntry = body.querySelector(".task-entry");
 const taskEntryForm = taskEntry.querySelector("form#task-entry");
-const projectEntry = main.querySelector(".project-entry");
+const projectEntry = body.querySelector(".project-entry");
 const projectEntryForm = projectEntry.querySelector("form#project-entry");
-const selectProjectSelector = main.querySelector("#selectProject");
+const selectProjectSelector = body.querySelector("#selectProject");
 
 // create dom element factory function
 const createDomElement = (type, attributes) => {
@@ -168,7 +161,7 @@ const displayTaskEdit = function (task, index, taskButtons) {
   taskEditBtn.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    taskEntry.classList.toggle("overlay");
+    taskEntry.classList.toggle("show");
     taskEntryForm.querySelector("a.show-details").style.display = "none";
     taskEntryForm.querySelector(".details").style.display = "flex";
     taskEntryForm.setAttribute("action", "edit");
@@ -205,41 +198,42 @@ const displayTaskDelete = function (index, taskButtons) {
 
 // ready app for project(list) additions and edits
 const readyForProjects = (function () {
-  // listen for "hamburger" click
-  const topNav = main.querySelector(".top-nav");
-  topNav.querySelector(".hamburger").addEventListener("click", (event) => {
-    event.preventDefault();
-    // topNav.querySelector(".hamburger").classList.toggle("open");
-    topNav.querySelector(".list-actions").classList.toggle("open");
-  });
-  topNav.querySelector(".close-btn").addEventListener("click", () => {
-    // topNav.querySelector(".hamburger").classList.toggle("open");
-    topNav.querySelector(".list-actions").classList.toggle("open");
-  });
+  // listen for "options-btn" click
+  const taskListNav = body.querySelector(".task-list-nav");
+  const taskListOptions = body.querySelector(".task-list-options");
+  taskListNav
+    .querySelector(".options-btn")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      taskListOptions.classList.toggle("show");
+    });
   // listen for "add list" click
-  const addProjectLink = topNav.querySelector(".add-list");
-  addProjectLink.addEventListener("click", (event) => {
-    event.preventDefault();
-    projectEntry.classList.add("overlay");
-  });
+  taskListOptions
+    .querySelector(".add-list")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      projectEntry.classList.add("show");
+    });
   // listen for "edit list" click
-  topNav.querySelector(".edit-list").addEventListener("click", (event) => {
-    event.preventDefault();
-    projectEntry.classList.add("overlay");
-    projectEntry.classList.add("editing");
-    projectEntryForm.setAttribute("action", "edit");
-    projectEntryForm.querySelector("#name").value = project.name;
-    projectEntryForm.querySelector("label").textContent = "Change Name";
-  });
+  taskListOptions
+    .querySelector(".edit-list")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      projectEntry.classList.add("show");
+      projectEntry.classList.add("editing");
+      projectEntryForm.setAttribute("action", "edit");
+      projectEntryForm.querySelector("#name").value = project.name;
+      projectEntryForm.querySelector("label").textContent = "Change Name";
+    });
   // reset data
-  topNav.querySelector(".reset-data").addEventListener("click", (event) => {
-    event.preventDefault();
-    topNav.querySelector(".hamburger").classList.toggle("open");
-    topNav.querySelector(".list-actions").classList.toggle("open");
-    createDefaultData();
-    resetProjectEntry();
-    buildProjectView();
-  });
+  taskListOptions
+    .querySelector(".reset-data")
+    .addEventListener("click", (event) => {
+      event.preventDefault();
+      createDefaultData();
+      resetProjectEntry();
+      buildProjectView();
+    });
   // get project form submissions
   projectEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -284,7 +278,8 @@ const readyForProjects = (function () {
   const resetProjectEntry = function () {
     projectEntryForm.reset();
     projectEntryForm.setAttribute("action", "add");
-    projectEntry.classList.remove("overlay");
+    taskListOptions.classList.remove("show");
+    projectEntry.classList.remove("show");
     projectEntry.classList.remove("editing");
     projectEntryForm.querySelector("label").textContent = "List Name";
   };
@@ -316,9 +311,9 @@ const selectProject = (function () {
 // ready app for task additions and edits
 const readyForTasks = (function () {
   // add task button
-  main.querySelector("button.add-task").addEventListener("click", (event) => {
+  body.querySelector("button.add-task").addEventListener("click", (event) => {
     event.preventDefault();
-    taskEntry.classList.toggle("overlay");
+    taskEntry.classList.toggle("show");
   });
   // task details link
   taskEntryForm
@@ -352,7 +347,7 @@ const readyForTasks = (function () {
   });
   const resetTaskEntry = function () {
     taskEntryForm.reset();
-    taskEntry.classList.toggle("overlay");
+    taskEntry.classList.toggle("show");
     taskEntryForm.querySelector("a.show-details").style.display = "block";
     taskEntryForm.querySelector(".details").style.display = "none";
   };
