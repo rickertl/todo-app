@@ -19,16 +19,10 @@ $break-point: 750px;
   padding: 0;
   box-sizing: border-box;
 }
-html,
-body {
-  height: 100%;
-}
 body {
   font-family: $global-font;
   background-color: white;
-  padding: 82.5px 0 0 0;
-  display: flex;
-  flex-direction: column;
+  padding: 82.5px 0 55px 0;
 }
 button {
   height: 35px;
@@ -144,7 +138,6 @@ header {
   }
 }
 main {
-  flex-grow: 1;
   background-color: $light-powderblue;
   padding: 5px;
   .tasks {
