@@ -41,6 +41,10 @@ svg {
   height: 20px;
   width: 20px;
   cursor: pointer;
+  &.plus {
+    height: 16px;
+    width: 16px;
+  }
 }
 form:not(#select-project),
 form > .details {
