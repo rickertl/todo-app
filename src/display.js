@@ -153,8 +153,8 @@ const displayTaskEdit = function (task, index, taskButtons) {
     ["data-id"]: index,
   });
   taskEditBtn.innerHTML = `
-  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-    <path fill="currentColor" d="M19,19V5H5V19H19M19,3A2,2 0 0,1 21,5V19C21,20.11 20.1,21 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19M16.7,9.35L15.7,10.35L13.65,8.3L14.65,7.3C14.86,7.08 15.21,7.08 15.42,7.3L16.7,8.58C16.92,8.79 16.92,9.14 16.7,9.35M7,14.94L13.06,8.88L15.12,10.94L9.06,17H7V14.94Z" />
+  <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+  <path d="M19 19V5H5v14h14m0-16c1.097 0 2 .903 2 2v14a2 2 0 0 1-2 2H5c-1.097 0-2-.903-2-2V5c0-1.097.903-2 2-2h14m-2.3 6.35-1 1-2.05-2.05 1-1c.21-.22.56-.22.77 0l1.28 1.28c.22.21.22.56 0 .77M7 14.94l6.06-6.06 2.06 2.06L9.06 17H7v-2.06Z" style="fill-rule:nonzero" transform="translate(-3 -3)"/>
   </svg>
   `;
   taskButtons.appendChild(taskEditBtn);
@@ -184,8 +184,8 @@ const displayTaskDelete = function (index, taskButtons) {
     ["data-id"]: index,
   });
   taskDeleteBtn.innerHTML = `
-  <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-    <path fill="currentColor" d="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H16V19H8V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" />
+  <svg viewBox="0 0 14 18" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+  <path d="M6 19c0 1.097.903 2 2 2h8c1.097 0 2-.903 2-2V7H6v12M8 9h8v10H8V9m7.5-5-1-1h-5l-1 1H5v2h14V4h-3.5Z" style="fill-rule:nonzero" transform="translate(-5 -3)"/>
   </svg>
   `;
   taskButtons.appendChild(taskDeleteBtn);
@@ -223,7 +223,7 @@ const readyForProjects = (function () {
       projectEntry.classList.add("editing");
       projectEntryForm.setAttribute("action", "edit");
       projectEntryForm.querySelector("#name").value = project.name;
-      projectEntryForm.querySelector("label").textContent = "Change Name";
+      // projectEntryForm.querySelector("label").textContent = "Change Name";
     });
   // reset data
   taskListOptions
