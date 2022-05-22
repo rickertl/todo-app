@@ -114,7 +114,7 @@ header {
   .task-list-nav {
     display: grid;
     grid-template-columns: 1fr auto;
-    grid-column-gap: 15px;
+    grid-column-gap: 20px;
     padding: 0 15px;
     #select-project {
       select {
@@ -336,6 +336,10 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  grid-column-gap: 20px;
   padding: 5px 15px;
   background-color: powderblue;
   box-shadow: 0 -2px 4px rgba($color: #000000, $alpha: 0.1);
