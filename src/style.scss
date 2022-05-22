@@ -276,7 +276,8 @@ main {
     right: 0;
     left: 0;
     background-color: white;
-    padding: 30px;
+    padding: 50px 40px 0;
+    z-index: 1;
     &.show {
       display: flex;
       flex-direction: column;
@@ -309,7 +310,10 @@ main {
         display: none;
       }
       .close-btn {
-        right: 10px;
+        left: 10px;
+        svg {
+          width: 24px;
+        }
       }
     }
   }
