@@ -154,7 +154,7 @@ main {
       align-items: center;
       grid-column-gap: 10px;
       background-color: white;
-      height: $common-height;
+      min-height: $common-height;
       margin: 2px 5px;
       border-radius: 5px;
       padding: 0 10px;
@@ -179,6 +179,7 @@ main {
         background-color: white;
         border: 1px solid powderblue;
         order: -1;
+        margin: 10px 0;
         padding: 0;
         &:checked {
           border: none;
@@ -249,11 +250,8 @@ main {
       .show-more {
         display: block;
         border-top: 1px dashed powderblue;
-        margin: 0 6px 12px 6px;
         .task-notes {
           display: grid;
-          // margin: 0 0 15px;
-          // padding-top: 10px;
           margin-top: 10px;
           &::before {
             content: "Notes:";
@@ -262,7 +260,7 @@ main {
           }
         }
         .task-buttons {
-          margin-top: 10px;
+          margin: 10px 0;
           display: flex;
           justify-content: space-between;
           gap: 20px;
