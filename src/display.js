@@ -7,6 +7,13 @@ export { buildProjectView, displayAllTasks };
 // cache dom
 const body = document.querySelector("body");
 
+// add padding to body for fixed header and footer
+body.style.padding = `
+${body.querySelector("header").offsetHeight}px
+0 
+${body.querySelector("footer").offsetHeight}px 
+0`;
+
 // reused dom elements
 const taskList = body.querySelector(".tasks");
 const taskEntry = body.querySelector(".task-entry");
