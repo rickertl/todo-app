@@ -225,15 +225,6 @@ const readyForProjects = (function () {
       projectEntryForm.querySelector("#name").value = project.name;
       // projectEntryForm.querySelector("label").textContent = "Change Name";
     });
-  // reset data
-  taskListOptions
-    .querySelector(".reset-data")
-    .addEventListener("click", (event) => {
-      event.preventDefault();
-      createDefaultData();
-      resetProjectEntry();
-      buildProjectView();
-    });
   // get project form submissions
   projectEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -272,7 +263,7 @@ const readyForProjects = (function () {
       buildProjectView();
     });
   // close button
-  projectEntryForm.querySelector(".close-btn").addEventListener("click", () => {
+  projectEntry.querySelector(".close-btn").addEventListener("click", () => {
     resetProjectEntry();
   });
   const resetProjectEntry = function () {
@@ -342,7 +333,7 @@ const readyForTasks = (function () {
     resetTaskEntry();
   });
   // close button
-  taskEntryForm.querySelector(".close-btn").addEventListener("click", () => {
+  taskEntry.querySelector(".close-btn").addEventListener("click", () => {
     resetTaskEntry();
   });
   const resetTaskEntry = function () {
@@ -351,4 +342,22 @@ const readyForTasks = (function () {
     taskEntryForm.querySelector("a.show-details").style.display = "block";
     taskEntryForm.querySelector(".details").style.display = "none";
   };
+})();
+
+// ready app for info box
+const readyInfoBox = (function () {
+  // add task button
+  body.querySelector("svg.info").addEventListener("click", (event) => {
+    event.preventDefault();
+    body.querySelector(".info-box").classList.toggle("show");
+  });
+  body.querySelector(".info-box > .close-btn").addEventListener("click", () => {
+    body.querySelector(".info-box").classList.toggle("show");
+  });
+  // reset data
+  body.querySelector(".reset-data").addEventListener("click", (event) => {
+    event.preventDefault();
+    createDefaultData();
+    body.querySelector(".info-box").classList.toggle("show");
+  });
 })();
