@@ -216,10 +216,7 @@ main {
         font-size: 0.85rem;
         color: $dark-gray;
       }
-      .task-priority {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
+      select.task-priority {
         height: 100%;
         width: 20px;
         color: transparent;
@@ -243,7 +240,7 @@ main {
         background-color: $light-gray;
         color: $dark-gray;
       }
-      &.complete > .task-priority {
+      &.complete > select.task-priority {
         background-color: rgba($dark-gray, 0.2);
         color: transparent;
       }
