@@ -46,6 +46,14 @@ svg {
     width: 16px;
   }
 }
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' version='1.1'%3E%3Cg id='surface1'%3E%3Cpath style=' stroke:none;fill-rule:nonzero;fill:rgb(0%25,0%25,0%25);fill-opacity:1;' d='M 10 15.140625 L 7.359375 12.5 L 6.183594 13.675781 L 10 17.5 L 13.824219 13.675781 L 12.640625 12.5 M 10 4.859375 L 12.640625 7.5 L 13.816406 6.324219 L 10 2.5 L 6.175781 6.324219 L 7.359375 7.5 Z M 10 4.859375 '/%3E%3C/g%3E%3C/svg%3E%0A")
+    no-repeat;
+  background-position: center right 0;
+}
 form:not(#select-project),
 form > .details {
   display: flex;
@@ -65,14 +73,6 @@ form input[type="date"] {
   border: 1px solid powderblue;
   border-radius: 5px;
   background-color: white;
-}
-form select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' version='1.1'%3E%3Cg id='surface1'%3E%3Cpath style=' stroke:none;fill-rule:nonzero;fill:rgb(0%25,0%25,0%25);fill-opacity:1;' d='M 10 15.140625 L 7.359375 12.5 L 6.183594 13.675781 L 10 17.5 L 13.824219 13.675781 L 12.640625 12.5 M 10 4.859375 L 12.640625 7.5 L 13.816406 6.324219 L 10 2.5 L 6.175781 6.324219 L 7.359375 7.5 Z M 10 4.859375 '/%3E%3C/g%3E%3C/svg%3E%0A")
-    no-repeat;
-  background-position: center right 0;
 }
 form label {
   font-weight: 600;
@@ -222,10 +222,10 @@ main {
         appearance: none;
         height: 100%;
         width: 20px;
-        background-color: $yellow;
         color: transparent;
         border: none;
         border-radius: 0;
+        background-color: $yellow;
         option {
           background-color: white;
           color: black;
