@@ -269,6 +269,9 @@ main {
   .task-entry,
   .project-entry {
     display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
     right: 0;
     left: 0;
     background-color: white;
@@ -306,19 +309,11 @@ main {
         display: none;
       }
     }
-  }
-  .task-entry {
-    position: fixed;
-    bottom: 0;
-    box-shadow: 0 -2px 4px rgba($color: #000000, $alpha: 0.1);
     .close-btn {
-      right: 15px;
+      left: 10px;
     }
   }
   .project-entry {
-    position: absolute;
-    top: 0;
-    bottom: 0;
     .project-actions {
       display: none;
       width: 100%;
@@ -332,9 +327,6 @@ main {
         display: grid;
         grid-row-gap: 30px;
       }
-    }
-    .close-btn {
-      left: 10px;
     }
   }
 }
