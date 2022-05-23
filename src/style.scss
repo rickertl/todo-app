@@ -20,9 +20,19 @@ $common-height: 55px;
   padding: 0;
   box-sizing: border-box;
 }
+html,
+body {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  height: var(--app-height);
+}
 body {
   font-family: $global-font;
   background-color: $light-powderblue;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
 }
 button {
   height: 40px;
@@ -83,9 +93,6 @@ form label {
   cursor: pointer;
 }
 header {
-  position: fixed;
-  top: 0;
-  width: 100%;
   background-color: powderblue;
   box-shadow: 0 2px 4px rgba($color: #000000, $alpha: 0.1);
   padding-bottom: 5px;
@@ -144,6 +151,8 @@ header {
   }
 }
 main {
+  overflow-y: auto;
+  overflow-x: hidden;
   .tasks {
     padding: 5px 0;
     .task-container {
@@ -331,9 +340,6 @@ main {
   }
 }
 footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;

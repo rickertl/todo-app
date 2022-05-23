@@ -4,15 +4,17 @@ import { format, addMinutes } from "date-fns";
 
 export { buildProjectView, displayAllTasks };
 
+// calc height for consistent mobile experience
+//https://medium.com/quick-code/100vh-problem-with-ios-safari-92ab23c852a8
+const appHeight = () => {
+  const doc = document.documentElement;
+  doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+};
+window.addEventListener("resize", appHeight);
+appHeight();
+
 // cache dom
 const body = document.querySelector("body");
-
-// add padding to body for fixed header and footer
-body.style.padding = `
-${body.querySelector("header").offsetHeight}px
-0 
-${body.querySelector("footer").offsetHeight}px 
-0`;
 
 // reused dom elements
 const taskList = body.querySelector(".tasks");
