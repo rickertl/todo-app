@@ -358,6 +358,7 @@ const readyInfoBox = (function () {
   body.querySelector(".reset-data").addEventListener("click", (event) => {
     event.preventDefault();
     createDefaultData();
+    buildProjectView();
     body.querySelector(".info-box").classList.toggle("show");
   });
 })();
