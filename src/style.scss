@@ -24,10 +24,16 @@ body {
 }
 body {
   font-family: $global-font;
-  background-color: $light-powderblue;
+  max-width: 600px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 600px);
+  justify-content: center;
   grid-template-rows: auto 1fr auto;
+  grid-row-gap: 4px;
+  background-color: $light-powderblue;
+  border: 1px solid powderblue;
+  position: relative;
 }
 button {
   height: 40px;
@@ -149,7 +155,6 @@ main {
   overflow-y: auto;
   overflow-x: hidden;
   .tasks {
-    padding: 5px 0;
     .task-container {
       display: grid;
       grid-template-columns: auto 1fr auto;
