@@ -205,6 +205,35 @@ const displayTaskDelete = function (index, taskButtons) {
   });
 };
 
+// iOS show keyboard on input focus
+// https://stackoverflow.com/a/55425845
+function focusAndOpenKeyboard(el, timeout) {
+  if (!timeout) {
+    timeout = 100;
+  }
+  if (el) {
+    // Align temp input element approximately where the input element is
+    // so the cursor doesn't jump around
+    var __tempEl__ = document.createElement("input");
+    __tempEl__.style.position = "absolute";
+    __tempEl__.style.top = el.offsetTop + 7 + "px";
+    __tempEl__.style.left = el.offsetLeft + "px";
+    __tempEl__.style.height = 0;
+    __tempEl__.style.opacity = 0;
+    // Put this temp element as a child of the page <body> and focus on it
+    document.body.appendChild(__tempEl__);
+    __tempEl__.focus();
+
+    // The keyboard is open. Now do a delayed focus on the target element
+    setTimeout(function () {
+      el.focus();
+      el.click();
+      // Remove the temp element
+      document.body.removeChild(__tempEl__);
+    }, timeout);
+  }
+}
+
 // ready app for project(list) additions and edits
 const readyForProjects = (function () {
   // listen for "options-btn" click
@@ -222,6 +251,7 @@ const readyForProjects = (function () {
     .addEventListener("click", (event) => {
       event.preventDefault();
       projectEntry.classList.add("show");
+      focusAndOpenKeyboard(projectEntryForm.querySelector("#name"), 300);
     });
   // listen for "edit list" click
   taskListOptions
@@ -232,6 +262,7 @@ const readyForProjects = (function () {
       projectEntry.classList.add("editing");
       projectEntryForm.setAttribute("action", "edit");
       projectEntryForm.querySelector("#name").value = project.name;
+      focusAndOpenKeyboard(projectEntryForm.querySelector("#name"), 300);
       // projectEntryForm.querySelector("label").textContent = "Change Name";
     });
   // get project form submissions
@@ -314,7 +345,9 @@ const readyForTasks = (function () {
   body.querySelector("button.add-task").addEventListener("click", (event) => {
     event.preventDefault();
     taskEntry.classList.toggle("show");
+    focusAndOpenKeyboard(taskEntryForm.querySelector("#name"), 300);
   });
+
   // task details link
   taskEntryForm
     .querySelector("a.show-details")
