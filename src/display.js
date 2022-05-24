@@ -271,7 +271,7 @@ const readyForProjects = (function () {
   projectEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
     if (projectEntryForm.getAttribute("action") === "add") {
-      project.setSelected = false; // remove "selected" from current project
+      project.setSelected(false); // remove "selected" from current project
       projects.push(new Project(projectEntryForm.elements["name"].value, true));
     } else if (projectEntryForm.getAttribute("action") === "edit") {
       project.editProject(projectEntryForm.elements["name"].value);

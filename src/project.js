@@ -24,8 +24,8 @@ class Project {
   }
 
   static switchSelectedProject(index) {
-    projects.forEach((project) => {
-      project.setSelected(false);
+    projects.forEach((item) => {
+      item.setSelected(false);
     });
     projects[index].setSelected(true);
   }
