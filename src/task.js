@@ -13,22 +13,6 @@ export default class Task {
     this.complete = complete;
   }
 
-  setName(name) {
-    this.name = name;
-  }
-
-  setDesc(notes) {
-    this.notes = notes;
-  }
-
-  setDueDate(dueDate) {
-    this.dueDate = dueDate;
-  }
-
-  setPriority(priority) {
-    this.priority = priority;
-  }
-
   setComplete(complete) {
     this.complete = complete;
   }

@@ -105,96 +105,6 @@
     </header>
     <main>
       <div class="tasks"></div>
-      <div class="task-entry">
-        <form id="task-entry" action="add">
-          <label for="name">Task Name</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Task Name"
-            maxlength="28"
-            required
-          />
-          <a class="show-details">add details</a>
-          <div class="details">
-            <label for="priority">Priority</label>
-            <select name="priority" id="priority">
-              <option value="high">high</option>
-              <option value="normal" selected>normal</option>
-              <option value="low">low</option>
-            </select>
-            <label for="dueDate">Due Date</label>
-            <input type="date" name="dueDate" id="dueDate" />
-            <label for="notes">Notes</label>
-            <textarea
-              name="notes"
-              id="notes"
-              placeholder="Who, what, when, where?&#x0a;Definition of done?"
-            ></textarea>
-          </div>
-          <button type="submit">Submit</button>
-        </form>
-        <div class="close-btn">
-          <svg
-            class="chevron-left"
-            viewBox="0 0 8 12"
-            xmlns="http://www.w3.org/2000/svg"
-            xml:space="preserve"
-            style="
-              fill-rule: evenodd;
-              clip-rule: evenodd;
-              stroke-linejoin: round;
-              stroke-miterlimit: 2;
-            "
-          >
-            <path
-              d="M15.41 16.58 10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.42Z"
-              style="fill-rule: nonzero"
-              transform="translate(-8 -6)"
-            />
-          </svg>
-        </div>
-      </div>
-      <div class="project-entry">
-        <form id="project-entry" action="add">
-          <label for="name">List Name</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="List Name"
-            required
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <div class="project-actions">
-          <hr />
-          <button class="delete-completed-tasks">Delete COMPLETED Tasks</button>
-          <button class="delete-all-tasks">Delete ALL Tasks</button>
-          <button class="delete-project">Delete Task List</button>
-        </div>
-        <div class="close-btn">
-          <svg
-            class="chevron-left"
-            viewBox="0 0 8 12"
-            xmlns="http://www.w3.org/2000/svg"
-            xml:space="preserve"
-            style="
-              fill-rule: evenodd;
-              clip-rule: evenodd;
-              stroke-linejoin: round;
-              stroke-miterlimit: 2;
-            "
-          >
-            <path
-              d="M15.41 16.58 10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.42Z"
-              style="fill-rule: nonzero"
-              transform="translate(-8 -6)"
-            />
-          </svg>
-        </div>
-      </div>
     </main>
     <footer>
       <svg
@@ -292,6 +202,96 @@
         </div>
       </div>
     </footer>
+    <div class="project-entry-container">
+      <form id="project-entry" action="add">
+        <label for="name">List Name</label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          placeholder="List Name"
+          required
+        />
+        <button type="submit">Submit</button>
+      </form>
+      <div class="project-actions">
+        <hr />
+        <button class="delete-completed-tasks">Delete COMPLETED Tasks</button>
+        <button class="delete-all-tasks">Delete ALL Tasks</button>
+        <button class="delete-project">Delete Task List</button>
+      </div>
+      <div class="close-btn">
+        <svg
+          class="chevron-left"
+          viewBox="0 0 8 12"
+          xmlns="http://www.w3.org/2000/svg"
+          xml:space="preserve"
+          style="
+            fill-rule: evenodd;
+            clip-rule: evenodd;
+            stroke-linejoin: round;
+            stroke-miterlimit: 2;
+          "
+        >
+          <path
+            d="M15.41 16.58 10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.42Z"
+            style="fill-rule: nonzero"
+            transform="translate(-8 -6)"
+          />
+        </svg>
+      </div>
+    </div>
+    <div class="task-entry-container">
+      <form id="task-entry" action="add">
+        <label for="name">Task Name</label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Task Name"
+          maxlength="28"
+          required
+        />
+        <a class="show-details">add details</a>
+        <div class="details">
+          <label for="priority">Priority</label>
+          <select name="priority" id="priority">
+            <option value="high">high</option>
+            <option value="normal" selected>normal</option>
+            <option value="low">low</option>
+          </select>
+          <label for="dueDate">Due Date</label>
+          <input type="date" name="dueDate" id="dueDate" />
+          <label for="notes">Notes</label>
+          <textarea
+            name="notes"
+            id="notes"
+            placeholder="Who, what, when, where?&#x0a;Definition of done?"
+          ></textarea>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      <div class="close-btn">
+        <svg
+          class="chevron-left"
+          viewBox="0 0 8 12"
+          xmlns="http://www.w3.org/2000/svg"
+          xml:space="preserve"
+          style="
+            fill-rule: evenodd;
+            clip-rule: evenodd;
+            stroke-linejoin: round;
+            stroke-miterlimit: 2;
+          "
+        >
+          <path
+            d="M15.41 16.58 10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.42Z"
+            style="fill-rule: nonzero"
+            transform="translate(-8 -6)"
+          />
+        </svg>
+      </div>
+    </div>
     <script src="main.js"></script>
   </body>
 </html>

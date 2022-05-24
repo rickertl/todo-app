@@ -7,10 +7,11 @@ export { buildProjectView, displayAllTasks };
 // calc height for consistent mobile experience
 //https://medium.com/quick-code/100vh-problem-with-ios-safari-92ab23c852a8
 const appHeight = () => {
-  const doc = document.documentElement;
-  doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+  document.documentElement.style.setProperty(
+    "--app-height",
+    `${window.innerHeight}px`
+  );
 };
-// window.addEventListener("resize", appHeight);
 window.onresize = appHeight;
 appHeight();
 
@@ -18,12 +19,11 @@ appHeight();
 const body = document.querySelector("body");
 
 // reused dom elements
-const taskList = body.querySelector(".tasks");
-const taskEntry = body.querySelector(".task-entry");
-const taskEntryForm = taskEntry.querySelector("form#task-entry");
-const projectEntry = body.querySelector(".project-entry");
-const projectEntryForm = projectEntry.querySelector("form#project-entry");
-const selectProjectSelector = body.querySelector("#selectProject");
+const taskEntryContainer = body.querySelector(".task-entry-container");
+const taskEntryForm = taskEntryContainer.querySelector("form#task-entry");
+const projectEntryContainer = body.querySelector(".project-entry-container");
+const projectEntryForm =
+  projectEntryContainer.querySelector("form#project-entry");
 
 // create dom element factory function
 const createDomElement = (type, attributes) => {
@@ -46,7 +46,7 @@ const buildProjectView = function () {
 // display all tasks
 let taskName = "";
 const displayAllTasks = function (project) {
-  taskList.textContent = "";
+  body.querySelector(".tasks").textContent = "";
   project.sortTasks().forEach((task, index) => {
     displayTask(task, index);
   });
@@ -56,8 +56,7 @@ const displayAllTasks = function (project) {
 const displayTask = function (task, index) {
   const taskContainer = createDomElement("div", { class: "task-container" });
   // always visible task content
-  displayTaskName(task, taskContainer);
-  // after above to set "completed" style on newly created name element
+  displayTaskName(task, taskContainer); // after above to set "completed" style on newly created name element
   displayTaskCheckbox(task, taskContainer);
   displayTaskDueDate(task, taskContainer);
   displayTaskPriority(task, taskContainer);
@@ -70,7 +69,7 @@ const displayTask = function (task, index) {
   displayTaskDelete(index, taskButtons);
   more.appendChild(taskButtons);
   // append taskContainer
-  taskList.appendChild(taskContainer);
+  body.querySelector(".tasks").appendChild(taskContainer);
   // watch taskContainer
   taskContainer.addEventListener("click", () => {
     taskContainer.classList.toggle("expanded");
@@ -171,7 +170,7 @@ const displayTaskEdit = function (task, index, taskButtons) {
   taskEditBtn.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    taskEntry.classList.toggle("show");
+    taskEntryContainer.classList.toggle("show");
     taskEntryForm.querySelector("a.show-details").style.display = "none";
     taskEntryForm.querySelector(".details").style.display = "flex";
     taskEntryForm.setAttribute("action", "edit");
@@ -206,7 +205,7 @@ const displayTaskDelete = function (index, taskButtons) {
   });
 };
 
-// iOS show keyboard on input focus
+// iOS/mobile show keyboard on input focus
 // https://stackoverflow.com/a/55425845
 function focusAndOpenKeyboard(el, timeout) {
   if (!timeout) {
@@ -224,7 +223,6 @@ function focusAndOpenKeyboard(el, timeout) {
     // Put this temp element as a child of the page <body> and focus on it
     document.body.appendChild(__tempEl__);
     __tempEl__.focus();
-
     // The keyboard is open. Now do a delayed focus on the target element
     setTimeout(function () {
       el.focus();
@@ -237,35 +235,36 @@ function focusAndOpenKeyboard(el, timeout) {
 
 // ready app for project(list) additions and edits
 const readyForProjects = (function () {
-  // listen for "options-btn" click
-  const taskListNav = body.querySelector(".task-list-nav");
   const taskListOptions = body.querySelector(".task-list-options");
-  taskListNav
-    .querySelector(".options-btn")
+
+  // listen for "options-btn" click
+  body
+    .querySelector(".task-list-nav > .options-btn")
     .addEventListener("click", (event) => {
       event.preventDefault();
       taskListOptions.classList.toggle("show");
     });
-  // listen for "add list" click
+
+  // listen for "add list" btn click
   taskListOptions
     .querySelector(".add-list")
     .addEventListener("click", (event) => {
       event.preventDefault();
-      projectEntry.classList.add("show");
+      projectEntryContainer.classList.add("show");
       focusAndOpenKeyboard(projectEntryForm.querySelector("#name"), 300);
     });
-  // listen for "edit list" click
+
+  // listen for "edit list" btn click
   taskListOptions
     .querySelector(".edit-list")
     .addEventListener("click", (event) => {
       event.preventDefault();
-      projectEntry.classList.add("show");
-      projectEntry.classList.add("editing");
+      projectEntryContainer.classList.add("show");
+      projectEntryContainer.classList.add("editing");
       projectEntryForm.setAttribute("action", "edit");
       projectEntryForm.querySelector("#name").value = project.name;
-      // focusAndOpenKeyboard(projectEntryForm.querySelector("#name"), 300);
-      // projectEntryForm.querySelector("label").textContent = "Change Name";
     });
+
   // get project form submissions
   projectEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -278,24 +277,27 @@ const readyForProjects = (function () {
     resetProjectEntry();
     buildProjectView();
   });
-  // listen for "delete COMPLETED tasks" button click
-  projectEntry
+
+  // listen for "delete COMPLETED tasks" btn click
+  projectEntryContainer
     .querySelector("button.delete-completed-tasks")
     .addEventListener("click", (event) => {
       event.preventDefault();
       project.deleteTasks("completed", false);
       resetProjectEntry();
     });
-  // listen for "delete ALL tasks" button click
-  projectEntry
+
+  // listen for "delete ALL tasks" btn click
+  projectEntryContainer
     .querySelector("button.delete-all-tasks")
     .addEventListener("click", (event) => {
       event.preventDefault();
       project.deleteTasks("all", false);
       resetProjectEntry();
     });
-  // listen for "delete list" button click
-  projectEntry
+
+  // listen for "delete list" btn click
+  projectEntryContainer
     .querySelector("button.delete-project")
     .addEventListener("click", (event) => {
       event.preventDefault();
@@ -303,16 +305,19 @@ const readyForProjects = (function () {
       resetProjectEntry();
       buildProjectView();
     });
-  // close button
-  projectEntry.querySelector(".close-btn").addEventListener("click", () => {
-    resetProjectEntry();
-  });
+
+  // listen for "close" btn click
+  projectEntryContainer
+    .querySelector(".close-btn")
+    .addEventListener("click", () => {
+      resetProjectEntry();
+    });
   const resetProjectEntry = function () {
     projectEntryForm.reset();
     projectEntryForm.setAttribute("action", "add");
     taskListOptions.classList.remove("show");
-    projectEntry.classList.remove("show");
-    projectEntry.classList.remove("editing");
+    projectEntryContainer.classList.remove("show");
+    projectEntryContainer.classList.remove("editing");
     projectEntryForm.querySelector("#name").blur();
     projectEntryForm.querySelector("label").textContent = "List Name";
   };
@@ -320,21 +325,20 @@ const readyForProjects = (function () {
 
 // build project selector with current projects
 const buildProjectSelector = function () {
-  selectProjectSelector.textContent = "";
-  // NEED TO SORT BY SELECTED FIRST THEN ALPHA
+  body.querySelector("#selectProject").textContent = "";
   projects.forEach((project, index) => {
     const selectOption = createDomElement("option", { value: index });
     if (project.selected === true) {
       selectOption.setAttribute("selected", "");
     }
     selectOption.textContent = project.name;
-    selectProjectSelector.appendChild(selectOption);
+    body.querySelector("#selectProject").appendChild(selectOption);
   });
 };
 
-// switch project view
+// listen for project selector change
 const selectProject = (function () {
-  selectProjectSelector.addEventListener("change", (event) => {
+  body.querySelector("#selectProject").addEventListener("change", (event) => {
     const index = event.target.value;
     Project.switchSelectedProject(index);
     buildProjectView();
@@ -343,14 +347,14 @@ const selectProject = (function () {
 
 // ready app for task additions and edits
 const readyForTasks = (function () {
-  // add task button
+  // listen for "add task" btn click
   body.querySelector("button.add-task").addEventListener("click", (event) => {
     event.preventDefault();
-    taskEntry.classList.toggle("show");
+    taskEntryContainer.classList.toggle("show");
     focusAndOpenKeyboard(taskEntryForm.querySelector("#name"), 300);
   });
 
-  // task details link
+  // listen for "task details" link click
   taskEntryForm
     .querySelector("a.show-details")
     .addEventListener("click", (event) => {
@@ -377,13 +381,15 @@ const readyForTasks = (function () {
     resetTaskEntry();
   });
 
-  // close button
-  taskEntry.querySelector(".close-btn").addEventListener("click", () => {
-    resetTaskEntry();
-  });
+  // listen for "close" btn
+  taskEntryContainer
+    .querySelector(".close-btn")
+    .addEventListener("click", () => {
+      resetTaskEntry();
+    });
   const resetTaskEntry = function () {
     taskEntryForm.reset();
-    taskEntry.classList.toggle("show");
+    taskEntryContainer.classList.toggle("show");
     taskEntryForm.querySelector("a.show-details").style.display = "block";
     taskEntryForm.querySelector(".details").style.display = "none";
     taskEntryForm.querySelector("#name").blur();
@@ -392,7 +398,7 @@ const readyForTasks = (function () {
 
 // ready app for info box
 const readyInfoBox = (function () {
-  // add task button
+  // listen for "info" btn click
   body.querySelector("svg.info").addEventListener("click", (event) => {
     event.preventDefault();
     body.querySelector(".info-box").classList.toggle("show");
@@ -400,7 +406,8 @@ const readyInfoBox = (function () {
   body.querySelector(".info-box > .close-btn").addEventListener("click", () => {
     body.querySelector(".info-box").classList.toggle("show");
   });
-  // reset data
+
+  // listen for "reset data" btn click
   body.querySelector(".reset-data").addEventListener("click", (event) => {
     event.preventDefault();
     createDefaultData();

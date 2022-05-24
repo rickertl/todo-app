@@ -71,11 +71,11 @@ class Project {
   }
 
   deleteTask(index, oneTask) {
-    if (oneTask === true) {
-      if (confirm("WARNING!!! Task deletion is permanent.") == false) {
-        return;
-      }
-    }
+    // if (oneTask === true) {
+    //   if (confirm("WARNING!!! Task deletion is permanent.") == false) {
+    //     return;
+    //   }
+    // }
     this.tasks[index] = null; // set to null for garbage collection
     this.tasks.splice(index, 1);
     this.listTasks();
