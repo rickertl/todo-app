@@ -279,6 +279,14 @@ footer {
   padding: 5px 15px;
   background-color: powderblue;
   box-shadow: 0 -2px 4px rgba($color: #000000, $alpha: 0.1);
+  button.add-task {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+    background-color: white;
+    width: 100%;
+  }
   .info-box-container {
     position: absolute;
     top: 0;
@@ -310,14 +318,6 @@ footer {
       .close-btn {
         right: 15px;
       }
-    }
-    button.add-task {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      column-gap: 10px;
-      background-color: white;
-      width: 100%;
     }
   }
 }
