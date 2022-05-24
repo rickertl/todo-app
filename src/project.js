@@ -2,7 +2,7 @@ import Task from "./task.js";
 import { projects } from "./data.js";
 import { buildProjectView, displayAllTasks } from "./display.js";
 
-export { Project, project, projectID };
+export { project, projectID, Project };
 
 let project = "";
 let projectID = "";

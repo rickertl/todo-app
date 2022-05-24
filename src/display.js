@@ -1,4 +1,4 @@
-import { Project, project, projectID } from "./project.js";
+import { project, projectID, Project } from "./project.js";
 import { projects, createDefaultData } from "./data.js";
 import { format, addMinutes } from "date-fns";
 

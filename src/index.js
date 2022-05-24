@@ -1,6 +1,9 @@
 import "./style.scss";
-import { projects } from "./data.js";
+import { getData } from "./data.js";
 import { buildProjectView } from "./display.js";
 
-// display task list for selected project
+// get stored or default data
+getData();
+
+// display selected project and corresponding tasks
 buildProjectView();

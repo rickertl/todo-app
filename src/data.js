@@ -1,7 +1,7 @@
 import { Project } from "./project.js";
 import { format } from "date-fns";
 
-export { projects, createDefaultData };
+export { projects, createDefaultData, getData };
 
 const projects = [];
 
@@ -41,23 +41,25 @@ const createDefaultData = function () {
   projects.push(defaultProject);
 };
 
-if (localStorage.getItem("localProjects")) {
-  const storedProjects = JSON.parse(localStorage.getItem("localProjects"));
-  storedProjects.forEach((project) => {
-    // creates instances of Project class
-    const newProject = new Project(project.name, project.selected);
-    projects.push(newProject);
-    // creates instances of new project's Task class
-    project.tasks.forEach((task) => {
-      newProject.createTask(
-        task.name,
-        task.notes,
-        task.dueDate,
-        task.priority,
-        task.complete
-      );
+const getData = function () {
+  if (localStorage.getItem("localProjects")) {
+    const storedProjects = JSON.parse(localStorage.getItem("localProjects"));
+    storedProjects.forEach((project) => {
+      // creates instances of Project class
+      const newProject = new Project(project.name, project.selected);
+      projects.push(newProject);
+      // creates instances of new project's Task class
+      project.tasks.forEach((task) => {
+        newProject.createTask(
+          task.name,
+          task.notes,
+          task.dueDate,
+          task.priority,
+          task.complete
+        );
+      });
     });
-  });
-} else {
-  createDefaultData();
-}
+  } else {
+    createDefaultData();
+  }
+};
