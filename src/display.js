@@ -263,7 +263,7 @@ const readyForProjects = (function () {
       projectEntry.classList.add("editing");
       projectEntryForm.setAttribute("action", "edit");
       projectEntryForm.querySelector("#name").value = project.name;
-      focusAndOpenKeyboard(projectEntryForm.querySelector("#name"), 300);
+      // focusAndOpenKeyboard(projectEntryForm.querySelector("#name"), 300);
       // projectEntryForm.querySelector("label").textContent = "Change Name";
     });
   // get project form submissions
