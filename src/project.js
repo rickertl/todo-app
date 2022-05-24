@@ -32,7 +32,7 @@ class Project {
 
   static deleteProject(projectID) {
     if (projects.length > 1) {
-      if (confirm("WARNING!!! Task List deletion is permanent.") == true) {
+      if (confirm("ARE YOU SURE? Task List deletion is permanent.") == true) {
         projects[projectID].deleteTasks("all", true);
         // let projectIndex = projects.indexOf(this);
         projects[projectID] = null; // set to null for garbage collection
@@ -95,7 +95,7 @@ class Project {
 
   deleteTasks(type, projectDelete) {
     if (projectDelete === false) {
-      if (confirm("WARNING!!! Task deletion is permanent.") == false) {
+      if (confirm("ARE YOU SURE? Task deletion is permanent.") == false) {
         return;
       }
     }
