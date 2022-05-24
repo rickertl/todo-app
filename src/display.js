@@ -401,10 +401,10 @@ const readyInfoBox = (function () {
   // listen for "info" btn click
   body.querySelector("svg.info").addEventListener("click", (event) => {
     event.preventDefault();
-    body.querySelector(".info-box").classList.toggle("show");
+    body.querySelector(".info-box-container").classList.toggle("show");
   });
   body.querySelector(".info-box > .close-btn").addEventListener("click", () => {
-    body.querySelector(".info-box").classList.toggle("show");
+    body.querySelector(".info-box-container").classList.toggle("show");
   });
 
   // listen for "reset data" btn click
@@ -412,6 +412,6 @@ const readyInfoBox = (function () {
     event.preventDefault();
     createDefaultData();
     buildProjectView();
-    body.querySelector(".info-box").classList.toggle("show");
+    body.querySelector(".info-box-container").classList.toggle("show");
   });
 })();
