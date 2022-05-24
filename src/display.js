@@ -312,6 +312,7 @@ const readyForProjects = (function () {
     taskListOptions.classList.remove("show");
     projectEntry.classList.remove("show");
     projectEntry.classList.remove("editing");
+    projectEntryForm.querySelector("#name").blur();
     projectEntryForm.querySelector("label").textContent = "List Name";
   };
 })();
@@ -374,6 +375,7 @@ const readyForTasks = (function () {
     }
     resetTaskEntry();
   });
+
   // close button
   taskEntry.querySelector(".close-btn").addEventListener("click", () => {
     resetTaskEntry();
@@ -383,6 +385,7 @@ const readyForTasks = (function () {
     taskEntry.classList.toggle("show");
     taskEntryForm.querySelector("a.show-details").style.display = "block";
     taskEntryForm.querySelector(".details").style.display = "none";
+    taskEntryForm.querySelector("#name").blur();
   };
 })();
 
