@@ -82,7 +82,7 @@ const displayTaskCheckbox = function (task, taskContainer) {
     class: "task-checkbox",
     type: "checkbox",
   });
-  if (task.complete === true) {
+  if (task.getComplete === true) {
     taskCheckbox.setAttribute("checked", "");
     taskContainer.classList.toggle("complete");
     taskName.classList.toggle("complete");
@@ -90,7 +90,9 @@ const displayTaskCheckbox = function (task, taskContainer) {
   taskContainer.appendChild(taskCheckbox);
   taskCheckbox.addEventListener("click", (event) => {
     event.stopPropagation();
-    task.complete === false ? task.setComplete(true) : task.setComplete(false);
+    task.getComplete === false
+      ? task.setComplete(true)
+      : task.setComplete(false);
     project.listTasks();
   });
 };
@@ -98,7 +100,7 @@ const displayTaskCheckbox = function (task, taskContainer) {
 const displayTaskName = function (task, taskContainer) {
   taskName = createDomElement("div", { class: "task-name" });
   const taskNameBox = createDomElement("span"); // need child div for ellipsis to work
-  taskNameBox.textContent = task.name;
+  taskNameBox.textContent = task.getName;
   taskContainer.appendChild(taskName);
   taskName.appendChild(taskNameBox);
 };
@@ -106,8 +108,8 @@ const displayTaskName = function (task, taskContainer) {
 const displayTaskDueDate = function (task) {
   const taskDueDate = createDomElement("span", { class: "task-due-date" });
   //https://stackoverflow.com/a/70296645
-  if (task.dueDate) {
-    const date = new Date(task.dueDate);
+  if (task.getDueDate) {
+    const date = new Date(task.getDueDate);
     taskDueDate.textContent = format(
       addMinutes(date, date.getTimezoneOffset()),
       "eee, M/d"
@@ -125,15 +127,15 @@ const displayTaskPriority = function (task, taskContainer) {
   const priorityOptions = ["high", "normal", "low"];
   priorityOptions.forEach((level) => {
     const option = createDomElement("option", { value: level });
-    if (level === task.priority) {
+    if (level === task.getPriority) {
       option.setAttribute("selected", "");
     }
     option.textContent = level;
     taskPriority.appendChild(option);
   });
-  if (task.priority === "high") {
+  if (task.getPriority === "high") {
     taskPriority.classList.add("high");
-  } else if (task.priority === "low") {
+  } else if (task.getPriority === "low") {
     taskPriority.classList.add("low");
   }
   taskContainer.appendChild(taskPriority);
@@ -141,7 +143,7 @@ const displayTaskPriority = function (task, taskContainer) {
     event.stopPropagation();
   });
   taskPriority.addEventListener("change", (event) => {
-    task.priority = event.target.value;
+    task.setPriority(event.target.value);
     project.listTasks();
   });
 };
@@ -150,8 +152,8 @@ const displayTaskNotes = function (task, more) {
   const taskNotes = createDomElement("div", {
     class: "task-notes",
   });
-  if (task.notes) {
-    taskNotes.textContent = task.notes;
+  if (task.getNotes) {
+    taskNotes.textContent = task.getNotes;
     more.appendChild(taskNotes);
   }
 };
@@ -178,12 +180,12 @@ const displayTaskEdit = function (task, index, taskButtons) {
       "data-id",
       event.currentTarget.getAttribute("data-id")
     );
-    taskEntryForm.querySelector("#name").value = task.name;
-    taskEntryForm.querySelector("#notes").value = task.notes;
-    if (task.dueDate !== "") {
-      taskEntryForm.querySelector("#dueDate").value = task.dueDate;
+    taskEntryForm.querySelector("#name").value = task.getName;
+    taskEntryForm.querySelector("#notes").value = task.getNotes;
+    if (task.getDueDate !== "") {
+      taskEntryForm.querySelector("#dueDate").value = task.getDueDate;
     }
-    taskEntryForm.querySelector("#priority").value = task.priority;
+    taskEntryForm.querySelector("#priority").value = task.getPriority;
   });
 };
 
@@ -262,14 +264,14 @@ const readyForProjects = (function () {
       projectEntryContainer.classList.add("show");
       projectEntryContainer.classList.add("editing");
       projectEntryForm.setAttribute("action", "edit");
-      projectEntryForm.querySelector("#name").value = project.name;
+      projectEntryForm.querySelector("#name").value = project.getName;
     });
 
   // get project form submissions
   projectEntryForm.addEventListener("submit", (event) => {
     event.preventDefault();
     if (projectEntryForm.getAttribute("action") === "add") {
-      project.selected = false; // remove "selected" from current project
+      project.setSelected = false; // remove "selected" from current project
       projects.push(new Project(projectEntryForm.elements["name"].value, true));
     } else if (projectEntryForm.getAttribute("action") === "edit") {
       project.editProject(projectEntryForm.elements["name"].value);
@@ -319,7 +321,6 @@ const readyForProjects = (function () {
     projectEntryContainer.classList.remove("show");
     projectEntryContainer.classList.remove("editing");
     projectEntryForm.querySelector("#name").blur();
-    projectEntryForm.querySelector("label").textContent = "List Name";
   };
 })();
 
@@ -328,10 +329,10 @@ const buildProjectSelector = function () {
   body.querySelector("#selectProject").textContent = "";
   projects.forEach((project, index) => {
     const selectOption = createDomElement("option", { value: index });
-    if (project.selected === true) {
+    if (project.getSelected === true) {
       selectOption.setAttribute("selected", "");
     }
-    selectOption.textContent = project.name;
+    selectOption.textContent = project.getName;
     body.querySelector("#selectProject").appendChild(selectOption);
   });
 };
@@ -339,8 +340,7 @@ const buildProjectSelector = function () {
 // listen for project selector change
 const selectProject = (function () {
   body.querySelector("#selectProject").addEventListener("change", (event) => {
-    const index = event.target.value;
-    Project.switchSelectedProject(index);
+    Project.switchSelectedProject(event.target.value);
     buildProjectView();
   });
 })();
@@ -374,7 +374,7 @@ const readyForTasks = (function () {
     if (taskEntryForm.getAttribute("action") === "add") {
       project.createTask(...taskInputs);
     } else if (taskEntryForm.getAttribute("action") === "edit") {
-      project.tasks[index].updateTask(...taskInputs);
+      project.getTasks[index].updateTask(...taskInputs);
       taskEntryForm.setAttribute("action", "add");
       project.listTasks();
     }

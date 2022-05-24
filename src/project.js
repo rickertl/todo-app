@@ -16,7 +16,7 @@ class Project {
 
   static findSelectedProject() {
     projects.forEach((item, index) => {
-      if (item.selected === true) {
+      if (item.getSelected === true) {
         project = item;
         projectID = index;
       }
@@ -25,9 +25,9 @@ class Project {
 
   static switchSelectedProject(index) {
     projects.forEach((project) => {
-      project.selected = false;
+      project.setSelected(false);
     });
-    projects[index].selected = true;
+    projects[index].setSelected(true);
   }
 
   static deleteProject(projectID) {
@@ -50,23 +50,35 @@ class Project {
     }
   }
 
+  setName(name) {
+    this.name = name;
+  }
+
+  setSelected(selected) {
+    this.selected = selected;
+  }
+
+  setTasks(tasks) {
+    this.tasks = tasks;
+  }
+
   listTasks() {
     displayAllTasks(this);
     localStorage.setItem("localProjects", JSON.stringify(projects));
   }
 
   editProject(name) {
-    this.name = name;
+    this.setName(name);
   }
 
   createTask(name, notes, dueDate, priority, complete) {
     let task = new Task(name, notes, dueDate, priority, complete);
-    this.tasks.push(task);
+    this.getTasks.push(task);
     this.listTasks();
   }
 
   completeTask(index) {
-    this.tasks[index].complete = true;
+    this.getTasks[index].setComplete(true);
     this.listTasks();
   }
 
@@ -76,8 +88,8 @@ class Project {
     //     return;
     //   }
     // }
-    this.tasks[index] = null; // set to null for garbage collection
-    this.tasks.splice(index, 1);
+    this.getTasks[index] = null; // set to null for garbage collection
+    this.getTasks.splice(index, 1);
     this.listTasks();
   }
 
@@ -87,9 +99,9 @@ class Project {
         return;
       }
     }
-    for (let i = this.tasks.length - 1; i >= 0; i--) {
+    for (let i = this.getTasks.length - 1; i >= 0; i--) {
       if (type === "completed") {
-        if (this.tasks[i].complete) {
+        if (this.getTasks[i].getComplete) {
           this.deleteTask(i, false);
         }
       } else {
@@ -105,14 +117,26 @@ class Project {
       normal: 2,
       low: 3,
     };
-    const sortedByPriority = this.tasks.sort(
-      (a, b) => priority[a.priority] - priority[b.priority]
+    const sortedByPriority = this.getTasks.sort(
+      (a, b) => priority[a.getPriority] - priority[b.getPriority]
     );
     // https://bobbyhadz.com/blog/javascript-sort-array-of-objects-by-boolean-property
     const sortedByComplete = sortedByPriority.sort(
-      (a, b) => Number(a.complete) - Number(b.complete)
+      (a, b) => Number(a.getComplete) - Number(b.getComplete)
     );
     return sortedByComplete;
+  }
+
+  get getName() {
+    return this.name;
+  }
+
+  get getSelected() {
+    return this.selected;
+  }
+
+  get getTasks() {
+    return this.tasks;
   }
 }
 
