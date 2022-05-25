@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
 
 /* base color is powderblue, hex #B0E0E6 */
-$light-powderblue: rgba(176, 224, 230, 0.3);
+$light-powderblue: rgba(powderblue, $alpha: 0.6);
+
 $dark-gray: #767676;
 $light-gray: #efefef;
 $red: #e99979;
@@ -32,7 +33,7 @@ body {
   grid-template-rows: auto 1fr auto;
   grid-row-gap: 5px;
   background-color: $light-powderblue;
-  border: 1px solid powderblue;
+  box-shadow: 0 2px 4px rgba($color: #000000, $alpha: 0.1);
   position: relative;
 }
 button {
@@ -154,6 +155,8 @@ header {
 main {
   overflow-y: auto;
   overflow-x: hidden;
+  border-left: 1px solid powderblue;
+  border-right: 1px solid powderblue;
   .tasks {
     .task-container {
       display: grid;
