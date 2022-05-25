@@ -181,14 +181,15 @@ main {
         align-items: center;
       }
       input.task-checkbox {
+        order: -1;
         width: 24px;
         height: 24px;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
         background-color: white;
-        border: 1px solid powderblue;
-        order: -1;
+        border: 2px solid powderblue;
+        border-radius: 3px;
         margin: 10px 0;
         padding: 0;
         &:checked {
