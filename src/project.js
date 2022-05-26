@@ -82,7 +82,7 @@ class Project {
     this.listTasks();
   }
 
-  deleteTask(index, oneTask) {
+  deleteTask(index) {
     // if (oneTask === true) {
     //   if (confirm("WARNING!!! Task deletion is permanent.") == false) {
     //     return;
@@ -111,20 +111,30 @@ class Project {
   }
 
   sortTasks() {
-    //https://serveanswer.com/questions/js-sort-array-object-by-custom-key-and-value
-    const priority = {
-      high: 1,
-      normal: 2,
-      low: 3,
+    // sort tasks by name function
+    const sortByName = function (a, b) {
+      const nameA = a.getName.toUpperCase(); // ignore upper and lowercase
+      const nameB = b.getName.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      // names must be equal
+      return 0;
     };
-    const sortedByPriority = this.getTasks.sort(
-      (a, b) => priority[a.getPriority] - priority[b.getPriority]
+    // split tasks into arrays by completeness
+    const completedTasks = [];
+    const incompleteTasks = [];
+    this.getTasks.sort(sortByName).forEach((task) => {
+      task.getComplete ? completedTasks.push(task) : incompleteTasks.push(task);
+    });
+    // sort incomplete task array by priority
+    const sortIncompleteByPriority = incompleteTasks.sort(
+      (a, b) => a.getPriority - b.getPriority
     );
-    // https://bobbyhadz.com/blog/javascript-sort-array-of-objects-by-boolean-property
-    const sortedByComplete = sortedByPriority.sort(
-      (a, b) => Number(a.getComplete) - Number(b.getComplete)
-    );
-    return sortedByComplete;
+    return sortIncompleteByPriority.concat(completedTasks.sort(sortByName));
   }
 
   get getName() {
@@ -139,5 +149,3 @@ class Project {
     return this.tasks;
   }
 }
-
-//https://stackoverflow.com/questions/52377344/javascript-array-of-instances-of-a-class

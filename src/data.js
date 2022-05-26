@@ -22,19 +22,19 @@ const createDefaultData = function () {
     "",
     format(date1.setDate(date1.getDate() + 4), "yyyy-MM-dd")
   );
-  defaultProject.createTask("Write thank you note to mom", "", "", "low");
+  defaultProject.createTask("Write thank you note to mom", "", "", 3);
   defaultProject.createTask(
     "Mow lawn",
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa,",
     format(date2.setDate(date2.getDate() - 7), "yyyy-MM-dd"),
-    "high",
+    1,
     true
   );
   defaultProject.createTask(
     "Empty dishwasher",
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut turpis massa,",
     "",
-    "high"
+    1
   );
 
   // add default project to projects array

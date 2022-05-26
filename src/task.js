@@ -3,7 +3,7 @@ export default class Task {
     name,
     notes = "",
     dueDate = false,
-    priority = "normal",
+    priority = 2,
     complete = false
   ) {
     this.name = name;

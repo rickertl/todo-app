@@ -124,19 +124,23 @@ const displayTaskPriority = function (task, taskContainer) {
     name: "priority",
     id: "priority",
   });
-  const priorityOptions = ["high", "normal", "low"];
-  priorityOptions.forEach((level) => {
-    const option = createDomElement("option", { value: level });
-    if (level === task.getPriority) {
+  const priorityOptions = [
+    { level: 1, label: "high" },
+    { level: 2, label: "normal" },
+    { level: 3, label: "low" },
+  ];
+  priorityOptions.forEach((el) => {
+    const option = createDomElement("option", { value: el.level });
+    if (el.level == task.getPriority) {
       option.setAttribute("selected", "");
     }
-    option.textContent = level;
+    option.textContent = el.label;
     taskPriority.appendChild(option);
   });
-  if (task.getPriority === "high") {
-    taskPriority.classList.add("high");
-  } else if (task.getPriority === "low") {
-    taskPriority.classList.add("low");
+  if (task.getPriority == priorityOptions[0].level) {
+    taskPriority.classList.add(priorityOptions[0].label);
+  } else if (task.getPriority == priorityOptions[2].level) {
+    taskPriority.classList.add(priorityOptions[2].label);
   }
   taskContainer.appendChild(taskPriority);
   taskPriority.addEventListener("click", (event) => {
@@ -203,7 +207,7 @@ const displayTaskDelete = function (index, taskButtons) {
   taskDeleteBtn.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    project.deleteTask(taskDeleteBtn.getAttribute("data-id"), true);
+    project.deleteTask(taskDeleteBtn.getAttribute("data-id"));
   });
 };
 
