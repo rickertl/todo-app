@@ -34,7 +34,6 @@ class Project {
     if (projects.length > 1) {
       if (confirm("ARE YOU SURE? Task List deletion is permanent.") == true) {
         projects[projectID].deleteTasks("all", true);
-        // let projectIndex = projects.indexOf(this);
         projects[projectID] = null; // set to null for garbage collection
         projects.splice(projectID, 1);
         Project.switchSelectedProject(
@@ -83,11 +82,6 @@ class Project {
   }
 
   deleteTask(index) {
-    // if (oneTask === true) {
-    //   if (confirm("WARNING!!! Task deletion is permanent.") == false) {
-    //     return;
-    //   }
-    // }
     this.getTasks[index] = null; // set to null for garbage collection
     this.getTasks.splice(index, 1);
     this.listTasks();
@@ -124,13 +118,13 @@ class Project {
       // names must be equal
       return 0;
     };
-    // split tasks into arrays by completeness
+    // sort by name and split tasks by completeness
     const completedTasks = [];
     const incompleteTasks = [];
     this.getTasks.sort(sortByName).forEach((task) => {
       task.getComplete ? completedTasks.push(task) : incompleteTasks.push(task);
     });
-    // sort incomplete task array by priority
+    // sort incomplete tasks by priority
     const sortIncompleteByPriority = incompleteTasks.sort(
       (a, b) => a.getPriority - b.getPriority
     );
