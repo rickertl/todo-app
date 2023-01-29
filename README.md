@@ -8,7 +8,7 @@ Right now it only saves data in your browser's local cache, but user accounts wi
 
 - Object Oriented Principles
 - Webpack
-- Classes
+- JavaScript Classes
 
 ## Links
 
